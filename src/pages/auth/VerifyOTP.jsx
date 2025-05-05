@@ -4,6 +4,7 @@ import FormProvider from "@/form/FormProvider";
 import OtpField from "@/form/OTPField";
 import {
   ARROW_LEFT_ICON,
+  CALCULATOR_ICON,
   LOGIN_IMAGE,
   VERIFY_OTP_ICON,
   VERIFY_OTP_IMAGE,
@@ -33,39 +34,26 @@ const VerifyOTP = () => {
   const { handleSubmit, reset } = methods;
 
   const onSubmit = (values) => {
-    actionDispatch(
-      verifyOTP({
-        email: state?.email,
-        otp: values.otp,
-      })
-    )
-      .unwrap()
-      .then(() => {
-        navigate("/reset_password", {
-          state: {
-            verified: true,
-            email: state?.email,
-          },
-        });
-      });
+    navigate("/reset_password");
   };
+
   const resendCode = () => {
-    actionDispatch(
-      forgotPassword({
-        email: state?.email,
-      })
-    )
-      .unwrap()
-      .then(() => {
-        reset({
-          otp: "",
-        });
-      });
+    // actionDispatch(
+    //   forgotPassword({
+    //     email: state?.email,
+    //   })
+    // )
+    //   .unwrap()
+    //   .then(() => {
+    //     reset({
+    //       otp: "",
+    //     });
+    //   });
   };
 
   return (
     <section className="min-h-dvh flex flex-col md:flex-row p-6">
-      <div className="flex-1 flex flex-col justify-center relative items-center max-md:hidden bg-[#F2F6F6] rounded-[48px]">
+      <div className="flex-1 flex flex-col justify-center relative items-center max-md:hidden bg-[#EAF6FE] rounded-[34px]">
         <div>
           <img
             src={VERIFY_OTP_IMAGE}
@@ -75,18 +63,17 @@ const VerifyOTP = () => {
         </div>
       </div>
       <div className="flex-1 px-5 sm:px-5 md:px-8 lg:px-10 py-14  bg-white flex items-center relative">
-        <div className="max-w-[520px] space-y-4 sm:space-y-5 w-full mx-auto">
-          <div className="flex justify-center">
-            <div className="size-[120px] bg-ternary rounded-full flex justify-center items-center">
-              <img src={VERIFY_OTP_ICON} alt="VERIFY_OTP_ICON" />
-            </div>
+        <div className="max-w-[420px] space-y-4 sm:space-y-5 w-full mx-auto">
+          <div className="size-[80px] bg-light rounded-full flex justify-center items-center">
+            <img src={CALCULATOR_ICON} alt="CALCULATOR_ICON" />
           </div>
-          <div className="text-center space-y-0.5">
-            <p className="text-primary text-[26px] font-semibold">
+          <div className=" space-y-0.5">
+            <h2 className="text-primary font-bold text-[24px] sm:text-[26px] md:text-[30px]">
               Authentication
-            </p>
-            <p className="text-secondary text-base sm:text-lg font-normal  mx-auto text-wrap">
-              Enter the verification code sent to your email
+            </h2>
+            <p className="text-[20px] font-normal text-[#7E808C]">
+              {" "}
+              Enter the verification code we just sent to your email address.
             </p>
           </div>
           <FormProvider
@@ -100,6 +87,16 @@ const VerifyOTP = () => {
                   <OtpField name="otp" />
                 </div>
               </div>
+              <p className="text-priamry text-lg font-normal text-center">
+                Didn’t receive the code?{" "}
+                <span
+                  className="text-main text-lg font-normal cursor-pointer"
+                  onClick={resendCode}
+                >
+                  {" "}
+                  Resend
+                </span>
+              </p>
               <div className="max-sm:pt-1">
                 <Button
                   disabled={loading}
@@ -112,25 +109,19 @@ const VerifyOTP = () => {
               </div>
             </div>
           </FormProvider>
-          <p className="text-secondary text-base font-medium text-center mt-6">
-            Didn’t receive the code?{" "}
-            <span
-              className="text-main font-bold cursor-pointer"
-              onClick={resendCode}
-            >
-              {" "}
-              Resend
-            </span>
-          </p>
         </div>
-        <div className="absolute top-5 left-10">
+        <div className="absolute top-10 left-16">
           <div
-            className="w-[40px] h-[40px] bg-ternary border border-border rounded-[10px] flex justify-center items-center cursor-pointer"
+            className="w-[40px] h-[40px] bg-white rounded-[8px] flex justify-center items-center cursor-pointer shadow-[0px_-2px_0px_0px_#DCF1FF_inset,0px_1px_10px_0px_#0000001A]"
             onClick={() => {
               navigate(-1);
             }}
           >
-            <img src={ARROW_LEFT_ICON} alt="ARROW_LEFT_ICON" />
+            <img
+              src={ARROW_LEFT_ICON}
+              alt="ARROW_LEFT_ICON"
+              className="size-6"
+            />
           </div>
         </div>
       </div>

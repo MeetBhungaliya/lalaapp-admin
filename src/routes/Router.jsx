@@ -8,7 +8,7 @@ import ForgotPassword from "@/pages/auth/ForgotPassword";
 import Login from "@/pages/auth/Login";
 import ResetPassword from "@/pages/auth/ResetPassword";
 import VerifyOTP from "@/pages/auth/VerifyOTP";
-import Users from "@/pages/dashboard/Users";
+import Statistics from "@/pages/dashboard/Statistics";
 import ErrorPage from "@/pages/error/ErrorPage";
 import { createBrowserRouter } from "react-router";
 
@@ -19,7 +19,7 @@ const router = createBrowserRouter(
       errorElement: <ErrorPage />,
       children: [
         {
-          element: <ProtectedLayout />,
+          // element: <ProtectedLayout />,
           children: [
             {
               path: "",
@@ -30,15 +30,15 @@ const router = createBrowserRouter(
                 //     element: <Navigate to="/login" />
                 // },
                 {
-                  path: "users",
-                  element: <Users />,
+                  path: "statistics",
+                  element: <Statistics />,
                 },
               ],
             },
           ],
         },
         {
-          element: <AuthProtectedLayout />,
+          // element: <AuthProtectedLayout />,
           children: [
             {
               index: true,
@@ -51,7 +51,7 @@ const router = createBrowserRouter(
             },
             {
               path: "verify_otp",
-              element: <VerifyOtpGaurd />,
+              // element: <VerifyOtpGaurd />,
               children: [
                 {
                   index: true,
@@ -61,7 +61,7 @@ const router = createBrowserRouter(
             },
             {
               path: "reset_password",
-              element: <ResetPasswordGuard />,
+              // element: <ResetPasswordGuard />,
               children: [
                 {
                   index: true,

@@ -30,7 +30,7 @@ const TextField = ({ name, placeholder = '', textarea = false, numeric = false, 
                                             id={name}
                                             required
                                             placeholder={placeholder}
-                                            className={cn('placeholder:text-secondary bg-ternary placeholder:font-light min-h-[100px] focus-visible:ring-offset-0 focus-visible:ring-1 border-none text-primary text-base md:text-lg placeholder:text-base sm:placeholder:text-lg  h-[52px] sm:h-[58px]   px-6 rounded-[12px] pt-3 font-normal',
+                                            className={cn('placeholder:text-secondary bg-ternary placeholder:font-normal min-h-[100px] focus-visible:ring-offset-0 focus-visible:ring-1 border-none text-primary text-base md:text-lg placeholder:text-base sm:placeholder:text-lg  h-[52px] sm:h-[58px]   px-6 rounded-[16px] pt-3 font-normal',
                                                 fieldError?.message ? "text-red-500 focus-visible:ring-red-500 " : "text-primary  focus-visible:ring-main"
                                                 , prefix ? "pl-[50px] sm:pl-[55px]" : "", postfix ? "pr-[50px] sm:pr-[55px]" : "", className)}
                                         /> :
@@ -51,14 +51,14 @@ const TextField = ({ name, placeholder = '', textarea = false, numeric = false, 
                                             id={name}
                                             required
                                             placeholder={placeholder}
-                                            className={cn('placeholder:text-secondary bg-ternary placeholder:font-light focus-visible:ring-offset-0 focus-visible:ring-1 border-none text-primary text-base md:text-lg placeholder:text-base sm:placeholder:text-lg  h-[52px] sm:h-[58px]   px-6 rounded-[12px] font-normal',
+                                            className={cn('placeholder:text-secondary bg-ternary placeholder:font-normal focus-visible:ring-offset-0 focus-visible:ring-1 border-none text-primary text-base md:text-lg placeholder:text-base sm:placeholder:text-lg  h-[52px] sm:h-[58px]   px-6 rounded-[16px] font-normal',
                                                 fieldError?.message ? "text-red-500 focus-visible:ring-red-500 " : "text-primary disabled:text-[#969696f2] focus-visible:ring-main"
                                                 , prefix ? "pl-[50px] sm:pl-[55px]" : "", postfix ? "pr-[50px] sm:pr-[55px]" : "", className)}
                                             {...other}
                                         />}
                                 </FormControl>
                                 {
-                                    prefix && <div className={cn('absolute flex items-center', textarea ? 'top-[11.5px] sm:top-[14.4px] left-[16px] sm:left-[20px]' : 'top-[13.5px] sm:top-[18px] left-[16px] sm:left-[20px]')}>
+                                    prefix && <div className={cn('absolute flex items-center', textarea ? 'top-[11.5px] sm:top-[14.4px] left-[16px] sm:left-[20px]' : 'top-[16px] sm:top-[19px] left-[16px] sm:left-[20px]')}>
                                         {prefix}
                                     </div>
                                 }

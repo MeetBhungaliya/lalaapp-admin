@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "./assets/scss/style.css";
+import "./index.css";
 import App from "./App.jsx";
 import PaginationProvider from "./context/PaginationContext";
 import { Provider } from "react-redux";

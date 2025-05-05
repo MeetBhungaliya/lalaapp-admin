@@ -4,6 +4,7 @@ import FormProvider from "@/form/FormProvider";
 import TextField from "@/form/TextField";
 import {
   ARROW_LEFT_ICON,
+  EMAIL_ICON,
   FORGET_ICON,
   FORGOT_PASSWORD_IMAGE,
   SMS_ICON,
@@ -30,20 +31,12 @@ const ForgotPassword = () => {
   const { handleSubmit } = methods;
 
   const onSubmit = (values) => {
-    dispatch(forgotPassword(values))
-      .unwrap()
-      .then(() => {
-        navigate("/verify_otp", {
-          state: {
-            email: values.email,
-          },
-        });
-      });
+    navigate("/verify_otp");
   };
 
   return (
     <section className="min-h-dvh flex flex-col md:flex-row p-6">
-      <div className="flex-1 flex flex-col justify-center relative items-center max-md:hidden bg-[#F2F6F6] rounded-[48px]">
+      <div className="flex-1 flex flex-col justify-center relative items-center max-md:hidden bg-[#EAF6FE] rounded-[34px]">
         <div>
           <img
             src={FORGOT_PASSWORD_IMAGE}
@@ -53,23 +46,21 @@ const ForgotPassword = () => {
         </div>
       </div>
       <div className="flex-1 px-5 sm:px-5 md:px-8 lg:px-10 py-14  bg-white flex items-center relative">
-        <div className="max-w-[520px] space-y-4 sm:space-y-5 w-full mx-auto">
-          <div className="flex justify-center">
-            <div className="size-[120px] bg-ternary rounded-full flex justify-center items-center">
-              <img src={FORGET_ICON} alt="FORGET_ICON" />
-            </div>
+        <div className="max-w-[420px] space-y-4 sm:space-y-5 w-full mx-auto">
+          <div className="size-[80px] bg-light rounded-full flex justify-center items-center">
+            <img src={EMAIL_ICON} alt="EMAIL_ICON" />
           </div>
           <div className="sm:space-y-1.5">
-            <h2 className="text-primary font-bold text-center text-[24px] sm:text-[26px] md:text-[30px]">
-              Forgot Password
+            <h2 className="text-primary font-bold text-[24px] sm:text-[26px] md:text-[30px]">
+              Forgot Password?
             </h2>
-            <p className="sm:text-base text-sm font-medium text-center text-secondary">
-              No worries, we'll help you reset your password
+            <p className="text-[20px] font-normal text-[#7E808C]">
+              No worries, we will help you to reset your password.
             </p>
           </div>
-          <div className="pt-1">
+          <div className="pt-4">
             <FormProvider onSubmit={handleSubmit(onSubmit)} methods={methods}>
-              <div className="flex flex-col gap-6 sm:gap-8">
+              <div className="flex flex-col gap-10 sm:gap-12">
                 <div className="space-y-5">
                   <div>
                     <TextField
@@ -86,21 +77,25 @@ const ForgotPassword = () => {
                     type="submit"
                     loader={loading}
                   >
-                    {loading ? <Loading className="text-2xl" /> : "Send"}
+                    {loading ? <Loading className="text-2xl" /> : "Send Code"}
                   </Button>
                 </div>
               </div>
             </FormProvider>
           </div>
         </div>
-        <div className="absolute top-5 left-10">
+        <div className="absolute top-10 left-16">
           <div
-            className="w-[40px] h-[40px] bg-ternary border border-border rounded-[10px] flex justify-center items-center cursor-pointer"
+            className="w-[40px] h-[40px] bg-white rounded-[8px] flex justify-center items-center cursor-pointer shadow-[0px_-2px_0px_0px_#DCF1FF_inset,0px_1px_10px_0px_#0000001A]"
             onClick={() => {
               navigate(-1);
             }}
           >
-            <img src={ARROW_LEFT_ICON} alt="ARROW_LEFT_ICON" />
+            <img
+              src={ARROW_LEFT_ICON}
+              alt="ARROW_LEFT_ICON"
+              className="size-6"
+            />
           </div>
         </div>
       </div>

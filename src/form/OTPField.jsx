@@ -19,17 +19,17 @@ const OtpField = ({ name }) => {
                         <FormItem>
                             <FormControl>
                                 <InputOTP className="" maxLength={4} {...field}>
-                                    <InputOTPGroup className="gap-x-3 w-full flex  md:gap-x-5">
-                                        <InputOTPSlot className={cn(" h-14 xl:h-[60px] shadow-none flex-1 border-none data-[active=true]:ring-1 text-lg sm:text-xl font-medium  bg-ternary !rounded-[12px]",
+                                    <InputOTPGroup className="gap-x-3 w-full flex justify-center md:gap-x-5">
+                                        <InputOTPSlot className={cn(" h-14 xl:h-[60px] shadow-none w-[80px] border-none data-[active=true]:ring-1 text-lg sm:text-xl font-medium  bg-ternary !rounded-[16px]",
                                             fieldError?.message ? "text-red-500 data-[active=true]:ring-red-500" : "text-primary data-[active=true]:ring-main"
                                         )} index={0} />
-                                        <InputOTPSlot className={cn(" h-14 xl:h-[60px] flex-1 border-none shadow-none data-[active=true]:ring-1 text-lg sm:text-xl font-medium bg-ternary  !rounded-[12px]",
+                                        <InputOTPSlot className={cn(" h-14 xl:h-[60px] w-[80px] border-none shadow-none data-[active=true]:ring-1 text-lg sm:text-xl font-medium bg-ternary  !rounded-[16px]",
                                             fieldError?.message ? "text-red-500 data-[active=true]:ring-red-500" : "text-primary data-[active=true]:ring-main"
                                         )} index={1} />
-                                        <InputOTPSlot className={cn("h-14 xl:h-[60px] flex-1 border-none shadow-none data-[active=true]:ring-1 text-lg sm:text-xl font-medium  bg-ternary  !rounded-[12px]",
+                                        <InputOTPSlot className={cn("h-14 xl:h-[60px] w-[80px] border-none shadow-none data-[active=true]:ring-1 text-lg sm:text-xl font-medium  bg-ternary  !rounded-[16px]",
                                             fieldError?.message ? "text-red-500 data-[active=true]:ring-red-500" : "text-primary data-[active=true]:ring-main"
                                         )} index={2} />
-                                        <InputOTPSlot className={cn("h-14 xl:h-[60px] flex-1 border-none shadow-none data-[active=true]:ring-1 text-lg sm:text-xl font-medium  bg-ternary  !rounded-[12px]",
+                                        <InputOTPSlot className={cn("h-14 xl:h-[60px] w-[80px] border-none shadow-none data-[active=true]:ring-1 text-lg sm:text-xl font-medium  bg-ternary  !rounded-[16px]",
                                             fieldError?.message ? "text-red-500 data-[active=true]:ring-red-500" : "text-primary data-[active=true]:ring-main"
                                         )} index={3} />
                                     </InputOTPGroup>

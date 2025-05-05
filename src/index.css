@@ -126,20 +126,21 @@
 
   /* Font family */
 
-  --font-gilroy: "Gilroy", "sans-serif";
+  --font-poppins: "Poppins", sans-serif;
 
   /* Colors  */
 
   --color-main: #2393FF;
-  --color-primary: #1d1d1d;
-  --color-secondary: #969696;
-  --color-ternary: #f8f9f9;
+  --color-primary: #1F1F24;
+  --color-secondary: #79797C;
+  --color-ternary: #F5F6FA;
+  --color-light: #EDF8FF
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    @apply antialiased font-gilroy;
+    @apply antialiased font-poppins;
   }
 
   body {
