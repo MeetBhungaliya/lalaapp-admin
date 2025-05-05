@@ -1,0 +1,27 @@
+import { BASE_PATH } from "./config";
+const IMAGES = 'assets/images/';
+const ICONS = 'assets/icons/';
+const LOGO = 'assets/logo/';
+
+export const SMS_ICON = BASE_PATH + ICONS + 'sms_icon.svg';
+export const LOCK_ICON = BASE_PATH + ICONS + 'lock_icon.svg';
+export const EYE_ICON = BASE_PATH + ICONS + 'eye_icon.svg';
+export const EYE_SLASH_ICON = BASE_PATH + ICONS + 'eye_slash_icon.svg';
+export const LOGIN_ICON = BASE_PATH + ICONS + 'login_icon.svg';
+export const FORGET_ICON = BASE_PATH + ICONS + 'forgot_icon.svg';
+export const VERIFY_OTP_ICON = BASE_PATH + ICONS + 'password_icon.svg';
+export const RESET_PASSWORD_ICON = BASE_PATH + ICONS + 'reset_icon.svg'
+export const ARROW_LEFT_ICON = BASE_PATH + ICONS + "arrow_left_icon.svg"
+export const USER_ACTIVE_ICON = BASE_PATH + ICONS + "user_white_icon.svg"
+export const USER_ICON = BASE_PATH + ICONS + "user-secondary_icon.svg";
+export const LOGOUT_ICON = BASE_PATH + ICONS + "logout_secondary_icon.svg";
+export const LOGOUT_ACTIVE_ICON = BASE_PATH + ICONS + "logout_active_icon.svg"
+export const SEARCH_ICON = BASE_PATH + ICONS + "search_icon.svg"
+export const LOGOUT_PRIMARY_ICON = BASE_PATH + ICONS + "logout_primary_icon.svg"
+
+export const LOGIN_IMAGE = BASE_PATH + IMAGES + 'login.png';
+export const FORGOT_PASSWORD_IMAGE = BASE_PATH + IMAGES + 'forgot_password.png';
+export const VERIFY_OTP_IMAGE = BASE_PATH + IMAGES + 'verify_otp.png';
+export const RESET_PASSWORD_IMAGE = BASE_PATH + IMAGES + 'reset_password.png';
+export const DEFUALT_USER  = BASE_PATH + IMAGES + "defualt_user.png"
+export const  FALL_BACK_IMAGE = BASE_PATH + IMAGES + "fallback_image.png"
