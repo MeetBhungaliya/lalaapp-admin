@@ -45,7 +45,7 @@ const Sidebar = ({ isSidebar, setIsSidebar }) => {
         icon: <NavIcon active={WORD_ACTIVE_ICON} base={WORD_ICON} />,
         children: [
           { name: "Letter Sounds", to: "/words/letter-sounds" },
-          { name: "Words Pronunciation", to: "/words/pronunciation" },
+          { name: "Words Pronunciation", to: "/words/word-pronounces" },
           { name: "Rhyming Words", to: "/words/rhyming" },
           { name: "Phoneme Isolation", to: "/words/phoneme" },
           { name: "Blending Letter Sounds", to: "/words/blending" },

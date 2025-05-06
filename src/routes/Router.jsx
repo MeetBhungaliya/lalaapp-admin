@@ -11,6 +11,7 @@ import VerifyOTP from "@/pages/auth/VerifyOTP";
 import LetterSounds from "@/pages/dashboard/LetterSounds";
 import Statistics from "@/pages/dashboard/Statistics/Statistics";
 import Users from "@/pages/dashboard/Users/Users";
+import WordPronounces from "@/pages/dashboard/WordPronounces";
 import ErrorPage from "@/pages/error/ErrorPage";
 import { createBrowserRouter } from "react-router";
 
@@ -45,6 +46,10 @@ const router = createBrowserRouter(
                     {
                       path: "letter-sounds",
                       element: <LetterSounds />,
+                    },
+                    {
+                      path: "word-pronounces",
+                      element: <WordPronounces />,
                     },
                   ],
                 },

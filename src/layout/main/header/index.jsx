@@ -4,7 +4,12 @@ import { useLocation } from "react-router";
 
 const Header = ({ setIsSidebar }) => {
   const { pathname } = useLocation();
-  const headings = [{ path: "/statistics", heading: "Statistics" }, { path: "/users", heading: "Users" }, { path: "/words/letter-sounds", heading: "Letter Sounds" }];
+  const headings = [
+    { path: "/statistics", heading: "Statistics" },
+    { path: "/users", heading: "Users" },
+    { path: "/words/letter-sounds", heading: "Letter Sounds" },
+    { path: "/words/word-pronounces", heading: "Words Pronunciation" },
+  ];
   return (
     <header className="flex px-3 lg:px-7 bg-white">
       <div className="flex justify-between items-center w-full  py-[13.5px]">
