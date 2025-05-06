@@ -17,7 +17,7 @@ const SucessModal = ({ open, setOpen }) => {
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent
         onOpenAutoFocus={(e) => e.preventDefault()}
-        className="max-w-xl p-6 rounded-[24px]"
+        className="sm:max-w-[455px] p-6 rounded-[24px]"
       >
         <div className="flex flex-col justify-center items-center space-y-3">
           <div className="flex items-center bg-ternary rounded-full justify-center sm:size-[120px] size-[100px]">

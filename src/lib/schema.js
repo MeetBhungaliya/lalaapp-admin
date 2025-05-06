@@ -25,5 +25,15 @@ const ResetPasswordSchema = yup.object().shape({
     confirm_password: yup.string().required('Please enter confirm password').oneOf([yup.ref('new_password'), null], ' New password and confirm password does not match')
 })
 
+const LetterSoundsSchema = yup.object().shape({
+    level: yup.string().required('Please enter level'),
+    sound: yup.mixed().test('Required', 'Please select sound', (value) => {
+        return value
+    }),
+    image: yup.mixed().test('Required', 'Please select image', (value) => {
+        return value
+    })
+})
 
-export { LoginSchema, ForgotPasswordSchema, OTPSchema, ResetPasswordSchema }
+
+export { LoginSchema, ForgotPasswordSchema, OTPSchema, ResetPasswordSchema, LetterSoundsSchema }

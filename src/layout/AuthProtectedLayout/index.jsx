@@ -4,7 +4,7 @@ const AuthProtectedLayout = () => {
   const token = localStorage.getItem("token");
 
   if (token) {
-    return <Navigate to="/users" />
+    return <Navigate to="/statistics" />
   }
 
   return <Outlet />;

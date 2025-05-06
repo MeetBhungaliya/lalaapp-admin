@@ -8,7 +8,9 @@ import ForgotPassword from "@/pages/auth/ForgotPassword";
 import Login from "@/pages/auth/Login";
 import ResetPassword from "@/pages/auth/ResetPassword";
 import VerifyOTP from "@/pages/auth/VerifyOTP";
-import Statistics from "@/pages/dashboard/Statistics";
+import LetterSounds from "@/pages/dashboard/LetterSounds";
+import Statistics from "@/pages/dashboard/Statistics/Statistics";
+import Users from "@/pages/dashboard/Users/Users";
 import ErrorPage from "@/pages/error/ErrorPage";
 import { createBrowserRouter } from "react-router";
 
@@ -32,6 +34,19 @@ const router = createBrowserRouter(
                 {
                   path: "statistics",
                   element: <Statistics />,
+                },
+                {
+                  path: "users",
+                  element: <Users />,
+                },
+                {
+                  path: "words",
+                  children: [
+                    {
+                      path: "letter-sounds",
+                      element: <LetterSounds />,
+                    },
+                  ],
                 },
               ],
             },

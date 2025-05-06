@@ -7,12 +7,14 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { SearchProvider } from "./context/SearchDataContext";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <PaginationProvider>
       <Provider store={store}>
-        <App />
+        <SearchProvider>
+          <App />
+        </SearchProvider>
         <ToastContainer />
       </Provider>
     </PaginationProvider>

@@ -51,11 +51,8 @@ const   TablePagination = ({ count }) => {
     const totalPages = useMemo(() => Math.ceil(total / limit), [total, limit])
     const paginationRange = useMemo(() => generatePaginationRange(totalPages, page), [totalPages, page]);
     return (
-        <div className={cn('px-3 md:px-4 bg-white border-t-[2px] border-[#F1F5F9]  pt-2  sm:pt-2.5 flex justify-between items-center gap-2 flex-col sm:flex-row')}>
-            <div className="flex items-center">
-                <p className='w-full text-center sm:text-start text-secondary text-[15px]'>Showing {((page - 1) * limit) + (count ? 1 : 0)}-{((page - 1) * limit) + count} out of {total} Results</p>
-            </div>
-            <div className='flex gap-3 items-center'>
+        <div className={cn('px-[34px] py-5 bg-white border-t-[2px] border-[#F1F5F9]   flex justify-between items-center gap-2 flex-col sm:flex-row')}>
+            <div className="flex items-center gap-2">
                 <div className=''>
                     <Select
                         value={limit}
@@ -79,6 +76,9 @@ const   TablePagination = ({ count }) => {
                         </SelectContent>
                     </Select>
                 </div>
+                <p className='w-full text-center sm:text-start text-primary text-[14px]'>Showing {((page - 1) * limit) + (count ? 1 : 0)}-{((page - 1) * limit) + count} out of {total} Results</p>
+            </div>
+            <div className='flex gap-3 items-center'>
                 <div>
                     <Pagination className='justify-center pt-0 sm:justify-end'>
                         <PaginationContent className="space-x-1">
@@ -105,7 +105,7 @@ const   TablePagination = ({ count }) => {
                                                 }
 
                                             }}
-                                            className={cn('size-8 sm:size-9  cursor-pointer  border-[2px] border-none  text-sm md:text-base  text-[#7F8892] bg-transparent aria-[current=page]:text-main aria-[current=page]:bg-[#F2F6F6]  font-normal  rounded-full', pageNumber === '...' ? 'hover:text-secondary hover:bg-transparent cursor-default' : 'hover:bg-[#F2F6F6] hover:text-main ')}
+                                            className={cn('size-8 sm:size-9  cursor-pointer  border-[2px] border-none  text-sm md:text-base  text-[#7F8892] bg-transparent aria-[current=page]:text-white aria-[current=page]:bg-main  font-normal  rounded-[6px]', pageNumber === '...' ? 'hover:text-secondary hover:bg-transparent cursor-default' : 'hover:bg-[#F2F6F6] hover:text-main ')}
                                         >
                                             {pageNumber}
                                         </PaginationLink>

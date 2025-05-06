@@ -7,4 +7,20 @@ const PAGINATION_DISPATCH_TYPES = {
     SET_LIMIT: 'SET_LIMIT'
 }
 
-export { PAGINATION_DISPATCH_TYPES }
+
+const chartFilterOptions = [
+    {
+        value: 'week',
+        label: 'This Week'
+    },
+    {
+        value: 'month',
+        label: 'This Month'
+    },
+    {
+        value: 'year',
+        label: 'This Year'
+    }
+]
+
+export { PAGINATION_DISPATCH_TYPES, chartFilterOptions }
