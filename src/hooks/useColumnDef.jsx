@@ -37,20 +37,13 @@ const useColumnDef = (fns) => {
     return props.getValue() ?? <Minus className="size-4" />;
   }, []);
 
-  const rowBuilder = useCallback(
-    (accessor, header, cell, size = null, align = "start") => {
-      return columnHelper.accessor(accessor, {
-        header,
-        cell,
-        size: getColumnSize(size),
-        meta: {
-          align: align,
-        },
-      });
-    },
-    []
-  );
-
+  const rowBuilder = useCallback((accessor, header, cell, size = null, align = 'start') => {
+    return columnHelper.accessor(accessor, {
+      header, cell, size: getColumnSize(size), meta: {
+        align: align
+      }
+    })
+  }, [])
   const usersColumns = useMemo(
     () => [
       columnHelper.display({
@@ -116,64 +109,45 @@ const useColumnDef = (fns) => {
           "2xl": 140,
           default: 90,
         },
-        meta: {
-          align: "center",
-        },
-      }),
+
+      }, "center"),
     ],
     []
   );
 
   const letterSoundsColumns = useMemo(
     () => [
-      columnHelper.display({
-        id: "srNo",
-        header: "Sr. No.",
-        cell: (props) => String(props.row.index + 1).padStart(2, "0"),
-        size: 80,
+      rowBuilder('srNo', () => <p className=''>Sr. No.</p>,
+        ({ getValue, row }) => (
+          <p>{String(row.index + 1).padStart(2, "0")}</p>
+        ), {
+        '3xl': 80,
+        default: 80
       }),
-      columnHelper.accessor("image", {
-        header: () => <p className="pl-5">Letter Image</p>,
-        cell: (props) => (
-          <div className="flex gap-4 items-center pl-5">
-            <img
-              src={props.row.original.image || null}
-              className="size-12 rounded-[8px]"
-            />
+      rowBuilder('name', () => <p className=''>Letter Image</p>,
+        ({ getValue, row }) => (
+          <div className="flex items-center gap-3 ">
+            <Image src={row?.original?.image} alt="" className="sm:size-[46px] size-[40px]  object-cover shrink-0" />
+            {/* <p className=" text-primary text-wrap break-all">{getValue()}</p> */}
           </div>
-        ),
-        size: getColumnSize({
-          sm: 200,
-          md: 240,
-          lg: 280,
-          xl: 320,
-          "2xl": 360,
-          "3xl": 400,
-          default: 140,
-        }),
-        meta: {
-          align: "center",
-        },
+        ), {
+        '3xl': 400,
+        default: 300
+      }, "center"),
+      rowBuilder('level', () => <p className=''>Level</p>,
+        ({ getValue, row }) => (
+          <p className="pl-1">{getValue()}</p>
+        ), {
+        '3xl': 350,
+        default: 300
       }),
-
-      rowBuilder("level", "Level", cellBuilder, {
-        sm: 230,
-        md: 270,
-        lg: 300,
-        xl: 330,
-        "2xl": 360,
-        "3xl": 400,
-        default: 180,
-      }),
-      columnHelper.display({
-        id: "actions",
-        header: "Action",
-        cell: (props) => (
+      rowBuilder('action', () => <p className=''>Actions</p>,
+        ({ getValue, row }) => (
           <div className="flex gap-4">
             <div
               onClick={() =>
                 fns?.handleView({
-                  row: props.row.original,
+                  row: row.original,
                 })
               }
               className="bg-[#F7F7F7] rounded-[8px] p-3 shrink-0 cursor-pointer"
@@ -184,7 +158,7 @@ const useColumnDef = (fns) => {
             <div
               onClick={() =>
                 fns?.handleEdit({
-                  row: props.row.original,
+                  row: row.original,
                 })
               }
               className="bg-[#F7F7F7] rounded-[8px] p-3 shrink-0 cursor-pointer"
@@ -195,7 +169,7 @@ const useColumnDef = (fns) => {
             <div
               onClick={() =>
                 fns?.handleDelete({
-                  row: props.row.original,
+                  row: row.original,
                 })
               }
               className="bg-[#F7F7F7] rounded-[8px] p-3 shrink-0 cursor-pointer"
@@ -204,24 +178,93 @@ const useColumnDef = (fns) => {
               <Image src={DELETE_ICON} alt="delete" className="size-5" />
             </div>
           </div>
-        ),
-        size: {
-          sm: 100,
-          md: 110,
-          lg: 120,
-          xl: 130,
-          "2xl": 140,
-          default: 90,
-        },
-        meta: {
-          align: "center",
-        },
-      }),
-    ],
+        ), {
+        '3xl': null,
+        default: 300
+      }, "center"),],
     []
   );
 
   const wordPronouncesColumns = useMemo(
+    () => [
+      rowBuilder('srNo', () => <p className=''>Sr. No.</p>,
+        ({ getValue, row }) => (
+          <p>{String(row.index + 1).padStart(2, "0")}</p>
+        ), {
+        '3xl': 80,
+        default: 80
+      }),
+      rowBuilder('word', () => <p className=''>Word Name</p>,
+        ({ getValue, row }) => (
+          <div className="flex gap-4 items-center pl-5">
+            <img
+              src={row.original.image || null}
+              className="size-12 rounded-[8px]"
+              alt={row.original.name}
+            />
+            <span>{row.original.name}</span>
+          </div>
+        ), {
+          '3xl': 400,
+          default: 300
+      }),
+      rowBuilder('level', () => <p className=''>Level</p>,
+        ({ getValue, row }) => (
+          <p className="pl-7">{getValue()}</p>
+        ), {
+       '3xl': 350,
+        default: 300
+      }),
+      rowBuilder('action', () => <p className=''>Actions</p>,
+        ({ getValue, row }) => (
+          <div className="flex gap-4">
+            <div
+              onClick={() =>
+                fns?.handleView({
+                  row: row.original,
+                })
+              }
+              className="bg-[#F7F7F7] rounded-[8px] p-3 shrink-0 cursor-pointer"
+              type="button"
+            >
+              <Image src={VIEW_ICON} alt="view" className="size-5" />
+            </div>
+            <div
+              onClick={() =>
+                fns?.handleEdit({
+                  row: row.original,
+                })
+              }
+              className="bg-[#F7F7F7] rounded-[8px] p-3 shrink-0 cursor-pointer"
+              type="button"
+            >
+              <Image src={EDIT_ICON} alt="edit" className="size-5" />
+            </div>
+            <div
+              onClick={() =>
+                fns?.handleDelete({
+                  row: row.original,
+                })
+              }
+              className="bg-[#F7F7F7] rounded-[8px] p-3 shrink-0 cursor-pointer"
+              type="button"
+            >
+              <Image src={DELETE_ICON} alt="delete" className="size-5" />
+            </div>
+          </div>
+        ), {
+        sm: 100,
+        md: 110,
+        lg: 120,
+        xl: 130,
+        "2xl": 140,
+        default: 90,
+      }, "center"),
+    ],
+    []
+  );
+
+  const subscriptionsColumns = useMemo(
     () => [
       columnHelper.display({
         id: "srNo",
@@ -229,98 +272,126 @@ const useColumnDef = (fns) => {
         cell: (props) => String(props.row.index + 1).padStart(2, "0"),
         size: 80,
       }),
-      columnHelper.accessor("word", {
-        header: () => <p className="pl-5">Word Name</p>,
-        cell: (props) => (
-          <div className="flex gap-4 items-center pl-5">
-            <img
-              src={props.row.original.image || null}
-              className="size-12 rounded-[8px]"
-              alt={props.row.original.name}
-            />
-            <span>{props.row.original.name}</span>
+      rowBuilder('name', () => <p className=''>Name</p>,
+        ({ getValue, row }) => (
+          <div className="flex items-center gap-3 ">
+            <Image src={row?.original?.profile} alt="" className="sm:size-[46px] size-[40px]  object-cover shrink-0" />
+            <p className=" text-primary text-wrap break-all">{getValue()}</p>
           </div>
-        ),
-        size: getColumnSize({
-          sm: 200,
-          md: 240,
-          lg: 280,
-          xl: 320,
-          "2xl": 360,
-          "3xl": 400,
-          default: 140,
-        }),
-       
+        ), {
+        '3xl': 250,
+        default: 200
       }),
-      rowBuilder("level", "Level", cellBuilder, {
-        sm: 230,
-        md: 270,
-        lg: 300,
-        xl: 330,
-        "2xl": 360,
-        "3xl": 400,
-        default: 180,
+      rowBuilder('planPrice', 'Plan Price', (props) => (
+        <p className='break-all text-wrap'>{cellBuilder(props)}</p>
+      ), {
+        '3xl': 250,
+        default: 200
       }),
-      columnHelper.display({
-        id: "actions",
-        header: "Action",
-        cell: (props) => (
-          <div className="flex gap-4">
+      rowBuilder('planStatus', () => <p className='-pl-1'>Plan Status</p>,
+        ({ getValue, row }) => (
+          <span
+            className={
+              getValue() === "Active"
+                ? "bg-[#E6F9ED] text-[#22C55E] rounded px-3 py-1 text-sm font-medium"
+                : "bg-[#FFEAEA] text-[#FF4747] rounded px-3 py-1 text-sm font-medium"
+            }
+          >
+            {getValue()}
+          </span>
+        ), {
+        '3xl': 350,
+        default: 300
+      }, "center"),
+      rowBuilder('action', () => <p className=''>Actions</p>,
+        ({ getValue, row }) => (
+          <div className="flex justify-center gap-4">
             <div
-              onClick={() =>
-                fns?.handleView({
-                  row: props.row.original,
-                })
-              }
+              onClick={() => fns?.handleView({ row: row.original })}
               className="bg-[#F7F7F7] rounded-[8px] p-3 shrink-0 cursor-pointer"
               type="button"
             >
               <Image src={VIEW_ICON} alt="view" className="size-5" />
             </div>
             <div
-              onClick={() =>
-                fns?.handleEdit({
-                  row: props.row.original,
-                })
-              }
-              className="bg-[#F7F7F7] rounded-[8px] p-3 shrink-0 cursor-pointer"
-              type="button"
-            >
-              <Image src={EDIT_ICON} alt="edit" className="size-5" />
-            </div>
-            <div
-              onClick={() =>
-                fns?.handleDelete({
-                  row: props.row.original,
-                })
-              }
+              onClick={() => fns?.handleDelete(row?.original)}
               className="bg-[#F7F7F7] rounded-[8px] p-3 shrink-0 cursor-pointer"
               type="button"
             >
               <Image src={DELETE_ICON} alt="delete" className="size-5" />
             </div>
           </div>
-        ),
-        size: {
-          sm: 100,
-          md: 110,
-          lg: 120,
-          xl: 130,
-          "2xl": 140,
-          default: 90,
-        },
-        meta: {
-          align: "center",
-        },
-      }),
+        ), {
+        '3xl': null,
+        default: 300
+      }, "center"),
     ],
-    []
+    [screenWidth, fns]
+  );
+
+  const rhymingWordsColumns = useMemo(
+    () => [
+      columnHelper.display({
+        id: "srNo",
+        header: "Sr. No.",
+        cell: (props) => String(props.row.index + 1).padStart(2, "0"),
+        size: 80,
+      }),
+      rowBuilder('name', () => <p className=''>Word Name</p>,
+        ({ getValue, row }) => (
+          <div className="flex items-center gap-3 ">
+            <Image src={row?.original?.profile} alt="" className="sm:size-[46px] size-[40px] object-cover shrink-0" />
+            <p className="text-primary text-wrap break-all">{getValue()}</p>
+          </div>
+        ), {
+        '3xl': 400,
+        default: 400
+      }),
+      rowBuilder('level', 'Level', (props) => (
+        <p className='break-all text-wrap pl-1.5'>{cellBuilder(props)}</p>
+      ), {
+        '3xl': 350,
+        default: 350
+      }),
+      rowBuilder('action', () => <p className=''>Actions</p>,
+        ({ getValue, row }) => (
+          <div className="flex justify-center gap-4">
+            <div
+              onClick={() => fns?.handleView({ row: row.original })}
+              className="bg-[#F7F7F7] rounded-[8px] p-3 shrink-0 cursor-pointer"
+              type="button"
+            >
+              <Image src={VIEW_ICON} alt="view" className="size-5" />
+            </div>
+            <div
+              onClick={() => fns?.handleEdit({ row: row.original })}
+              className="bg-[#F7F7F7] rounded-[8px] p-3 shrink-0 cursor-pointer"
+              type="button"
+            >
+              <Image src={EDIT_ICON} alt="edit" className="size-5" />
+            </div>
+            <div
+              onClick={() => fns?.handleDelete(row?.original)}
+              className="bg-[#F7F7F7] rounded-[8px] p-3 shrink-0 cursor-pointer"
+              type="button"
+            >
+              <Image src={DELETE_ICON} alt="delete" className="size-5" />
+            </div>
+          </div>
+        ), {
+        '3xl': null,
+        default: 300
+      }, "center"),
+    ],
+    [screenWidth, fns]
   );
 
   return {
     usersColumns,
     letterSoundsColumns,
     wordPronouncesColumns,
+    subscriptionsColumns,
+    rhymingWordsColumns,
   };
 };
 

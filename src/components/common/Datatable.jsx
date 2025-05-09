@@ -47,16 +47,16 @@ const Datatable = ({ data, columns, pagination = true, loading = false, title })
                         },
                       }}
                       className={cn(
-                        "py-[12px] px-[34px] h-auto bg-transparent text-primary  rounded-[12px]  font-semibold text-[16px] flex items-center"
+                        "py-[12px] px-[32px] h-auto bg-transparent text-primary  rounded-[12px]  font-semibold text-[16px] flex items-center"
                       )}
                       key={header.id}
                     >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                     </TableHead>
                   );
                 })}
@@ -80,7 +80,7 @@ const Datatable = ({ data, columns, pagination = true, loading = false, title })
                       <TableCell
                         style={{
                           ...(!cell.column?.getSize() ||
-                          cell.column?.getSize() == 150
+                            cell.column?.getSize() == 150
                             ? { width: "100%" }
                             : { minWidth: cell.column?.getSize() + "px" }),
                           ...{
@@ -106,7 +106,7 @@ const Datatable = ({ data, columns, pagination = true, loading = false, title })
               <TableRow className="h-[60vh] hover:bg-transparent flex flex-col gap-6 justify-center items-center">
                 <Image src={NO_DATA_FOUND} alt="no data found" />
                 <h2 className="text-primary text-2xl font-semibold text-center">
-                  No {title} 
+                  No {title}
                 </h2>
               </TableRow>
             )}

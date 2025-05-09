@@ -11,6 +11,7 @@ import {
   LOGOUT_ICON,
   PROFILE_ACTIVE_ICON,
   PROFILE_ICON,
+  SUBSCRIPTION_ACTIVE_ICON,
   WORD_ACTIVE_ICON,
   WORD_ICON,
 } from "@/lib/images";
@@ -55,7 +56,7 @@ const Sidebar = ({ isSidebar, setIsSidebar }) => {
       {
         name: "Subscriptions",
         to: "/subscriptions",
-        icon: <NavIcon active={CROWN_ACTIVE_ICON} base={CROWN_ICON} />,
+        icon: <NavIcon active={SUBSCRIPTION_ACTIVE_ICON} base={CROWN_ICON} />,
       },
     ],
     []

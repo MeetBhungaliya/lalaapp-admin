@@ -22,7 +22,7 @@ export const UploadImage = ({ name, label, className, ...other }) => {
       name={name}
       control={control}
       render={({ field, formState: { errors } }) => {
-        console.log('field: ', field);
+        console.log('field: ', field?.value);
         const fieldError = get(errors, name);
         return (
           <div className={className}>
@@ -44,7 +44,7 @@ export const UploadImage = ({ name, label, className, ...other }) => {
                 }
               >
                 <div>
-                  <span className="inline-block rounded-full flex items-center justify-center">
+                  <span className=" rounded-full flex items-center justify-center">
                     <img src={GALLERY_ICON} alt="GALLERY_ICON" />
                   </span>
                 </div>
@@ -67,9 +67,13 @@ export const UploadImage = ({ name, label, className, ...other }) => {
                 )}
               >
                 <div className="flex items-center gap-2">
-                  <span className="inline-block rounded-full flex items-center justify-center ">
+                  <span className=" rounded-full flex items-center justify-center ">
                     <img
-                      src={field.value}
+                      src={
+                        typeof field.value === "string"
+                          ? field.value
+                          : field.value?.preview || URL.createObjectURL(field.value)
+                      }
                       alt="image"
                       className="object-cover max-w-[100px] max-h-[100px]"
                     />

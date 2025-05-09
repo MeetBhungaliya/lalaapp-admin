@@ -9,7 +9,9 @@ import Login from "@/pages/auth/Login";
 import ResetPassword from "@/pages/auth/ResetPassword";
 import VerifyOTP from "@/pages/auth/VerifyOTP";
 import LetterSounds from "@/pages/dashboard/LetterSounds";
+import RhymingWords from "@/pages/dashboard/RhymingWords/RhymingWords";
 import Statistics from "@/pages/dashboard/Statistics/Statistics";
+import Subscriptions from "@/pages/dashboard/Subscriptions/Subscriptions";
 import Users from "@/pages/dashboard/Users/Users";
 import WordPronounces from "@/pages/dashboard/WordPronounces";
 import ErrorPage from "@/pages/error/ErrorPage";
@@ -51,8 +53,16 @@ const router = createBrowserRouter(
                       path: "word-pronounces",
                       element: <WordPronounces />,
                     },
+                    {
+                      path: "rhyming",
+                      element: <RhymingWords />,
+                    }
                   ],
                 },
+                {
+                  path: "subscriptions",
+                  element: <Subscriptions />,
+                }
               ],
             },
           ],

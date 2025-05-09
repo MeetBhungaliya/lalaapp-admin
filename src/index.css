@@ -147,3 +147,22 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .border-gradient-horizontal {
+    border: 1px solid transparent;
+    border-image-source: linear-gradient(
+      90deg,
+      rgba(232, 232, 235, 0) 0%,
+      rgba(164, 164, 164, 0.3) 49.05%,
+      rgba(131, 131, 133, 0) 100%
+    );
+    border-image-slice: 1;
+  }
+}
+
+
+/* border: 1px solid;
+
+border-image-source: linear-gradient(90deg, rgba(232, 232, 235, 0) 0%, rgba(164, 164, 164, 0.3) 49.05%, rgba(131, 131, 133, 0) 100%); */
+
