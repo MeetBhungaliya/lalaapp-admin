@@ -45,6 +45,7 @@ export const SOUND_ICON = BASE_PATH + ICONS + "sound_icon.svg"
 export const GALLERY_ICON = BASE_PATH + ICONS + "gallery_icon.svg"
 export const DOWNLOAD_ICON = BASE_PATH + ICONS + "download_icon.svg"
 export const SUBSCRIPTION_ACTIVE_ICON = BASE_PATH + ICONS + "crown_white.svg"
+export const QUESTION_ICON = BASE_PATH + ICONS + "message-question.svg"
 
 export const LOGIN_IMAGE = BASE_PATH + IMAGES + 'login.png';
 export const FORGOT_PASSWORD_IMAGE = BASE_PATH + IMAGES + 'forgot_password.png';

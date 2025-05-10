@@ -89,7 +89,7 @@ const SoundField = ({ label, className, name }) => {
                 }
               >
                 <div>
-                  <span className="inline-block rounded-full flex items-center justify-center">
+                  <span className=" rounded-full flex items-center justify-center">
                     <img src={SOUND_ICON} alt="SOUND_ICON" />
                   </span>
                 </div>
@@ -118,7 +118,7 @@ const SoundField = ({ label, className, name }) => {
                 )}
               >
                 <div className="flex items-center gap-2">
-                  <span className="inline-block rounded-full flex items-center justify-center">
+                  <span className=" rounded-full flex items-center justify-center">
                     <img src={SOUND_ICON} alt="SOUND_ICON" />
                   </span>
                   <span className="text-primary font-normal text-base">

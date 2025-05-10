@@ -9,11 +9,13 @@ import Login from "@/pages/auth/Login";
 import ResetPassword from "@/pages/auth/ResetPassword";
 import VerifyOTP from "@/pages/auth/VerifyOTP";
 import LetterSounds from "@/pages/dashboard/LetterSounds";
+import PhonemeIsolation from "@/pages/dashboard/PhonemeIsolation/PhonemeIsolation";
 import RhymingWords from "@/pages/dashboard/RhymingWords/RhymingWords";
 import Statistics from "@/pages/dashboard/Statistics/Statistics";
 import Subscriptions from "@/pages/dashboard/Subscriptions/Subscriptions";
 import Users from "@/pages/dashboard/Users/Users";
 import WordPronounces from "@/pages/dashboard/WordPronounces";
+import BlendingLetterSounds from "@/pages/dashboard/⁠BlendingLetterSounds/⁠BlendingLetterSounds";
 import ErrorPage from "@/pages/error/ErrorPage";
 import { createBrowserRouter } from "react-router";
 
@@ -56,6 +58,14 @@ const router = createBrowserRouter(
                     {
                       path: "rhyming",
                       element: <RhymingWords />,
+                    },
+                    {
+                      path: "phoneme_isolation",
+                      element: <PhonemeIsolation />,
+                    },
+                    {
+                      path: "blending_letter_sounds",
+                      element: <BlendingLetterSounds />,
                     }
                   ],
                 },

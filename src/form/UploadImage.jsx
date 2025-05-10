@@ -75,7 +75,7 @@ export const UploadImage = ({ name, label, className, ...other }) => {
                           : field.value?.preview || URL.createObjectURL(field.value)
                       }
                       alt="image"
-                      className="object-cover max-w-[100px] max-h-[100px]"
+                      className="object-cover max-w-[64px] max-h-[82px]"
                     />
                   </span>
                 </div>

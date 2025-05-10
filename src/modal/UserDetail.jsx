@@ -20,7 +20,7 @@ const UserDetail = ({ open, setOpen }) => {
         <Dialog open={open?.open} onOpenChange={handleClose}>
             <DialogContent
                 onOpenAutoFocus={e => e.preventDefault()}
-                className="sm:max-w-[560px] px-8 py-6 rounded-[24px]"
+                className="sm:max-w-[560px] px-8 py-6 rounded-[30px]"
             >
                 <DialogHeader className="flex flex-row justify-between pb-4 border-b border-[#EDEDED]">
                     <DialogTitle className="text-xl font-semibold text-primary text-center w-full">

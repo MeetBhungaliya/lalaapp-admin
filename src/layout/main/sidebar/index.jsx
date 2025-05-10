@@ -48,8 +48,8 @@ const Sidebar = ({ isSidebar, setIsSidebar }) => {
           { name: "Letter Sounds", to: "/words/letter-sounds" },
           { name: "Words Pronunciation", to: "/words/word-pronounces" },
           { name: "Rhyming Words", to: "/words/rhyming" },
-          { name: "Phoneme Isolation", to: "/words/phoneme" },
-          { name: "Blending Letter Sounds", to: "/words/blending" },
+          { name: "Phoneme Isolation", to: "/words/phoneme_isolation" },
+          { name: "Blending Letter Sounds", to: "/words/blending_letter_sounds" },
           { name: "Segmenting Words", to: "/words/segmenting" },
         ],
       },
@@ -80,9 +80,8 @@ const Sidebar = ({ isSidebar, setIsSidebar }) => {
               item.children ? (
                 <div
                   key={index}
-                  className={`rounded-[10px] overflow-hidden ${
-                    openSubMenu ? "bg-[#EFF9FF]" : "bg-ternary"
-                  }`}
+                  className={`rounded-[10px] overflow-hidden ${openSubMenu ? "bg-[#EFF9FF]" : "bg-ternary"
+                    }`}
                 >
                   <button
                     onClick={() => setOpenSubMenu(!openSubMenu)}
@@ -178,9 +177,8 @@ const Sidebar = ({ isSidebar, setIsSidebar }) => {
                 item.children ? (
                   <div
                     key={index}
-                    className={`rounded-[10px] overflow-hidden ${
-                      openSubMenu ? "bg-[#EFF9FF]" : "bg-ternary"
-                    }`}
+                    className={`rounded-[10px] overflow-hidden ${openSubMenu ? "bg-[#EFF9FF]" : "bg-ternary"
+                      }`}
                   >
                     <button
                       onClick={() => setOpenSubMenu(!openSubMenu)}

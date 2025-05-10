@@ -335,12 +335,12 @@ const useColumnDef = (fns) => {
         id: "srNo",
         header: "Sr. No.",
         cell: (props) => String(props.row.index + 1).padStart(2, "0"),
-        size: 80,
+        size: 100,
       }),
       rowBuilder('name', () => <p className=''>Word Name</p>,
         ({ getValue, row }) => (
           <div className="flex items-center gap-3 ">
-            <Image src={row?.original?.profile} alt="" className="sm:size-[46px] size-[40px] object-cover shrink-0" />
+            {row?.original?.profile && <Image src={row?.original?.profile} alt="" className="sm:size-[46px] size-[40px] object-cover shrink-0" />}
             <p className="text-primary text-wrap break-all">{getValue()}</p>
           </div>
         ), {
@@ -348,7 +348,7 @@ const useColumnDef = (fns) => {
         default: 400
       }),
       rowBuilder('level', 'Level', (props) => (
-        <p className='break-all text-wrap pl-1.5'>{cellBuilder(props)}</p>
+        <p className='break-all text-wrap '>{cellBuilder(props)}</p>
       ), {
         '3xl': 350,
         default: 350
@@ -357,14 +357,14 @@ const useColumnDef = (fns) => {
         ({ getValue, row }) => (
           <div className="flex justify-center gap-4">
             <div
-              onClick={() => fns?.handleView({ row: row.original })}
+              onClick={() => fns?.handleView(row?.original)}
               className="bg-[#F7F7F7] rounded-[8px] p-3 shrink-0 cursor-pointer"
               type="button"
             >
               <Image src={VIEW_ICON} alt="view" className="size-5" />
             </div>
             <div
-              onClick={() => fns?.handleEdit({ row: row.original })}
+              onClick={() => fns?.handleEdit(row?.original)}
               className="bg-[#F7F7F7] rounded-[8px] p-3 shrink-0 cursor-pointer"
               type="button"
             >

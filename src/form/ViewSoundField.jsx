@@ -29,19 +29,19 @@ const ViewSoundField = ({ className, value }) => {
     <div className={className}>
       <div className="flex items-center justify-between bg-ternary h-[52px] sm:h-[58px] px-4.5 rounded-[8px]">
         <div className="flex items-center gap-2">
-          <span className="inline-block rounded-full flex items-center justify-center">
+          <span className=" rounded-full flex shrink-0 items-center justify-center">
             <img src={SOUND_ICON} alt="SOUND_ICON" />
           </span>
-          <span className="text-primary font-normal text-base">
+          <span className="text-primary font-normal text-base line-clamp-1">
             {value ? value.split("/").pop() : "No Audio"}
           </span>
         </div>
         <div className="flex items-center">
           <div onClick={handlePlay} className="cursor-pointer mr-3">
             {isPlaying ? (
-              <img src={PAUSE_ICON} alt="PAUSE_ICON" className="size-7" />
+              <img src={PAUSE_ICON} alt="PAUSE_ICON" className="size-7 shrink-0" />
             ) : (
-              <img src={PLAY_ICON} alt="PLAY_ICON" className="size-7" />
+              <img src={PLAY_ICON} alt="PLAY_ICON" className="size-7 shrink-0" />
             )}
           </div>
           {value && (

@@ -4,11 +4,13 @@ import Button from "@/components/custom/Button";
 import useColumnDef from "@/hooks/useColumnDef";
 import usePagination from "@/hooks/usePagination";
 import DeleteWordPronounceModal from "@/modal/DeleteWordPronounceModal";
-import WordPronouncesModal from "@/modal/WordPronouncesModal";
+import AddRhymingWordModal from "@/modal/AddRhymingWordModal";
 import ViewWordPronouncesModal from "@/modal/ViewWordPronouncesModal";
 import { PAGINATION_DISPATCH_TYPES } from "@/utils/constants";
 import { faker } from "@faker-js/faker";
 import React, { useEffect, useState } from "react";
+import RhymingWordDetail from "@/modal/RhymingWordDetail";
+import DeleteModal from "@/modal/DeleteModal";
 
 const RhymingWords = () => {
     const [open, setOpen] = useState({ open: false, data: null });
@@ -24,10 +26,20 @@ const RhymingWords = () => {
     // Dummy data for Rhyming Words
     const dummyData = Array.from({ length: 10 }, (_, i) => ({
         _id: faker.database.mongodbObjectId(),
-        profile:faker.image.urlPicsumPhotos(),
+        profile: faker.image.urlPicsumPhotos(),
         name: i % 2 === 0 ? "Three - Tree" : "Cat - Bat - Mat",
         level: `Level 0${(i % 6) + 1}`,
         planStatus: i % 2 === 0 ? "Active" : "Inactive",
+        words: i % 2 === 0
+            ? [
+                { name: "Three", image: faker.image.urlPicsumPhotos(), sound: "https://file-examples.com/storage/feba78aab06819c7996c057/2017/11/file_example_MP3_700KB.mp3" },
+                { name: "Tree", image: faker.image.urlPicsumPhotos(), sound: "https://file-examples.com/storage/feba78aab06819c7996c057/2017/11/file_example_MP3_700KB.mp3" }
+            ]
+            : [
+                { name: "Cat", image: faker.image.urlPicsumPhotos(), sound: "https://file-examples.com/storage/feba78aab06819c7996c057/2017/11/file_example_MP3_700KB.mp3" },
+                { name: "Bat", image: faker.image.urlPicsumPhotos(), sound: "https://file-examples.com/storage/feba78aab06819c7996c057/2017/11/file_example_MP3_700KB.mp3" },
+                { name: "Mat", image: faker.image.urlPicsumPhotos(), sound: "https://file-examples.com/storage/feba78aab06819c7996c057/2017/11/file_example_MP3_700KB.mp3" }
+            ]
     }));
 
     useEffect(() => {
@@ -43,8 +55,16 @@ const RhymingWords = () => {
     }, [total]);
 
     const handleView = (row) => setOpenView({ open: true, data: row });
-    const handleEdit = (row) => setOpen({ open: true, data: row });
-    const handleDelete = (row) => setOpenDelete({ open: true, data: row });
+    const handleEdit = (row) => {
+        setOpen({
+            open: true,
+            data: {
+                level: row.level,
+                words: row.words
+            }
+        });
+    };
+    const handleDelete = (row) => { console.log("handleDelete", row); setOpenDelete({ open: true, data: row?.name }) };
 
     const { rhymingWordsColumns } = useColumnDef({
         handleView,
@@ -74,9 +94,10 @@ const RhymingWords = () => {
                     title="Rhyming Words"
                 />
             </div>
-            <WordPronouncesModal open={open} setOpen={setOpen} />
-            <ViewWordPronouncesModal open={openView} setOpen={setOpenView} />
-            <DeleteWordPronounceModal open={openDelete} setOpen={setOpenDelete} />
+            <AddRhymingWordModal open={open} setOpen={setOpen} />
+            <RhymingWordDetail open={openView} setOpen={setOpenView} />
+            {/* <ViewWordPronouncesModal open={openView} setOpen={setOpenView} /> */}
+            <DeleteModal open={openDelete} setOpen={setOpenDelete} title={openDelete?.data} />
         </>
     );
 };

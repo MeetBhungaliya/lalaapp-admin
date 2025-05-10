@@ -9,6 +9,9 @@ const Header = ({ setIsSidebar }) => {
     { path: "/users", heading: "Users" },
     { path: "/words/letter-sounds", heading: "Letter Sounds" },
     { path: "/words/word-pronounces", heading: "Words Pronunciation" },
+    { path: "/words/phoneme_isolation", heading: "Phoneme Isolation" },
+    { path: "/words/rhyming", heading: "Rhyming Words" },
+    { path: "/words/blending_letter_sounds", heading: "Blending Letter Sounds" },
   ];
   return (
     <header className="flex px-3 lg:px-7 bg-white">
