@@ -17,76 +17,68 @@ import SoundField from "@/form/SoundField";
 import { UploadImage } from "@/form/UploadImage";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { RiRadioButtonFill } from "react-icons/ri";
 import { FaCircleCheck } from "react-icons/fa6";
-
-
-const blendTypes = ["Initial Blend", "Final Blend"];
 
 const Step1Schema = yup.object().shape({
     name: yup.string().required("Please enter word name"),
     level: yup.string().required("Please enter level"),
-    blendType: yup.string().required("Please select blend type"),
     sound: yup
         .mixed()
         .required("Please select sound")
         .test("fileExists", "Please select sound", (value) => !!value),
+    image: yup
+        .mixed()
+        .required("Please select image")
+        .test("fileExists", "Please select image", (value) => !!value),
 });
 
 const Step2Schema = yup.object().shape({
-    blends: yup.array().of(
+    letters: yup.array().of(
         yup.object().shape({
-            name: yup.string().required("Please enter blend name"),
+            name: yup.string().required("Please enter letter name"),
             sound: yup
                 .mixed()
                 .required("Please select sound")
                 .test("fileExists", "Please select sound", (value) => !!value),
         })
-    ).min(1, "At least one blend required"),
+    ).min(1, "At least one letter required"),
 });
 
 const defaultValues = {
-    level: "",
     name: "",
-    blendType: blendTypes[0],
+    level: "",
     sound: null,
-    blends: [
-        { name: "", image: null, sound: null },
-        { name: "", image: null, sound: null },
+    image: null,
+    letters: [
+        { name: "", sound: null },
+        { name: "", sound: null },
     ],
 };
 
-const AddBlendingLetter = ({ open, setOpen }) => {
+const AddSegmentingWords = ({ open, setOpen }) => {
     const [step, setStep] = useState(1);
-    const [selectedBlendType, setSelectedBlendType] = useState(blendTypes[0]);
     const methods = useForm({
         defaultValues,
         resolver: yupResolver(step === 1 ? Step1Schema : Step2Schema),
         mode: "onTouched",
     });
-    const { handleSubmit, reset, control, setValue, trigger, formState: { errors } } = methods;
+    const { handleSubmit, reset, control, trigger, setValue, formState: { errors } } = methods;
     const { fields, append, remove } = useFieldArray({
         control,
-        name: "blends",
+        name: "letters",
     });
-
-    console.log("errors1234", errors);
 
     useEffect(() => {
         if (open?.data) {
             reset({
-                level: open.data.level || "",
                 name: open.data.name || "",
+                level: open.data.level || "",
                 sound: open.data.sound || null,
-                blendType: open.data.blendType || blendTypes[0],
-                blends: open.data.blends || defaultValues.blends,
+                image: open.data.image || null,
+                letters: open.data.letters || defaultValues.letters,
             });
-            setSelectedBlendType(open.data.blendType || blendTypes[0]);
-            // setStep(2);
         } else {
             reset(defaultValues);
-            setSelectedBlendType(blendTypes[0]);
-            // setStep(1);
         }
     }, [open, reset]);
 
@@ -95,18 +87,12 @@ const AddBlendingLetter = ({ open, setOpen }) => {
         setStep(1);
     };
 
-    const handleBlendTypeChange = (type) => {
-        setSelectedBlendType(type);
-        setValue("blendType", type, { shouldDirty: true, shouldValidate: true });
-    };
-
     const handleNext = async () => {
-        const valid = await trigger(["name", "level", "blendType", "sound"]);
+        const valid = await trigger(["name", "level", "sound", "image"]);
         if (valid) setStep(2);
     };
 
     const onSubmit = (values) => {
-        console.log(values);
         setOpen({ open: false, data: values });
         setStep(1);
     };
@@ -118,10 +104,10 @@ const AddBlendingLetter = ({ open, setOpen }) => {
 
     return (
         <Dialog open={open?.open} onOpenChange={handleClose}>
-            <DialogContent className="sm:max-w-[700px] max-w-[90%]  max-h-[90vh] px-0 py-6 rounded-[24px]">
-                <DialogHeader className="flex flex-row justify-between pb-4  px-6 border-b border-[#EDEDED]px-8">
+            <DialogContent className="sm:max-w-[600px] max-w-[90%] max-h-[90vh] px-0 py-6 rounded-[24px]">
+                <DialogHeader className="flex flex-row justify-between pb-4 px-6 border-b border-[#EDEDED]">
                     <DialogTitle className="text-2xl font-bold text-primary">
-                        {open?.data ? "Edit Word" : step === 1 ? "Add Words" : "Add Word"}
+                        {open?.data ? "Edit Word" : step === 1 ? "Add Word" : "Add Word"}
                     </DialogTitle>
                     <div onClick={handleClose} className="cursor-pointer">
                         <img src={CLOSE_ICON} alt="CLOSE_ICON" />
@@ -172,9 +158,9 @@ const AddBlendingLetter = ({ open, setOpen }) => {
                         </div>
 
                         {step === 1 ? (
-                            <div className="flex flex-col">
-                                <div className="flex flex-col gap-3 space-y-3">
-                                    <div className="flex items-start gap-6">
+                            <div className="flex flex-col gap-3">
+                                <div className="flex flex-col gap-3">
+                                    <div className="grid grid-cols-2 gap-4">
                                         <TextField
                                             name="name"
                                             prefix={<img src={WORD_ICON} alt="WORD_ICON" />}
@@ -187,14 +173,26 @@ const AddBlendingLetter = ({ open, setOpen }) => {
                                             placeholder="Level"
                                             className="rounded-[8px] flex-1"
                                         />
+
+                                        <SoundField
+                                            name="sound"
+                                            className="rounded-[8px] flex-1"
+                                        />
+                                        <UploadImage
+                                            name="image"
+                                            className="rounded-[8px] flex-1"
+                                            onDrop={(acceptedFiles) => {
+                                                setValue(
+                                                    "image",
+                                                    Object.assign(acceptedFiles[0], {
+                                                        preview: URL.createObjectURL(acceptedFiles[0]),
+                                                    }),
+                                                    { shouldDirty: true, shouldValidate: true }
+                                                );
+                                            }}
+                                        />
                                     </div>
-                                    <SoundField
-                                        name="sound"
-                                        className="rounded-[8px] flex-1"
-                                    />
                                 </div>
-
-
                                 <DialogFooter className="flex sm:justify-center justify-center mt-8">
                                     <Button
                                         className="text-base max-sm:py-[13.5px] font-semibold sm:text-lg w-fit px-20"
@@ -207,28 +205,19 @@ const AddBlendingLetter = ({ open, setOpen }) => {
                             </div>
                         ) : (
                             <div className="flex flex-col gap-6">
-
-                                {/* Dynamic Blend List */}
+                                {/* Dynamic Letter List */}
                                 <div className="flex flex-col gap-6">
                                     {fields.map((field, idx) => (
                                         <div key={field.id} className={cn("rounded-[8px] flex flex-col gap-3 relative border-2 border-dashed border-[#7E808C33] px-3 pt-8 pb-4")}>
-                                            {open?.data && (
-                                                <div className="absolute top-2 right-2 flex items-center gap-1">
-                                                    <span className="text-base text-[#04163C] underline font-normal flex items-center gap-1">
-                                                        Edit
-                                                    </span>
-                                                </div>
-                                            )}
                                             <div className="space-y-3 pt-1.5">
                                                 <TextField
-                                                    name={`blends.${idx}.name`}
+                                                    name={`letters.${idx}.name`}
                                                     prefix={<img src={WORD_ICON} alt="WORD_ICON" />}
-                                                    placeholder="Blend name"
+                                                    placeholder="Letter"
                                                     className="rounded-[8px] flex-1"
                                                 />
-
                                                 <SoundField
-                                                    name={`blends.${idx}.sound`}
+                                                    name={`letters.${idx}.sound`}
                                                     className="rounded-[8px] flex-1"
                                                 />
                                                 {fields.length > 1 && (
@@ -249,8 +238,7 @@ const AddBlendingLetter = ({ open, setOpen }) => {
                                     ))}
                                 </div>
                                 <div className="flex justify-center mt-2">
-
-                                    <p className="sm:text-lg text-base font-semibold text-[#04163C]" onClick={() => append({ name: "", image: null, sound: null })}> + Add Letter</p>
+                                    <p className="sm:text-lg text-base font-semibold text-[#04163C] cursor-pointer" onClick={() => append({ name: "", sound: null })}> + Add Letter</p>
                                 </div>
                                 <DialogFooter className="flex sm:justify-center justify-center ">
                                     <Button
@@ -269,4 +257,4 @@ const AddBlendingLetter = ({ open, setOpen }) => {
     );
 };
 
-export default AddBlendingLetter;
+export default AddSegmentingWords;

@@ -93,7 +93,7 @@ const SoundField = ({ label, className, name }) => {
                     <img src={SOUND_ICON} alt="SOUND_ICON" />
                   </span>
                 </div>
-                <div className="text-secondary text-base sm:text-lg font-normal">
+                <div className="text-secondary text-lg sm:text-base font-normal">
                   Add Sounds
                 </div>
                 <input

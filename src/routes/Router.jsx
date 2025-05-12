@@ -11,6 +11,7 @@ import VerifyOTP from "@/pages/auth/VerifyOTP";
 import LetterSounds from "@/pages/dashboard/LetterSounds";
 import PhonemeIsolation from "@/pages/dashboard/PhonemeIsolation/PhonemeIsolation";
 import RhymingWords from "@/pages/dashboard/RhymingWords/RhymingWords";
+import SegmentingWords from "@/pages/dashboard/SegmentingWords/SegmentingWords";
 import Statistics from "@/pages/dashboard/Statistics/Statistics";
 import Subscriptions from "@/pages/dashboard/Subscriptions/Subscriptions";
 import Users from "@/pages/dashboard/Users/Users";
@@ -66,6 +67,10 @@ const router = createBrowserRouter(
                     {
                       path: "blending_letter_sounds",
                       element: <BlendingLetterSounds />,
+                    },
+                    {
+                      path: "segmenting_words",
+                      element: <SegmentingWords />,
                     }
                   ],
                 },

@@ -10,11 +10,12 @@ const Header = ({ setIsSidebar }) => {
     { path: "/words/letter-sounds", heading: "Letter Sounds" },
     { path: "/words/word-pronounces", heading: "Words Pronunciation" },
     { path: "/words/phoneme_isolation", heading: "Phoneme Isolation" },
+    { path: "/words/segmenting_words", heading: "Segmenting Words" },
     { path: "/words/rhyming", heading: "Rhyming Words" },
     { path: "/words/blending_letter_sounds", heading: "Blending Letter Sounds" },
   ];
   return (
-    <header className="flex px-3 lg:px-7 bg-white">
+    <header className="flex px-3 lg:px-7 py-4 bg-white">
       <div className="flex justify-between items-center w-full  py-[13.5px]">
         <div className="flex items-center gap-x-3">
           <div className="lg:hidden">
@@ -23,7 +24,7 @@ const Header = ({ setIsSidebar }) => {
               className="text-main text-2xl"
             />
           </div>
-          <h3 className="text-primary font-semibold sm:text-[30px] capitalize">
+          <h3 className="text-primary font-semibold sm:text-[30px] text-2xl capitalize">
             {headings.find(
               (route) =>
                 pathname.includes(route.path) || pathname.startsWith(route.path)

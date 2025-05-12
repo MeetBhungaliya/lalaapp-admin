@@ -1,49 +1,49 @@
-import React, { useState } from 'react'
-import SearchBox from '@/components/common/SearchBox'
-import Button from '@/components/custom/Button'
-import Datatable from '@/components/common/Datatable'
+import React, { useState } from 'react';
+import SearchBox from '@/components/common/SearchBox';
+import Button from '@/components/custom/Button';
+import Datatable from '@/components/common/Datatable';
 import { faker } from '@faker-js/faker';
 import useColumnDef from '@/hooks/useColumnDef';
 import AddBlendingLetter from '@/modal/AddBlendingLetter';
 import BlendingLetterSoundDetail from '@/modal/BlendingLetterSoundDetail';
 import DeleteModal from '@/modal/DeleteModal';
+import AddSegmentingWords from '@/modal/AddSegmentingWords';
+import SegmentingWordDetail from '@/modal/SegmentingWordDetail';
 
-const generateFakeWords = (count = 10) => {
+const generateFakeSegmentingWords = (count = 10) => {
     return Array.from({ length: count }, (_, i) => ({
         id: i + 1,
-        name: faker.person.firstName(), // or .word.noun()
-        level: `Level ${String(i + 1).padStart(2, "0")}`,
-        // image: faker.image.urlPicsumPhotos(64, 64, true), // or use a static placeholder
-        sound: "https://file-examples.com/storage/feba78aab06819c7996c057/2017/11/file_example_MP3_700KB.mp3",
-        question: faker.lorem.sentence(),
+        name: 'Cat',
+        level: `Level 0${i + 1}`,
+        profile: faker.image.urlPicsumPhotos(),
+        sound: 'https://file-examples.com/storage/feba78aab06819c7996c057/2017/11/file_example_MP3_700KB.mp3',
     }));
 };
 
-
-const BlendingLetterSounds = () => {
+const SegmentingWords = () => {
     const [open, setOpen] = useState({ open: false, data: null });
     const [openDetail, setOpenDetail] = useState({ open: false, data: null });
     const [openDelete, setOpenDelete] = useState({ open: false, data: null });
-    const dummyData = generateFakeWords();
+    const dummyData = generateFakeSegmentingWords();
 
     const handleEdit = (data) => {
         setOpen({ open: true, data: data });
-    }
+    };
 
     const handleView = (data) => {
         setOpenDetail({ open: true, data: data });
-    }
+    };
 
     const handleDelete = (data) => {
         setOpenDelete({ open: true, data: data });
-    }
-
+    };
 
     const { rhymingWordsColumns } = useColumnDef({
         handleView,
         handleEdit,
         handleDelete,
     });
+
     return (
         <div className="flex-1 flex flex-col overflow-auto gap-6 p-6">
             <div className="flex items-center justify-between">
@@ -61,19 +61,13 @@ const BlendingLetterSounds = () => {
             <Datatable
                 data={dummyData}
                 columns={rhymingWordsColumns}
-                title="Rhyming Words"
+                title="Segmenting Words"
             />
-            {
-                open.open && <AddBlendingLetter open={open} setOpen={setOpen} />
-            }
-            {
-                openDetail.open && <BlendingLetterSoundDetail open={openDetail} setOpen={setOpenDetail} />
-            }
-            {
-                openDelete.open && <DeleteModal open={openDelete} setOpen={setOpenDelete} title={openDelete?.data?.name} />
-            }
+            {open.open && <AddSegmentingWords open={open} setOpen={setOpen} />}
+            {openDetail.open && <SegmentingWordDetail open={openDetail} setOpen={setOpenDetail} />}
+            {openDelete.open && <DeleteModal open={openDelete} setOpen={setOpenDelete} title={openDelete?.data?.name} />}
         </div>
-    )
-}
+    );
+};
 
-export default BlendingLetterSounds;
+export default SegmentingWords;

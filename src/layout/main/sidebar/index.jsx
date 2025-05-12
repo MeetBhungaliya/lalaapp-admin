@@ -50,7 +50,7 @@ const Sidebar = ({ isSidebar, setIsSidebar }) => {
           { name: "Rhyming Words", to: "/words/rhyming" },
           { name: "Phoneme Isolation", to: "/words/phoneme_isolation" },
           { name: "Blending Letter Sounds", to: "/words/blending_letter_sounds" },
-          { name: "Segmenting Words", to: "/words/segmenting" },
+          { name: "Segmenting Words", to: "/words/segmenting_words" },
         ],
       },
       {
@@ -89,8 +89,10 @@ const Sidebar = ({ isSidebar, setIsSidebar }) => {
                       "flex items-center w-full px-4 py-3 font-medium text-[16px] group"
                     )}
                   >
-                    <div>{item.icon}</div>
-                    <span className="ml-2 text-[#282C3F]">{item.name}</span>
+                    {
+                      item?.children?.length > 1 && openSubMenu ? <img src={WORD_ACTIVE_ICON}  /> : <div>{item.icon}</div>
+                    }
+                    <span className={cn("ml-2 text-base font-medium",openSubMenu ? "text-[#04163C]" :"text-[#282C3F]")}>{item.name}</span>
                     <img
                       src={ARROW_DOWN_ICON}
                       alt="ARROW_DOWN_ICON"

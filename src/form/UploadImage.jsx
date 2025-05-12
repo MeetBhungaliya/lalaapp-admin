@@ -48,7 +48,7 @@ export const UploadImage = ({ name, label, className, ...other }) => {
                     <img src={GALLERY_ICON} alt="GALLERY_ICON" />
                   </span>
                 </div>
-                <div className="text-secondary text-base sm:text-lg font-normal">
+                <div className="text-secondary text-sm sm:text-base font-normal">
                   Add Image
                 </div>
                 <input
