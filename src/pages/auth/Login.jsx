@@ -48,7 +48,7 @@ const Login = () => {
             <img src={LALA_LOGO} alt="LALA_LOGO" />
           </div>
           <div className="sm:space-y-1.5">
-            <h2 className="text-primary font-bold text-[24px] sm:text-[26px] md:text-[30px]">
+            <h2 className="text-primary font-bold text-[26px] sm:text-[30px] md:text-[34px]">
               Welcome Back!
             </h2>
             <p className="text-[20px] font-normal text-[#7E808C]">
@@ -61,7 +61,7 @@ const Login = () => {
                 <div className="space-y-5">
                   <div>
                     <TextField
-                      placeholder="Enter Email"
+                      placeholder="Enter email"
                       prefix={<img src={SMS_ICON} />}
                       name="email"
                     />
@@ -69,7 +69,7 @@ const Login = () => {
                   <div className="space-y-2">
                     <PasswordField
                       prefix={<img src={LOCK_ICON} />}
-                      placeholder="Enter Password"
+                      placeholder="Enter password"
                       name="password"
                     />
                     <div className="flex justify-end">
@@ -85,7 +85,7 @@ const Login = () => {
                 <div className="max-sm:pt-1">
                   <Button
                     disabled={loading}
-                    className="text-base max-sm:py-[13.5px] font-semibold sm:text-lg"
+                    className="text-base max-sm:py-[12.5px] font-semibold sm:text-lg shadow-[0px_4px_6px_0px_#8FD5FF]"
                     type="submit"
                     loader={loading}
                   >

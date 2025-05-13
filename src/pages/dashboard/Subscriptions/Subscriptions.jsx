@@ -6,6 +6,7 @@ import usePagination from "@/hooks/usePagination";
 import { faker } from "@faker-js/faker";
 import UserDetail from "@/modal/UserDetail";
 import DeleteUserModal from "@/modal/DeleteUserModal";
+import DeleteModal from "@/modal/DeleteModal";
 
 const Subscriptions = () => {
     const [openView, setOpenView] = useState({ open: false, data: null });
@@ -75,7 +76,7 @@ const Subscriptions = () => {
     }, [total]);
 
     const handleView = (row) => {
-        setOpenView({ open: true, data: row?.row });
+        setOpenView({ open: true, data: row });
     };
 
     const handleDelete = (row) => {
@@ -100,7 +101,7 @@ const Subscriptions = () => {
             </div>
             {/* Placeholder modals for view and delete */}
             <UserDetail open={openView} setOpen={setOpenView} />
-            <DeleteUserModal open={openDelete} setOpen={setOpenDelete} />
+            <DeleteModal open={openDelete} setOpen={setOpenDelete} name={"User"} title={openDelete?.data} />
         </>
     );
 };

@@ -48,7 +48,7 @@ export const UploadImage = ({ name, label, className, ...other }) => {
                     <img src={GALLERY_ICON} alt="GALLERY_ICON" />
                   </span>
                 </div>
-                <div className="text-secondary text-sm sm:text-base font-normal">
+                <div className="text-secondary text-sm mt-1 sm:text-base font-normal">
                   Add Image
                 </div>
                 <input
@@ -92,7 +92,7 @@ export const UploadImage = ({ name, label, className, ...other }) => {
               </div>
             )}
             {fieldError?.message && (
-              <div className="pt-1 pl-3 text-xs sm:text-sm font-normal text-red-500">
+              <div className=" pl-3 text-xs sm:text-sm font-normal text-red-500">
                 {fieldError.message}
               </div>
             )}

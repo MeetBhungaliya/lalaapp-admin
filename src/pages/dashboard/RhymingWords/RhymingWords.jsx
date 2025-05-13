@@ -80,7 +80,7 @@ const RhymingWords = () => {
                         <SearchBox />
                     </div>
                     <Button
-                        className="text-base max-sm:py-[13.5px] font-semibold sm:text-lg w-fit px-8"
+                        className="text-base shadow-[0px_4px_6px_0px_#8FD5FF] py-[12.5px] font-semibold sm:text-lg w-fit px-8"
                         type="button"
                         onClick={() => setOpen({ open: true, data: null })}
                     >
@@ -97,7 +97,7 @@ const RhymingWords = () => {
             <AddRhymingWordModal open={open} setOpen={setOpen} />
             <RhymingWordDetail open={openView} setOpen={setOpenView} />
             {/* <ViewWordPronouncesModal open={openView} setOpen={setOpenView} /> */}
-            <DeleteModal open={openDelete} setOpen={setOpenDelete} title={openDelete?.data} />
+            <DeleteModal open={openDelete} setOpen={setOpenDelete} title={openDelete?.data} name="Level" />
         </>
     );
 };

@@ -21,7 +21,7 @@ const PasswordField = ({ name, placeholder = '', label, className, prefix = null
                         {label && <label className="text-primary font-semibold text-sm sm:text-base md:text-lg">
                             {label}
                         </label>}
-                        <div className='space-y-1'>
+                        <div className='space-y-0.5'>
                             <FormItem className="relative">
                                 <FormControl>
                                     <Input
@@ -31,7 +31,7 @@ const PasswordField = ({ name, placeholder = '', label, className, prefix = null
                                         id={name}
                                         required
                                         placeholder={placeholder}
-                                        className={cn('placeholder:text-secondary bg-ternary placeholder:font-normal focus-visible:ring-offset-0 focus-visible:ring-1 border-none text-primary text-base md:text-lg placeholder:text-base sm:placeholder:text-lg  h-[52px] sm:h-[58px]   px-6 rounded-[16px] font-normal',
+                                        className={cn('placeholder:text-secondary bg-ternary placeholder:font-normal focus-visible:ring-offset-0 focus-visible:ring-1 border-none text-primary text-sm md:text-base placeholder:text-sm sm:placeholder:text-base  h-[52px] sm:h-[58px]   px-6 rounded-[16px] font-normal',
                                             fieldError?.message ? "text-red-500 focus-visible:ring-red-500 " : "text-primary disabled:text-[#969696f2] focus-visible:ring-main"
                                             , prefix ? "pl-[50px] sm:pl-[55px]" : "", "pr-[50px] sm:pr-[55px]", className)}
                                         {...other}
@@ -49,7 +49,7 @@ const PasswordField = ({ name, placeholder = '', label, className, prefix = null
                                 }
 
                             </FormItem>
-                            {fieldError?.message && <div className='pt-1 pl-3 text-xs sm:text-sm font-normal text-red-500'>{fieldError?.message}</div>}
+                            {fieldError?.message && <div className=' pl-3 text-xs sm:text-sm font-normal text-red-500'>{fieldError?.message}</div>}
                         </div>
 
                     </div>

@@ -18,7 +18,7 @@ import Users from "@/pages/dashboard/Users/Users";
 import WordPronounces from "@/pages/dashboard/WordPronounces";
 import BlendingLetterSounds from "@/pages/dashboard/⁠BlendingLetterSounds/⁠BlendingLetterSounds";
 import ErrorPage from "@/pages/error/ErrorPage";
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Navigate } from "react-router";
 
 const router = createBrowserRouter(
   [
@@ -33,10 +33,10 @@ const router = createBrowserRouter(
               path: "",
               element: <Layout />,
               children: [
-                // {
-                //     index: true,
-                //     element: <Navigate to="/login" />
-                // },
+                {
+                    index: true,
+                    element: <Navigate to="/login" />
+                },
                 {
                   path: "statistics",
                   element: <Statistics />,

@@ -6,7 +6,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import FormProvider from "@/form/FormProvider";
-import { CLOSE_ICON, LEVEL_ICON, QUESTION_ICON, WORD_ICON } from "@/lib/images";
+import { CLOSE_ICON, CLOSE_SECONDARY_ICON, LEVEL_ICON, QUESTION_ICON, WORD_ICON } from "@/lib/images";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -69,19 +69,19 @@ const AddPhonemeIsolation = ({ open, setOpen }) => {
 
     return (
         <Dialog open={open?.open} onOpenChange={handleClose}>
-            <DialogContent className={cn(" px-8 max-h-[90vh] py-6 rounded-[24px]", open?.data ? "sm:max-w-[600px] max-w-[70%]" : "sm:max-w-[700px] max-w-[90%]")}>
-                <DialogHeader className="flex flex-row justify-between pb-4 -mx-6 px-6 border-b border-[#EDEDED]">
+            <DialogContent className={cn(" max-h-[90vh] py-6 px-0 rounded-[24px]", open?.data ? "sm:max-w-[600px] max-w-[70%]" : "sm:max-w-[700px] max-w-[90%]")}>
+                <DialogHeader className="flex flex-row justify-between  px-8 pb-4   border-b border-[#EDEDED]">
                     <DialogTitle className="text-2xl font-bold text-primary">
-                        {open?.data ? "Edit Word" : "Add Word"}
+                        {open?.data ? "Edit Word" : "Add Words"}
                     </DialogTitle>
                     <div onClick={handleClose} className="cursor-pointer">
-                        <img src={CLOSE_ICON} alt="CLOSE_ICON" />
+                        <img src={CLOSE_SECONDARY_ICON} alt="CLOSE_SECONDARY_ICON" />
                     </div>
                 </DialogHeader>
-                <ScrollArea className="flex-1 flex flex-col">
-                    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} className="max-h-[60vh]">
-                        <div className={cn("flex flex-col gap-6  rounded-[8px] pt-2.5 ", open?.data ? "sm:px-20 px-5" : "px-5")}>
-                            <div className={cn(!open?.data ? "flex items-start gap-6" : "flex flex-col gap-3.5")}>
+                <ScrollArea className="flex-1 flex flex-col  px-8">
+                    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} className="max-h-[65vh]">
+                        <div className={cn("flex flex-col gap-6  rounded-[8px] pt-2.5 ", open?.data ? "sm:px-14 px-5" : "px-0.5")}>
+                            <div className={cn(!open?.data ? "grid grid-cols-2 gap-6" : "flex flex-col gap-3.5")}>
 
                                 {
                                     !open?.data && <TextField
@@ -120,6 +120,10 @@ const AddPhonemeIsolation = ({ open, setOpen }) => {
                                 }
 
                                 <div className={cn(open?.data ? "flex flex-col gap-3.5" : "flex gap-6")}>
+                                <SoundField
+                                        name="sound"
+                                        className="rounded-[8px] flex-1"
+                                    />
                                     <UploadImage
                                         name="image"
                                         className="rounded-[8px] flex-1"
@@ -133,16 +137,13 @@ const AddPhonemeIsolation = ({ open, setOpen }) => {
                                             );
                                         }}
                                     />
-                                    <SoundField
-                                        name="sound"
-                                        className="rounded-[8px] flex-1"
-                                    />
+                                 
                                 </div>
                             </div>
                         </div>
-                        <DialogFooter className="flex sm:justify-center justify-center mt-8">
+                        <DialogFooter className="flex sm:justify-center justify-center mt-8 mb-2">
                             <Button
-                                className="text-base max-sm:py-[13.5px] mx-auto font-semibold sm:text-lg w-fit px-20"
+                                className="text-base shadow-[0px_4px_6px_0px_#8FD5FF] py-[12.5px] mx-auto font-semibold sm:text-lg w-fit px-20"
                                 type="submit"
                             >
                                 {open?.data ? "Save" : "Add"}

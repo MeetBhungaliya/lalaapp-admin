@@ -32,6 +32,7 @@ export const PROFILE_ICON = BASE_PATH + ICONS + "profile_icon.svg"
 export const PROFILE_ACTIVE_ICON = BASE_PATH + ICONS + "profile_active_icon.svg"
 export const ARROW_DOWN_ICON = BASE_PATH + ICONS + "arrow_down_icon.svg"
 export const LOGOUT_ICON = BASE_PATH + ICONS + "logout_icon.svg"
+export const LOGOUT_WHITE_ICON = BASE_PATH + ICONS + "logout_white.svg"
 export const EDIT_ICON = BASE_PATH + ICONS + "edit_icon.svg"
 export const VIEW_ICON = BASE_PATH + ICONS + "view_icon.svg"
 export const DELETE_ICON = BASE_PATH + ICONS + "delete_icon.svg"
@@ -46,6 +47,7 @@ export const GALLERY_ICON = BASE_PATH + ICONS + "gallery_icon.svg"
 export const DOWNLOAD_ICON = BASE_PATH + ICONS + "download_icon.svg"
 export const SUBSCRIPTION_ACTIVE_ICON = BASE_PATH + ICONS + "crown_white.svg"
 export const QUESTION_ICON = BASE_PATH + ICONS + "message-question.svg"
+export const CLOSE_SECONDARY_ICON = BASE_PATH + ICONS + "close_secondary_icon.svg"
 
 export const LOGIN_IMAGE = BASE_PATH + IMAGES + 'login.png';
 export const FORGOT_PASSWORD_IMAGE = BASE_PATH + IMAGES + 'forgot_password.png';

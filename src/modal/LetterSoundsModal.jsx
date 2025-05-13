@@ -6,7 +6,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import FormProvider from "@/form/FormProvider";
-import { CLOSE_ICON, LEVEL_ICON } from "@/lib/images";
+import { CLOSE_ICON, CLOSE_SECONDARY_ICON, LEVEL_ICON } from "@/lib/images";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LetterSoundsSchema } from "@/lib/schema";
@@ -50,10 +50,12 @@ const LetterSoundsModal = ({ open, setOpen }) => {
 
   const onSubmit = (values) => {
     console.log(values);
+
     setOpen({
       open: false,
-      data: values,
+      data: null,
     });
+
   };
 
   const handleClose = () => {
@@ -61,6 +63,7 @@ const LetterSoundsModal = ({ open, setOpen }) => {
       open: false,
       data: null,
     });
+    reset(defaultValues)
   };
 
   const onDrop = (acceptedFiles) => {
@@ -84,19 +87,19 @@ const LetterSoundsModal = ({ open, setOpen }) => {
       >
         <DialogHeader className="flex flex-row justify-between pb-4 -mx-6 px-6 border-b border-[#EDEDED]">
           <DialogTitle className="text-2xl font-bold text-primary">
-            {open?.data ? "Edit" : "Add"} Letter
+            {open?.data ? "Edit" : "Add"} Word
           </DialogTitle>
           <div onClick={handleClose} className="cursor-pointer">
-            <img src={CLOSE_ICON} alt="CLOSE_ICON" />
+            <img src={CLOSE_SECONDARY_ICON} alt="CLOSE_ICON" />
           </div>
         </DialogHeader>
 
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-          <div className={`flex flex-col gap-6 ${open?.data ? "px-12" : ""}`}>
+          <div className={`flex flex-col gap-6 pt-5 ${open?.data ? "px-12" : ""}`}>
             <TextField
               name="level"
               prefix={<img src={LEVEL_ICON} alt="LEVEL_ICON" />}
-              placeholder="level"
+              placeholder="Level"
               className="rounded-[8px]"
             />
             {open?.data ? (
@@ -132,7 +135,7 @@ const LetterSoundsModal = ({ open, setOpen }) => {
           </div>
           <DialogFooter className="flex sm:justify-center justify-center mt-8">
             <Button
-              className="text-base max-sm:py-[13.5px] font-semibold sm:text-lg w-fit px-20"
+              className="text-base shadow-[0px_4px_6px_0px_#8FD5FF] py-[12.5px] font-semibold sm:text-lg w-fit px-20"
               type="submit"
             >
               {open?.data ? "Save" : "Add"}

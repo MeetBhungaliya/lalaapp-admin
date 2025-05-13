@@ -10,16 +10,16 @@ const PhonemeIsolationDetail = ({ open, setOpen }) => {
     }
     return (
         <Dialog open={open?.open} onOpenChange={handleClose}>
-            <DialogContent className="sm:max-w-[560px] px-8 py-6 rounded-[30px]">
-                <DialogHeader className="flex flex-row justify-between pb-4 border-b border-[#EDEDED]">
-                    <DialogTitle className="text-xl font-semibold text-primary text-center w-full">
+            <DialogContent className="sm:max-w-[560px] px-0 py-6 rounded-[30px]">
+                <DialogHeader className="flex flex-row justify-between pb-4 mx-8 border-b border-[#EDEDED]">
+                    <DialogTitle className="text-xl font-semibold  text-primary  w-full">
                         Detail
                     </DialogTitle>
                     <div onClick={handleClose} className="cursor-pointer">
                         <img src={CLOSE_ICON} alt="CLOSE_ICON" />
                     </div>
                 </DialogHeader>
-                <div className="flex flex-col  gap-5 pt-3">
+                <div className="flex flex-col  gap-5 pt-3 px-8">
                     <div className="flex justify-center items-center gap-4">
                         <Image
                             src={open?.data?.image || ''}

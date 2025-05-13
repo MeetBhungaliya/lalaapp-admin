@@ -50,21 +50,21 @@ const ForgotPassword = () => {
           <div className="size-[80px] bg-light rounded-full flex justify-center items-center">
             <img src={EMAIL_ICON} alt="EMAIL_ICON" />
           </div>
-          <div className="sm:space-y-1.5">
-            <h2 className="text-primary font-bold text-[24px] sm:text-[26px] md:text-[30px]">
+          <div className="sm:space-y-1.5 pt-6">
+            <h2 className="text-primary font-bold text-[26px] sm:text-[30px] md:text-[34px]">
               Forgot Password?
             </h2>
             <p className="text-[20px] font-normal text-[#7E808C]">
               No worries, we will help you to reset your password.
             </p>
           </div>
-          <div className="pt-4">
+          <div className="pt-6">
             <FormProvider onSubmit={handleSubmit(onSubmit)} methods={methods}>
               <div className="flex flex-col gap-10 sm:gap-12">
                 <div className="space-y-5">
                   <div>
                     <TextField
-                      placeholder="Enter Email"
+                      placeholder="Enter email"
                       prefix={<img src={SMS_ICON} />}
                       name="email"
                     />
@@ -73,7 +73,7 @@ const ForgotPassword = () => {
                 <div className="max-sm:pt-1">
                   <Button
                     disabled={loading}
-                    className="text-base max-sm:py-[13.5px] font-semibold sm:text-lg"
+                    className="text-base max-sm:py-[12.5px] shadow-[0px_4px_6px_0px_#8FD5FF] font-semibold sm:text-lg"
                     type="submit"
                     loader={loading}
                   >

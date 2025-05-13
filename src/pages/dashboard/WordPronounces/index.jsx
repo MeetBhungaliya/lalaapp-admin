@@ -9,6 +9,7 @@ import ViewWordPronouncesModal from "@/modal/ViewWordPronouncesModal";
 import { PAGINATION_DISPATCH_TYPES } from "@/utils/constants";
 import { faker } from "@faker-js/faker";
 import React, { useEffect, useState } from "react";
+import DeleteModal from "@/modal/DeleteModal";
 
 const WordPronounces = () => {
   const [open, setOpen] = useState({ open: false, data: null });
@@ -60,7 +61,7 @@ const WordPronounces = () => {
             <SearchBox />
           </div>
           <Button
-            className="text-base max-sm:py-[13.5px] font-semibold sm:text-lg w-fit px-8"
+            className="text-base shadow-[0px_4px_6px_0px_#8FD5FF] py-[12.5px] font-semibold sm:text-lg w-fit px-8"
             type="button"
             onClick={() => setOpen({ open: true, data: null })}
           >
@@ -76,7 +77,10 @@ const WordPronounces = () => {
       </div>
       <WordPronouncesModal open={open} setOpen={setOpen} />
       <ViewWordPronouncesModal open={openView} setOpen={setOpenView} />
-      <DeleteWordPronounceModal open={openDelete} setOpen={setOpenDelete} />
+      {
+        openDelete.open && <DeleteModal open={openDelete} setOpen={setOpenDelete} title={openDelete.data?.name} name="Level" />
+      }
+      {/* <DeleteWordPronounceModal open={openDelete} setOpen={setOpenDelete} /> */}
     </>
   );
 };

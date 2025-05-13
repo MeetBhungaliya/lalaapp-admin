@@ -2,6 +2,7 @@ import Datatable from "@/components/common/Datatable";
 import SearchBox from "@/components/common/SearchBox";
 import useColumnDef from "@/hooks/useColumnDef";
 import usePagination from "@/hooks/usePagination";
+import DeleteModal from "@/modal/DeleteModal";
 import DeleteUserModal from "@/modal/DeleteUserModal";
 import { PAGINATION_DISPATCH_TYPES } from "@/utils/constants";
 import { faker } from "@faker-js/faker";
@@ -41,7 +42,7 @@ const Users = () => {
   const handleDelete = (row) => {
     setOpen({
       open: true,
-      data: row?.row?.name,
+      data: row?.name,
     });
   };
 
@@ -57,7 +58,10 @@ const Users = () => {
 
         <Datatable data={dummyData} columns={usersColumns} title="Users" />
       </div>
-      <DeleteUserModal open={open} setOpen={setOpen} />
+      {
+        open && <DeleteModal open={open} setOpen={setOpen} name={"User"} title={open?.data} />
+      }
+      {/* <DeleteUserModal open={open} setOpen={setOpen} /> */}
     </>
   );
 };

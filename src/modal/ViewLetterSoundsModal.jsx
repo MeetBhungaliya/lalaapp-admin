@@ -5,16 +5,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import FormProvider from "@/form/FormProvider";
-import { CLOSE_ICON, LEVEL_ICON } from "@/lib/images";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { LetterSoundsSchema } from "@/lib/schema";
-import React, { useEffect } from "react";
-import Button from "@/components/custom/Button";
-import TextField from "@/form/TextField";
-import SoundField from "@/form/SoundField";
-import { UploadImage } from "@/form/UploadImage";
+import { CLOSE_ICON } from "@/lib/images";
+import React from "react";
 import ViewSoundField from "@/form/ViewSoundField";
 
 const ViewLetterSoundsModal = ({ open, setOpen, data }) => {
@@ -29,7 +21,7 @@ const ViewLetterSoundsModal = ({ open, setOpen, data }) => {
     <Dialog open={open?.open} onOpenChange={handleClose}>
       <DialogContent
         onOpenAutoFocus={(e) => e.preventDefault()}
-        className="sm:max-w-[655px] px-8 py-6 rounded-[24px]"
+        className="sm:max-w-[600px] px-8 py-6 rounded-[24px]"
       >
         <DialogHeader className="flex flex-row justify-between pb-4 border-b border-[#EDEDED]">
           <DialogTitle className="text-xl font-semibold text-primary">
@@ -42,7 +34,7 @@ const ViewLetterSoundsModal = ({ open, setOpen, data }) => {
 
         {/* Main Content */}
         <div className="flex  items-center justify-center gap-6 py-4">
-          <div className="bg-[#F2F2F3] rounded-[12px] p-8">
+          <div className="bg-[#F2F2F3] rounded-[12px] size-[110px] flex justify-center items-center">
             <img
               src={open?.data?.row?.image}
               alt="Level Icon"
@@ -56,7 +48,7 @@ const ViewLetterSoundsModal = ({ open, setOpen, data }) => {
             </div>
           </div>
         </div>
-
+        <div className="border-gradient-horizontal w-full h-[0.5px] mt-1 mb-4"></div>
         <ViewSoundField
           value="https://file-examples.com/storage/feba78aab06819c7996c057/2017/11/file_example_MP3_700KB.mp3"
           className="rounded-[8px] flex-1"

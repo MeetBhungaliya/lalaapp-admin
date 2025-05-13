@@ -68,7 +68,7 @@ const TinyLineChart = ({ chartData, title, className = "" }) => {
         <ChartContainer className="h-[476px] w-[100%]" config={chartConfig}>
           <LineChart
             data={chartData}
-            margin={{ top: 20, right: 0, left: -30, bottom: 0 }}
+            margin={{ top: 20, right: 30, left: -30, bottom: 0 }}
           >
             <CartesianGrid stroke="#7E808C20" vertical={false} />
             <XAxis

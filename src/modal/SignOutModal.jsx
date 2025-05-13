@@ -20,28 +20,30 @@ const SignOutModal = ({ open, setOpen }) => {
         className="sm:max-w-[455px] p-6 rounded-[28px]"
       >
         <div className="flex flex-col justify-center items-center space-y-3">
-          <div className="flex items-center bg-ternary rounded-full justify-center sm:size-[120px] size-[100px]">
+          <div className="flex items-center bg-ternary rounded-full justify-center sm:size-[120px] size-[100px] mt-2">
             <img src={LOGOUT_PRIMARY_ICON} alt="LOGOUT_PRIMARY_ICON" />
           </div>
-          <h2 className="text-primary font-bold text-[26px]">Logout?</h2>
-          <p className="text-[18px] text-center font-normal text-[#3D4152]">
-            Are you sure you want to logout?
-          </p>
-          <div className="flex items-center justify-center gap-4 pt-3 w-full">
+          <div className="space-y-0 mx-auto">
+            <h2 className="text-primary font-bold text-[26px] pt-3 text-center">Logout?</h2>
+            <p className="text-[18px]  font-normal text-[#3D4152] text-center">
+              Are you sure you want to logout?
+            </p>
+          </div>
+          <div className="flex items-center justify-center gap-4 pt-5 w-full">
+            <Button
+              onClick={handleClose}
+              className="text-base max-sm:py-[13.5px] font-semibold sm:text-lg bg-[#F2F2F3] text-[#7E808C] shadow-[0px_4px_6px_0px_#F2F2F3]"
+            >
+              No
+            </Button>
             <Button
               onClick={() => {
                 localStorage.clear();
                 navigate("/login");
               }}
-              className="text-base max-sm:py-[13.5px] font-semibold sm:text-lg bg-[#F2F2F3] text-[#7E808C] shadow-[0px_4px_6px_0px_#F2F2F3]"
-            >
-              Yes
-            </Button>
-            <Button
-              onClick={handleClose}
               className="text-base max-sm:py-[13.5px] font-semibold sm:text-lg shadow-[0px_4px_6px_0px_#8FD5FF]"
             >
-              No
+              Yes
             </Button>
           </div>
         </div>

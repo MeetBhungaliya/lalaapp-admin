@@ -14,7 +14,7 @@ const UserDetail = ({ open, setOpen }) => {
         setOpen({ open: false, data: null });
     };
 
-    const user = open?.data?.row || {};
+    const user = open?.data || {};
 
     return (
         <Dialog open={open?.open} onOpenChange={handleClose}>
@@ -39,7 +39,7 @@ const UserDetail = ({ open, setOpen }) => {
                             className="w-[100px] h-[100px] rounded-[12px] object-cover bg-[#F2F2F3]"
                         />
                         <div className="space-y-1">
-                            <div className="sm:text-xl text-lg font-semibold mt-2">{user.name}</div>
+                            <div className="sm:text-xl text-lg font-semibold mt-2 text-[#1E1614]">{user.name}</div>
                             <div className="text-[#7E808C] sm:text-base text-sm font-normal">craiggouse@gmail.com</div>
                             <div className="text-[#2393FF] sm:text-base text-sm font-semibold  cursor-pointer">
                                 Monthly
@@ -47,20 +47,20 @@ const UserDetail = ({ open, setOpen }) => {
                         </div>
                     </div>
                     <div className="border-gradient-horizontal w-full h-[0.5px] mt-4"></div>
-                    <div className="w-full flex flex-col gap-4 mt-6">
+                    <div className="w-full flex flex-col gap-4 mt-2">
                         <div>
                             <div className="text-[#1F1F24] sm:text-lg text-base  font-medium">Plan Start Date</div>
                             <div className="sm:text-lg text-base font-medium text-[#7E808C]">01 June, 2024</div>
                         </div>
                         <div>
                             <div className="text-[#1F1F24] sm:text-lg text-base  font-medium">Plan End Date</div>
-                            <div className="sm:text-lg text-base font-medium text-[#7E808C]">{user.planEndDate || '-'}</div>
+                            <div className="sm:text-lg text-base font-medium text-[#7E808C]">30 June, 2024</div>
                         </div>
                         <div>
                             <div className="text-[#1F1F24] sm:text-lg text-base  font-medium">Plan Status</div>
                             <div className={cn("sm:text-lg text-base font-semibold", user.planStatus === 'Active'
-                                ? 'text-green-600 font-semibold'
-                                : 'text-red-500 font-semibold')}>
+                                ? 'text-[#32C605] font-semibold'
+                                : 'text-[#F62F20] font-semibold')}>
                                 {user.planStatus || '-'}
                             </div>
                         </div>

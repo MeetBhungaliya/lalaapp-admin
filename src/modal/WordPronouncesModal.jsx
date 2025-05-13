@@ -6,7 +6,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import FormProvider from "@/form/FormProvider";
-import { CLOSE_ICON, LEVEL_ICON, WORD_ICON } from "@/lib/images";
+import { CLOSE_ICON, CLOSE_SECONDARY_ICON, LEVEL_ICON, WORD_ICON } from "@/lib/images";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LetterSoundsSchema } from "@/lib/schema"; // You may want to create a new schema for WordPronounces
@@ -50,6 +50,7 @@ const WordPronouncesModal = ({ open, setOpen }) => {
       open: false,
       data: values,
     });
+    reset(defaultValues);
   };
 
   const handleClose = () => {
@@ -57,6 +58,7 @@ const WordPronouncesModal = ({ open, setOpen }) => {
       open: false,
       data: null,
     });
+    reset(defaultValues);
   };
 
   const onDrop = (acceptedFiles) => {
@@ -83,29 +85,29 @@ const WordPronouncesModal = ({ open, setOpen }) => {
             {open?.data ? "Edit" : "Add"} Word
           </DialogTitle>
           <div onClick={handleClose} className="cursor-pointer">
-            <img src={CLOSE_ICON} alt="CLOSE_ICON" />
+            <img src={CLOSE_SECONDARY_ICON} alt="CLOS" />
           </div>
         </DialogHeader>
 
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-          <div className={`flex flex-col gap-6 ${open?.data ? "px-12" : ""}`}>
-            <div className={`${!open?.data ? "flex gap-4" : ""}`}>
-             {!open?.data && <TextField
+          <div className={`flex pt-3 flex-col gap-6 ${open?.data ? "px-12" : ""}`}>
+            <div className={`${!open?.data ? "grid grid-cols-2 gap-4" : ""}`}>
+              {!open?.data && <TextField
                 name="word"
                 prefix={<img src={WORD_ICON} alt="WORD_ICON" />}
-                placeholder="Word Name"
-                className="rounded-[8px] flex-1"
+                placeholder="Word name"
+                className="rounded-[8px] w-full"
               />}
               <TextField
                 name="level"
                 prefix={<img src={LEVEL_ICON} alt="LEVEL_ICON" />}
                 placeholder="Level"
-                className="rounded-[8px] flex-1"
+                className="rounded-[8px] w-full"
               />
             </div>
             {open?.data ? (
               <div className="border-2 border-dashed border-[#7E808C33] rounded-[8px] p-3 space-y-3">
-                <div className="text-[#04163C] text-lg underline text-end font-normal">Edit</div>
+                <div className="text-[#04163C] text-lg underline text-end font-normal cursor-pointer">Edit</div>
                 <div className={`flex ${flexDirection} gap-x-4 gap-y-3`}>
                   <SoundField
                     name="sound"
@@ -117,12 +119,12 @@ const WordPronouncesModal = ({ open, setOpen }) => {
                     onDrop={onDrop}
                     className="rounded-[8px] flex-1"
                   />
-                <TextField
-                name="word"
-                prefix={<img src={WORD_ICON} alt="WORD_ICON" />}
-                placeholder="Word Name"
-                className="rounded-[8px] flex-1"
-              />
+                  <TextField
+                    name="word"
+                    prefix={<img src={WORD_ICON} alt="WORD_ICON" />}
+                    placeholder="Word Name"
+                    className="rounded-[8px] flex-1"
+                  />
                 </div>
               </div>
             ) : (
@@ -142,7 +144,7 @@ const WordPronouncesModal = ({ open, setOpen }) => {
           </div>
           <DialogFooter className="flex sm:justify-center justify-center mt-8">
             <Button
-              className="text-base max-sm:py-[13.5px] font-semibold sm:text-lg w-fit px-20"
+              className="text-base py-[12.5px] shadow-[0px_4px_6px_0px_#8FD5FF] font-semibold sm:text-lg w-fit px-20"
               type="submit"
             >
               {open?.data ? "Save" : "Add"}

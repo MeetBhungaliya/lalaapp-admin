@@ -4,6 +4,7 @@ import Button from "@/components/custom/Button";
 import useColumnDef from "@/hooks/useColumnDef";
 import usePagination from "@/hooks/usePagination";
 import DeleteLetterModal from "@/modal/DeleteLetterModal";
+import DeleteModal from "@/modal/DeleteModal";
 import LetterSoundsModal from "@/modal/letterSoundsModal";
 import ViewLetterSoundsModal from "@/modal/ViewLetterSoundsModal";
 import { PAGINATION_DISPATCH_TYPES } from "@/utils/constants";
@@ -67,7 +68,7 @@ const LetterSounds = () => {
   const handleDelete = (row) => {
     setOpenDelete({
       open: true,
-      data: row,
+      data: row?.name,
     });
   };
 
@@ -84,7 +85,7 @@ const LetterSounds = () => {
             <SearchBox />
           </div>
           <Button
-            className="text-base max-sm:py-[13.5px] font-semibold sm:text-lg w-fit px-8"
+            className="text-base shadow-[0px_4px_6px_0px_#8FD5FF] py-[12.5px] font-semibold sm:text-lg w-fit px-8"
             type="button"
             onClick={() => setOpen({ open: true, data: null })}
           >
@@ -100,7 +101,8 @@ const LetterSounds = () => {
       </div>
       <LetterSoundsModal open={open} setOpen={setOpen} />
       <ViewLetterSoundsModal open={openView} setOpen={setOpenView} />
-      <DeleteLetterModal open={openDelete} setOpen={setOpenDelete} />
+      <DeleteModal open={openDelete} setOpen={setOpenDelete} name={"Level"} title="Apple Word" />
+      {/* <DeleteLetterModal open={openDelete} setOpen={setOpenDelete} /> */}
     </>
 
   );

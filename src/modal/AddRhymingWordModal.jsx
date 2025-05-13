@@ -6,7 +6,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import FormProvider from "@/form/FormProvider";
-import { CLOSE_ICON, LEVEL_ICON, WORD_ICON, EDIT_ICON, SOUND_ICON, GALLERY_ICON } from "@/lib/images";
+import { CLOSE_ICON, LEVEL_ICON, WORD_ICON, EDIT_ICON, SOUND_ICON, GALLERY_ICON, CLOSE_SECONDARY_ICON } from "@/lib/images";
 import { useForm, useFieldArray } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -83,28 +83,28 @@ const AddRhymingWordModal = ({ open, setOpen }) => {
                         {open?.data ? "Edit Words" : "Add Words"}
                     </DialogTitle>
                     <div onClick={handleClose} className="cursor-pointer">
-                        <img src={CLOSE_ICON} alt="CLOSE_ICON" />
+                        <img src={CLOSE_SECONDARY_ICON} alt="CLOSE_SECONDARY_ICON" />
                     </div>
                 </DialogHeader>
                 <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-                    <div className="flex flex-col gap-6  border-2 p-4 border-dashed border-[#7E808C33] rounded-[8px]">
+                    <div className="flex flex-col gap-6  border-2 p-4 mt-4 border-dashed border-[#7E808C33] rounded-[8px]">
                         <TextField
                             name="level"
                             prefix={<img src={LEVEL_ICON} alt="LEVEL_ICON" />}
                             placeholder="Level"
                             className="rounded-[8px] flex-1"
                         />
-                        <div className="grid grid-cols-1 sm:grid-cols-3 h-full gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 h-full gap-6">
                             {fields.map((field, idx) => (
                                 <div key={field.id} className={cn("rounded-[8px] h-full  flex flex-col gap-3 relative", open?.data && "border-2 border-dashed border-[#7E808C33]", open?.data && "border-2 border-dashed border-[#7E808C33] px-3 pt-8 pb-4")}>
                                     {open?.data && (
                                         <div className="absolute top-2 right-2 flex items-center gap-1">
-                                            <span className="text-base  text-[#04163C] underline font-normal flex items-center gap-1">
+                                            <span className="text-base  text-[#04163C] underline font-normal flex items-center gap-1 cursor-pointer">
                                                 Edit
                                             </span>
                                         </div>
                                     )}
-                                    <div className={cn("space-y-3", open?.data && "pt-1.5 ")}>
+                                    <div className={cn("space-y-5", open?.data && "pt-1.5 ")}>
                                         <TextField
                                             name={`words.${idx}.name`}
                                             prefix={<img src={WORD_ICON} alt="WORD_ICON" />}
@@ -144,7 +144,7 @@ const AddRhymingWordModal = ({ open, setOpen }) => {
                     </div>
                     <DialogFooter className="flex sm:justify-center justify-center mt-8">
                         <Button
-                            className="text-base max-sm:py-[13.5px] font-semibold sm:text-lg w-fit px-20"
+                            className="text-base shadow-[0px_4px_6px_0px_#8FD5FF] py-[12.5px] font-semibold sm:text-lg w-fit px-20"
                             type="submit"
                         >
                             {open?.data ? "Save" : "Add"}

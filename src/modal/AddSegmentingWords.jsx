@@ -6,7 +6,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import FormProvider from "@/form/FormProvider";
-import { CLOSE_ICON, CLOSE_ICON2, LEVEL_ICON, WORD_ICON } from "@/lib/images";
+import { CLOSE_ICON, CLOSE_ICON2, CLOSE_SECONDARY_ICON, LEVEL_ICON, WORD_ICON } from "@/lib/images";
 import { useForm, useFieldArray } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -104,13 +104,13 @@ const AddSegmentingWords = ({ open, setOpen }) => {
 
     return (
         <Dialog open={open?.open} onOpenChange={handleClose}>
-            <DialogContent className="sm:max-w-[600px] max-w-[90%] max-h-[90vh] px-0 py-6 rounded-[24px]">
+            <DialogContent className="sm:max-w-[700px] max-w-[90%] max-h-[90vh] px-0 py-6 rounded-[24px]">
                 <DialogHeader className="flex flex-row justify-between pb-4 px-6 border-b border-[#EDEDED]">
                     <DialogTitle className="text-2xl font-bold text-primary">
-                        {open?.data ? "Edit Word" : step === 1 ? "Add Word" : "Add Word"}
+                        {open?.data ? "Edit Words" : step === 1 ? "Add Word" : "Add Word"}
                     </DialogTitle>
                     <div onClick={handleClose} className="cursor-pointer">
-                        <img src={CLOSE_ICON} alt="CLOSE_ICON" />
+                        <img src={CLOSE_SECONDARY_ICON} alt="CLOSE_SECONDARY_ICON" />
                     </div>
                 </DialogHeader>
                 <ScrollArea className="flex-1 flex flex-col ">
@@ -193,9 +193,9 @@ const AddSegmentingWords = ({ open, setOpen }) => {
                                         />
                                     </div>
                                 </div>
-                                <DialogFooter className="flex sm:justify-center justify-center mt-8">
+                                <DialogFooter className="flex sm:justify-center justify-center mt-8 mb-2">
                                     <Button
-                                        className="text-base max-sm:py-[13.5px] font-semibold sm:text-lg w-fit px-20"
+                                        className="text-base max-sm:py-[13.5px] font-semibold sm:text-lg w-fit px-20 shadow-[0px_4px_6px_0px_#8FD5FF]"
                                         type="button"
                                         onClick={handleNext}
                                     >
@@ -240,9 +240,9 @@ const AddSegmentingWords = ({ open, setOpen }) => {
                                 <div className="flex justify-center mt-2">
                                     <p className="sm:text-lg text-base font-semibold text-[#04163C] cursor-pointer" onClick={() => append({ name: "", sound: null })}> + Add Letter</p>
                                 </div>
-                                <DialogFooter className="flex sm:justify-center justify-center ">
+                                <DialogFooter className="flex sm:justify-center justify-center mb-2">
                                     <Button
-                                        className="text-base max-sm:py-[13.5px] font-semibold sm:text-lg w-fit px-20"
+                                        className="text-base max-sm:py-[13.5px] font-semibold sm:text-lg w-fit px-20 shadow-[0px_4px_6px_0px_#8FD5FF]"
                                         type="submit"
                                     >
                                         {open?.data ? "Save" : "Add"}

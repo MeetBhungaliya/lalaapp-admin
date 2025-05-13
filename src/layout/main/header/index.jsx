@@ -13,6 +13,7 @@ const Header = ({ setIsSidebar }) => {
     { path: "/words/segmenting_words", heading: "Segmenting Words" },
     { path: "/words/rhyming", heading: "Rhyming Words" },
     { path: "/words/blending_letter_sounds", heading: "Blending Letter Sounds" },
+    { path: "/subscriptions", heading: "Subscriptions" },
   ];
   return (
     <header className="flex px-3 lg:px-7 py-4 bg-white">

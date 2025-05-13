@@ -47,7 +47,7 @@ const ViewSoundField = ({ className, value }) => {
           {value && (
             <a
               href={value}
-              download={value.split("/").pop()}
+              // download={value.split("/").pop()}
               className="cursor-pointer"
               title="Download audio"
             >

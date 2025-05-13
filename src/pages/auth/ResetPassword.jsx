@@ -56,13 +56,13 @@ const ResetPassword = () => {
       </div>
       <div className="flex-1 px-5 sm:px-5 md:px-8 lg:px-10 py-14  bg-white flex items-center relative">
         <div className="max-w-[420px] space-y-4 sm:space-y-5 w-full mx-auto">
-          <div className="flex justify-center">
-            <div className="size-[80px] bg-light rounded-full flex justify-center items-center">
-              <img src={LOCK2_ICON} alt="LOCK2_ICON" />
-            </div>
+          {/* <div className="flex justify-center"> */}
+          <div className="size-[80px] bg-light rounded-full flex justify-center items-center">
+            <img src={LOCK2_ICON} alt="LOCK2_ICON" />
           </div>
-          <div className="space-y-0.5  mt-7">
-            <h2 className="text-primary font-bold text-[24px] sm:text-[26px] md:text-[30px]">
+          {/* </div>   */}
+          <div className="space-y-0.5  pt-7">
+            <h2 className="text-primary font-bold text-[26px] sm:text-[30px] md:text-[34px]">
               Create New Password
             </h2>
             <p className="text-[20px] font-normal text-[#7E808C]">
@@ -72,9 +72,9 @@ const ResetPassword = () => {
           <FormProvider
             methods={methods}
             onSubmit={handleSubmit(onSubmit)}
-            className="w-full"
+            className="w-full pt-6"
           >
-            <div className="space-y-5">
+            <div className="space-y-6">
               <PasswordField
                 name="new_password"
                 placeholder="Enter new password"
@@ -86,10 +86,10 @@ const ResetPassword = () => {
                 prefix={<img src={LOCK_ICON} alt="LOCK_ICON" />}
               />
             </div>
-            <div className="pt-8">
+            <div className="pt-12">
               <Button
                 disabled={loading}
-                className="text-base max-sm:py-[13.5px] font-semibold sm:text-lg"
+                className="text-base max-sm:py-[12.5px] shadow-[0px_4px_6px_0px_#8FD5FF] font-semibold sm:text-lg"
                 type="submit"
                 loader={loading}
               >

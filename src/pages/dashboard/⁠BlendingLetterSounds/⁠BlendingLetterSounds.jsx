@@ -51,7 +51,7 @@ const BlendingLetterSounds = () => {
                     <SearchBox />
                 </div>
                 <Button
-                    className="text-base max-sm:py-[13.5px] font-semibold sm:text-lg w-fit px-8"
+                    className="text-base shadow-[0px_4px_6px_0px_#8FD5FF] py-[12.5px] font-semibold sm:text-lg w-fit px-8"
                     type="button"
                     onClick={() => setOpen({ open: true, data: null })}
                 >
@@ -70,7 +70,7 @@ const BlendingLetterSounds = () => {
                 openDetail.open && <BlendingLetterSoundDetail open={openDetail} setOpen={setOpenDetail} />
             }
             {
-                openDelete.open && <DeleteModal open={openDelete} setOpen={setOpenDelete} title={openDelete?.data?.name} />
+                openDelete.open && <DeleteModal open={openDelete} setOpen={setOpenDelete} title={openDelete?.data?.name} name="Level" />
             }
         </div>
     )

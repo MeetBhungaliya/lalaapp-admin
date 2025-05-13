@@ -67,7 +67,7 @@ const VerifyOTP = () => {
           <div className="size-[80px] bg-light rounded-full flex justify-center items-center">
             <img src={CALCULATOR_ICON} alt="CALCULATOR_ICON" />
           </div>
-          <div className=" space-y-0.5">
+          <div className=" space-y-0.5 pt-7">
             <h2 className="text-primary font-bold text-[24px] sm:text-[26px] md:text-[30px]">
               Authentication
             </h2>
@@ -87,7 +87,7 @@ const VerifyOTP = () => {
                   <OtpField name="otp" />
                 </div>
               </div>
-              <p className="text-priamry text-lg font-normal text-center">
+              <p className="text-priamry text-lg font-normal text-center pt-2">
                 Didn’t receive the code?{" "}
                 <span
                   className="text-main text-lg font-normal cursor-pointer"
@@ -97,10 +97,10 @@ const VerifyOTP = () => {
                   Resend
                 </span>
               </p>
-              <div className="max-sm:pt-1">
+              <div className="pt-3">
                 <Button
                   disabled={loading}
-                  className="text-base max-sm:py-[13.5px] font-semibold sm:text-lg"
+                  className="text-base max-sm:py-[12.5px] shadow-[0px_4px_6px_0px_#8FD5FF] font-semibold sm:text-lg"
                   type="submit"
                   loader={loading}
                 >

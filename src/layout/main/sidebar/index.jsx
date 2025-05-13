@@ -9,6 +9,7 @@ import {
   LALA_LOGO,
   LOGOUT_ACTIVE_ICON,
   LOGOUT_ICON,
+  LOGOUT_WHITE_ICON,
   PROFILE_ACTIVE_ICON,
   PROFILE_ICON,
   SUBSCRIPTION_ACTIVE_ICON,
@@ -63,7 +64,7 @@ const Sidebar = ({ isSidebar, setIsSidebar }) => {
   );
   return (
     <>
-      <div className="min-w-[250px] xl:min-w-[270px] 2xl:min-w-[300px]  border-r border-[#FAFAFA] hidden lg:flex flex-col h-dvh bg-white  overflow-hidden ">
+      <div className="min-w-[250px] xl:min-w-[270px] 2xl:min-w-[270px]  border-r border-[#FAFAFA] hidden lg:flex flex-col h-dvh bg-white  overflow-hidden ">
         <div
           className="flex justify-center items-center gap-x-3 py-5 mx-4 border-b border-[#F0F0F0]"
           style={{
@@ -86,13 +87,13 @@ const Sidebar = ({ isSidebar, setIsSidebar }) => {
                   <button
                     onClick={() => setOpenSubMenu(!openSubMenu)}
                     className={cn(
-                      "flex items-center w-full px-4 py-3 font-medium text-[16px] group"
+                      "flex items-center w-full px-4 py-3.5 font-medium text-[16px] group"
                     )}
                   >
                     {
-                      item?.children?.length > 1 && openSubMenu ? <img src={WORD_ACTIVE_ICON}  /> : <div>{item.icon}</div>
+                      item?.children?.length > 1 && openSubMenu ? <img src={WORD_ACTIVE_ICON} /> : <div>{item.icon}</div>
                     }
-                    <span className={cn("ml-2 text-base font-medium",openSubMenu ? "text-[#04163C]" :"text-[#282C3F]")}>{item.name}</span>
+                    <span className={cn("ml-3 text-base font-medium", openSubMenu ? "text-[#04163C]" : "text-[#282C3F]")}>{item.name}</span>
                     <img
                       src={ARROW_DOWN_ICON}
                       alt="ARROW_DOWN_ICON"
@@ -103,13 +104,13 @@ const Sidebar = ({ isSidebar, setIsSidebar }) => {
                     />
                   </button>
                   {openSubMenu && (
-                    <div className="ml-9 flex flex-col">
+                    <div className="ml-7 flex flex-col">
                       {item.children.map((sub, subIdx) => (
                         <Link
                           to={sub.to}
                           key={subIdx}
                           className={cn(
-                            "px-4 py-2 text-[14px] font-normal text-[#3D4152] truncate",
+                            "px-4 py-2 text-[14px] font-normal text-[#3D4152] truncate line-clamp-1",
                             {
                               "text-main font-semibold": pathname.includes(
                                 sub.to
@@ -129,11 +130,14 @@ const Sidebar = ({ isSidebar, setIsSidebar }) => {
                   data-active={pathname.includes(item.to)}
                   key={index}
                   className={cn(
-                    "flex group relative data-[active=true]:bg-main bg-ternary px-4 py-3 transition-all duration-200 items-center gap-x-2 rounded-[10px]"
+                    "flex relative data-[active=true]:bg-main bg-ternary px-2.5 py-3.5 transition-all duration-200 items-center gap-x-2 rounded-[10px] hover:bg-main hover:text-white group"
                   )}
                 >
+                  <div>
+
+                  </div>
                   <div>{item.icon}</div>
-                  <div className="font-medium text-[16px] group-data-[active=true]:text-white text-[#3D4152] ">
+                  <div className="font-medium text-[16px] group-hover:text-white group-data-[active=true]:text-white text-[#3D4152] ">
                     {item.name}
                   </div>
                 </Link>
@@ -148,10 +152,10 @@ const Sidebar = ({ isSidebar, setIsSidebar }) => {
                 data: null,
               })
             }
-            className="flex mx-6 group relative bg-ternary px-4 py-3.5  transition-all duration-200 cursor-pointer group items-center gap-x-2 rounded-[10px]"
+            className="flex mx-6 group relative bg-ternary px-4 py-3.5  transition-all duration-200 cursor-pointer hover:bg-main hover:text-white items-center gap-x-2 rounded-[10px]"
           >
-            <img src={LOGOUT_ICON} alt="LOGOUT_ICON" />
-            <div className="font-medium text-[16px] text-[#3D4152]">
+            <NavIcon active={LOGOUT_WHITE_ICON} base={LOGOUT_ICON} />
+            <div className="font-medium text-[16px] group-hover:text-white text-[#3D4152]">
               Log Out
             </div>
           </button>

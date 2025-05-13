@@ -63,6 +63,7 @@ const AddBlendingLetter = ({ open, setOpen }) => {
         defaultValues,
         resolver: yupResolver(step === 1 ? Step1Schema : Step2Schema),
         mode: "onTouched",
+        reValidateMode: "onBlur",
     });
     const { handleSubmit, reset, control, setValue, trigger, formState: { errors } } = methods;
     const { fields, append, remove } = useFieldArray({
@@ -93,11 +94,6 @@ const AddBlendingLetter = ({ open, setOpen }) => {
     const handleClose = () => {
         setOpen({ open: false, data: null });
         setStep(1);
-    };
-
-    const handleBlendTypeChange = (type) => {
-        setSelectedBlendType(type);
-        setValue("blendType", type, { shouldDirty: true, shouldValidate: true });
     };
 
     const handleNext = async () => {
@@ -174,7 +170,7 @@ const AddBlendingLetter = ({ open, setOpen }) => {
                         {step === 1 ? (
                             <div className="flex flex-col">
                                 <div className="flex flex-col gap-3 space-y-3">
-                                    <div className="flex items-start gap-6">
+                                    <div className="grid grid-cols-2 items-start gap-6">
                                         <TextField
                                             name="name"
                                             prefix={<img src={WORD_ICON} alt="WORD_ICON" />}
@@ -195,9 +191,9 @@ const AddBlendingLetter = ({ open, setOpen }) => {
                                 </div>
 
 
-                                <DialogFooter className="flex sm:justify-center justify-center mt-8">
+                                <DialogFooter className="flex sm:justify-center justify-center mt-8 mb-2">
                                     <Button
-                                        className="text-base max-sm:py-[13.5px] font-semibold sm:text-lg w-fit px-20"
+                                        className="text-base shadow-[0px_4px_6px_0px_#8FD5FF] py-[12.5px] font-semibold sm:text-lg w-fit px-20"
                                         type="button"
                                         onClick={handleNext}
                                     >
@@ -223,7 +219,7 @@ const AddBlendingLetter = ({ open, setOpen }) => {
                                                 <TextField
                                                     name={`blends.${idx}.name`}
                                                     prefix={<img src={WORD_ICON} alt="WORD_ICON" />}
-                                                    placeholder="Blend name"
+                                                    placeholder="Letter"
                                                     className="rounded-[8px] flex-1"
                                                 />
 
@@ -249,12 +245,11 @@ const AddBlendingLetter = ({ open, setOpen }) => {
                                     ))}
                                 </div>
                                 <div className="flex justify-center mt-2">
-
                                     <p className="sm:text-lg text-base font-semibold text-[#04163C]" onClick={() => append({ name: "", image: null, sound: null })}> + Add Letter</p>
                                 </div>
                                 <DialogFooter className="flex sm:justify-center justify-center ">
                                     <Button
-                                        className="text-base max-sm:py-[13.5px] font-semibold sm:text-lg w-fit px-20"
+                                        className="text-base shadow-[0px_4px_6px_0px_#8FD5FF] py-[12.5px] font-semibold sm:text-lg w-fit px-20 mb-2"
                                         type="submit"
                                     >
                                         {open?.data ? "Save" : "Add"}

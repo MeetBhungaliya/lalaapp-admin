@@ -26,6 +26,7 @@ const ResetPasswordSchema = yup.object().shape({
 })
 
 const LetterSoundsSchema = yup.object().shape({
+    word: yup.string().required('Please enter word'),
     level: yup.string().required('Please enter level'),
     sound: yup.mixed().test('Required', 'Please select sound', (value) => {
         return value

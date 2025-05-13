@@ -6,7 +6,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 
 const SoundField = ({ label, className, name }) => {
-  const { control, getValues } = useFormContext();
+  const { control, getValues, setValue } = useFormContext();
   const fieldValue = getValues(name); // Get value from form state
 
   const [audioFile, setAudioFile] = useState(null); // holds uploaded File object
@@ -36,6 +36,7 @@ const SoundField = ({ label, className, name }) => {
     if (file && file.type.startsWith("audio/")) {
       setAudioFile(file);
       setAudioUrl(null); // Clear URL since new file is selected
+      setValue(name, file, { shouldDirty: true, shouldValidate: true });
     }
   };
 
@@ -93,7 +94,7 @@ const SoundField = ({ label, className, name }) => {
                     <img src={SOUND_ICON} alt="SOUND_ICON" />
                   </span>
                 </div>
-                <div className="text-secondary text-lg sm:text-base font-normal">
+                <div className="text-secondary text-lg mt-1 sm:text-base font-normal">
                   Add Sounds
                 </div>
                 <input
@@ -117,7 +118,7 @@ const SoundField = ({ label, className, name }) => {
                     : "focus-visible:ring-main"
                 )}
               >
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3 ">
                   <span className=" rounded-full flex items-center justify-center">
                     <img src={SOUND_ICON} alt="SOUND_ICON" />
                   </span>
@@ -161,7 +162,7 @@ const SoundField = ({ label, className, name }) => {
             )}
 
             {fieldError?.message && (
-              <div className="pt-1 pl-3 text-xs sm:text-sm font-normal text-red-500">
+              <div className="pl-3 text-xs sm:text-sm font-normal text-red-500">
                 {fieldError.message}
               </div>
             )}
