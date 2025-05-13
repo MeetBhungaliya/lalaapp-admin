@@ -9,6 +9,7 @@ import {
   LALA_LOGO,
   LOGOUT_ACTIVE_ICON,
   LOGOUT_ICON,
+  LOGOUT_PRIMARY_ICON2,
   LOGOUT_WHITE_ICON,
   PROFILE_ACTIVE_ICON,
   PROFILE_ICON,
@@ -87,7 +88,7 @@ const Sidebar = ({ isSidebar, setIsSidebar }) => {
                   <button
                     onClick={() => setOpenSubMenu(!openSubMenu)}
                     className={cn(
-                      "flex items-center w-full px-4 py-3.5 font-medium text-[16px] group"
+                      "flex items-center w-full px-4  font-medium text-[16px] group", openSubMenu ? "pt-3.5 pb-0" : "py-3.5"
                     )}
                   >
                     {
@@ -104,7 +105,7 @@ const Sidebar = ({ isSidebar, setIsSidebar }) => {
                     />
                   </button>
                   {openSubMenu && (
-                    <div className="ml-7 flex flex-col">
+                    <div className="ml-7.5 flex flex-col pb-2">
                       {item.children.map((sub, subIdx) => (
                         <Link
                           to={sub.to}
@@ -130,14 +131,14 @@ const Sidebar = ({ isSidebar, setIsSidebar }) => {
                   data-active={pathname.includes(item.to)}
                   key={index}
                   className={cn(
-                    "flex relative data-[active=true]:bg-main bg-ternary px-2.5 py-3.5 transition-all duration-200 items-center gap-x-2 rounded-[10px] hover:bg-main hover:text-white group"
+                    "flex relative data-[active=true]:bg-[#EFF9FF] bg-ternary px-2.5 py-3.5 transition-all duration-200 hover:bg-[#EFF9FF] hover:text-[#04163C] items-center gap-x-2 rounded-[10px] group"
                   )}
                 >
                   <div>
 
                   </div>
                   <div>{item.icon}</div>
-                  <div className="font-medium text-[16px] group-hover:text-white group-data-[active=true]:text-white text-[#3D4152] ">
+                  <div className="font-medium text-[16px] group-hover:text-[#04163C] group-data-[active=true]:text-[#04163C] text-[#3D4152] ">
                     {item.name}
                   </div>
                 </Link>
@@ -152,10 +153,10 @@ const Sidebar = ({ isSidebar, setIsSidebar }) => {
                 data: null,
               })
             }
-            className="flex mx-6 group relative bg-ternary px-4 py-3.5  transition-all duration-200 cursor-pointer hover:bg-main hover:text-white items-center gap-x-2 rounded-[10px]"
+            className="flex mx-6 group relative bg-ternary px-4 py-3.5  transition-all duration-200 cursor-pointer hover:bg-[#EFF9FF] hover:text-white items-center gap-x-2 rounded-[10px]"
           >
-            <NavIcon active={LOGOUT_WHITE_ICON} base={LOGOUT_ICON} />
-            <div className="font-medium text-[16px] group-hover:text-white text-[#3D4152]">
+            <NavIcon active={LOGOUT_PRIMARY_ICON2} base={LOGOUT_ICON} />
+            <div className="font-medium text-[16px] group-hover:text-[#04163C] text-[#3D4152]">
               Log Out
             </div>
           </button>

@@ -6,7 +6,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import FormProvider from "@/form/FormProvider";
-import { CLOSE_ICON, CLOSE_ICON2, LEVEL_ICON, WORD_ICON } from "@/lib/images";
+import { CLOSE_ICON, CLOSE_ICON2, CLOSE_SECONDARY_ICON, LEVEL_ICON, WORD_ICON } from "@/lib/images";
 import { useForm, useFieldArray } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -120,7 +120,7 @@ const AddBlendingLetter = ({ open, setOpen }) => {
                         {open?.data ? "Edit Word" : step === 1 ? "Add Words" : "Add Word"}
                     </DialogTitle>
                     <div onClick={handleClose} className="cursor-pointer">
-                        <img src={CLOSE_ICON} alt="CLOSE_ICON" />
+                        <img src={CLOSE_SECONDARY_ICON} alt="CLOSE_SECONDARY_ICON" />
                     </div>
                 </DialogHeader>
                 <ScrollArea className="flex-1 flex flex-col ">
