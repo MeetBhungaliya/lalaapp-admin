@@ -66,7 +66,7 @@ const ResetPassword = () => {
               Create New Password
             </h2>
             <p className="text-[20px] font-normal text-[#7E808C]">
-              Your new password must be different from previously used password.
+            Create a new password for your account. Make sure it’s strong and easy to remember
             </p>
           </div>
           <FormProvider

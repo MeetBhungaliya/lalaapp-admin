@@ -9,7 +9,7 @@ import FormProvider from "@/form/FormProvider";
 import { CLOSE_ICON, CLOSE_SECONDARY_ICON, LEVEL_ICON, WORD_ICON } from "@/lib/images";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { LetterSoundsSchema } from "@/lib/schema"; // You may want to create a new schema for WordPronounces
+import { LetterSoundsSchema, PronunciationSchema } from "@/lib/schema"; // You may want to create a new schema for WordPronounces
 import React, { useEffect } from "react";
 import Button from "@/components/custom/Button";
 import TextField from "@/form/TextField";
@@ -26,7 +26,7 @@ const WordPronouncesModal = ({ open, setOpen }) => {
 
   const methods = useForm({
     defaultValues,
-    resolver: yupResolver(LetterSoundsSchema),
+    resolver: yupResolver(PronunciationSchema),
   });
   const { handleSubmit, setValue, watch, reset } = methods;
 

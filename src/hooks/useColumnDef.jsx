@@ -103,7 +103,7 @@ const useColumnDef = (fns) => {
         ), {
         '3xl': 100,
         default: 100
-      }),
+      }, "center"),
       rowBuilder('name', () => <p className=''>Word Image</p>,
         ({ getValue, row }) => (
           <div className="flex items-center gap-3 ">
@@ -113,7 +113,7 @@ const useColumnDef = (fns) => {
         ), {
         '3xl': null,
         default: 250
-      }, "center"),
+      }),
       rowBuilder('level', () => <p className=''>Level</p>,
         ({ getValue, row }) => (
           <p className="">{getValue()}</p>
@@ -172,7 +172,7 @@ const useColumnDef = (fns) => {
         ), {
         '3xl': 100,
         default: 100
-      }),
+      }, "center"),
       rowBuilder('name', () => <p className=''>Word Name</p>,
         ({ getValue, row }) => (
           <div className="flex items-center justify-start gap-3 ">
@@ -236,12 +236,13 @@ const useColumnDef = (fns) => {
 
   const subscriptionsColumns = useMemo(
     () => [
-      columnHelper.display({
-        id: "srNo",
-        header: "Sr. No.",
-        cell: (props) => String(props.row.index + 1).padStart(2, "0"),
-        size: 100,
-      }),
+      rowBuilder('srNo', () => <p className=''>Sr. No.</p>,
+      ({ getValue, row }) => (
+        <p>{String(row.index + 1).padStart(2, "0")}</p>
+      ), {
+      '3xl': 100,
+      default: 100
+    }, "center"),
       rowBuilder('name', () => <p className=''>Name</p>,
         ({ getValue, row }) => (
           <div className="flex items-center gap-3 ">
@@ -302,12 +303,13 @@ const useColumnDef = (fns) => {
 
   const rhymingWordsColumns = useMemo(
     () => [
-      columnHelper.display({
-        id: "srNo",
-        header: "Sr. No.",
-        cell: (props) => String(props.row.index + 1).padStart(2, "0"),
-        size: 120,
-      }),
+      rowBuilder('srNo', () => <p className=''>Sr. No.</p>,
+        ({ getValue, row }) => (
+          <p>{String(row.index + 1).padStart(2, "0")}</p>
+        ), {
+        '3xl': 100,
+        default: 100
+      }, "center"),
       rowBuilder('name', () => <p className=''>Word Name</p>,
         ({ getValue, row }) => (
           <div className="flex items-center gap-3 ">

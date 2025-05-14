@@ -119,23 +119,23 @@ const SoundField = ({ label, className, name }) => {
                 )}
               >
                 <div className="flex items-center gap-3 ">
-                  <span className=" rounded-full flex items-center justify-center">
+                  <span className=" rounded-full flex items-center justify-center shrink-0">
                     <img src={SOUND_ICON} alt="SOUND_ICON" />
                   </span>
-                  <span className="text-primary font-normal text-base">
+                  <span className="text-primary font-normal text-base line-clamp-1">
                     {displayFileName}
                   </span>
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center w-fit shrink-0">
                   <div onClick={handlePlay} className="cursor-pointer">
                     {isPlaying ? (
                       <img
                         src={PAUSE_ICON}
                         alt="PAUSE_ICON"
-                        className="size-7"
+                        className="size-7 shrink-0"
                       />
                     ) : (
-                      <img src={PLAY_ICON} alt="PLAY_ICON" className="size-7" />
+                      <img src={PLAY_ICON} alt="PLAY_ICON" className="size-7 shrink-0" />
                     )}
                   </div>
                   <div
@@ -148,7 +148,7 @@ const SoundField = ({ label, className, name }) => {
                     <img
                       src={CLOSE_ICON2}
                       alt="CLOSE_ICON2"
-                      className="size-7"
+                      className="size-7 shrink-0"
                     />
                   </div>
                 </div>

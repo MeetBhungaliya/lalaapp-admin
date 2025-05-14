@@ -62,7 +62,7 @@ const AddSegmentingWords = ({ open, setOpen }) => {
         resolver: yupResolver(step === 1 ? Step1Schema : Step2Schema),
         mode: "onTouched",
     });
-    const { handleSubmit, reset, control, trigger, setValue, formState: { errors } } = methods;
+    const { handleSubmit, reset, control, watch, trigger, setValue, formState: { errors } } = methods;
     const { fields, append, remove } = useFieldArray({
         control,
         name: "letters",
@@ -173,24 +173,27 @@ const AddSegmentingWords = ({ open, setOpen }) => {
                                             placeholder="Level"
                                             className="rounded-[8px] flex-1"
                                         />
-
-                                        <SoundField
-                                            name="sound"
-                                            className="rounded-[8px] flex-1"
-                                        />
-                                        <UploadImage
-                                            name="image"
-                                            className="rounded-[8px] flex-1"
-                                            onDrop={(acceptedFiles) => {
-                                                setValue(
-                                                    "image",
-                                                    Object.assign(acceptedFiles[0], {
-                                                        preview: URL.createObjectURL(acceptedFiles[0]),
-                                                    }),
-                                                    { shouldDirty: true, shouldValidate: true }
-                                                );
-                                            }}
-                                        />
+                                        <div className={cn(!watch("image") && !watch("sound") ? "col-span-1" : "col-span-2")}>
+                                            <SoundField
+                                                name="sound"
+                                                className="rounded-[8px] flex-1"
+                                            />
+                                        </div>
+                                        <div className={cn(!watch("image") && !watch("sound") ? "col-span-1" : "col-span-2")}>
+                                            <UploadImage
+                                                name="image"
+                                                className="rounded-[8px] flex-1"
+                                                onDrop={(acceptedFiles) => {
+                                                    setValue(
+                                                        "image",
+                                                        Object.assign(acceptedFiles[0], {
+                                                            preview: URL.createObjectURL(acceptedFiles[0]),
+                                                        }),
+                                                        { shouldDirty: true, shouldValidate: true }
+                                                    );
+                                                }}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                                 <DialogFooter className="flex sm:justify-center justify-center mt-8 mb-2">

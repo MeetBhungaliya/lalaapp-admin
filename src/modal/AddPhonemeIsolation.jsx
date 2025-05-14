@@ -44,7 +44,7 @@ const AddPhonemeIsolation = ({ open, setOpen }) => {
         defaultValues,
         resolver: yupResolver(PhonemeIsolationSchema),
     });
-    const { handleSubmit, reset, setValue } = methods;
+    const { handleSubmit, reset, setValue,watch } = methods;
 
     useEffect(() => {
         if (open?.data) {
@@ -119,8 +119,8 @@ const AddPhonemeIsolation = ({ open, setOpen }) => {
                                     />
                                 }
 
-                                <div className={cn(open?.data ? "flex flex-col gap-3.5" : "flex gap-6")}>
-                                <SoundField
+                                <div className={cn(open?.data ? "flex flex-col gap-3.5" : !watch("sound") && !watch("image") ? "flex gap-6" : "flex flex-col  gap-3.5")}>
+                                    <SoundField
                                         name="sound"
                                         className="rounded-[8px] flex-1"
                                     />
@@ -137,7 +137,7 @@ const AddPhonemeIsolation = ({ open, setOpen }) => {
                                             );
                                         }}
                                     />
-                                 
+
                                 </div>
                             </div>
                         </div>

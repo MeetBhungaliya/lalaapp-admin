@@ -157,7 +157,7 @@ const Sidebar = ({ isSidebar, setIsSidebar }) => {
           >
             <NavIcon active={LOGOUT_PRIMARY_ICON2} base={LOGOUT_ICON} />
             <div className="font-medium text-[16px] group-hover:text-[#04163C] text-[#3D4152]">
-              Log Out
+              Logout
             </div>
           </button>
         </div>
@@ -254,7 +254,7 @@ const Sidebar = ({ isSidebar, setIsSidebar }) => {
             >
               <img src={LOGOUT_ICON} alt="LOGOUT_ICON" />
               <div className="font-medium text-[16px] text-[#3D4152]">
-                Log Out
+                Logout
               </div>
             </button>
           </div>
