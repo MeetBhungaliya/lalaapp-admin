@@ -81,14 +81,23 @@ const WordPronounces = () => {
               title="Word Pronounces"
             />
           </div>
-          
+
           {/* Script Section - 1/4 width */}
-          <div className="w-1/4 bg-white rounded-[24px] flex flex-col">
+          <div className="w-1/4 bg-white rounded-[24px] flex flex-col relative">
             <div className="bg-[#F2F4FC] flex justify-between items-center px-5 py-[21px] rounded-t-[24px]">
               <p className="text-lg font-medium text-black">Script</p>
               <div className="sm:size-[36px] size-[32px] rounded-[8px] shadow-[0px_4px_6px_0px_#8FD5FF] bg-main flex items-center justify-center cursor-pointer">
                 <img src={EDIT_WHITE_ICON} alt="EDIT_WHITE_ICON" onClick={() => setOpenScript({ open: true, data: null })} />
               </div>
+            </div>
+            <div className="absolute bottom-5 flex justify-center right-34">
+              <Button
+                className="text-base shadow-[0px_4px_6px_0px_#8FD5FF] py-[12.5px] font-semibold sm:text-lg w-fit px-8 bg-main"
+                type="button"
+                // onClick={() => setOpen({ open: true, data: null })}
+              >
+                Delete
+              </Button>
             </div>
           </div>
         </div>
