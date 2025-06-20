@@ -4,8 +4,6 @@ import Button from '@/components/custom/Button';
 import Datatable from '@/components/common/Datatable';
 import { faker } from '@faker-js/faker';
 import useColumnDef from '@/hooks/useColumnDef';
-import AddBlendingLetter from '@/modal/AddBlendingLetter';
-import BlendingLetterSoundDetail from '@/modal/BlendingLetterSoundDetail';
 import DeleteModal from '@/modal/DeleteModal';
 import AddSegmentingWords from '@/modal/AddSegmentingWords';
 import SegmentingWordDetail from '@/modal/SegmentingWordDetail';

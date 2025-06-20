@@ -16,7 +16,7 @@ import Statistics from "@/pages/dashboard/Statistics/Statistics";
 import Subscriptions from "@/pages/dashboard/Subscriptions/Subscriptions";
 import Users from "@/pages/dashboard/Users/Users";
 import WordPronounces from "@/pages/dashboard/WordPronounces";
-import BlendingLetterSounds from "@/pages/dashboard/⁠BlendingLetterSounds/⁠BlendingLetterSounds";
+import BlendingLetterSounds from "@/pages/dashboard/⁠BlendingLetters/⁠BlendingLetterSounds";
 import ErrorPage from "@/pages/error/ErrorPage";
 import { createBrowserRouter, Navigate } from "react-router";
 
