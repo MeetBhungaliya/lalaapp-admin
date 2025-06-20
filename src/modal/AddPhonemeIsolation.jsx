@@ -107,7 +107,8 @@ const AddPhonemeIsolation = ({ open, setOpen }) => {
                             <RichTextEditor
                                 name="script"
                                 placeholder="Script"
-                                className={cn("rounded-[8px]  mt-0", open?.data ? "h-[200px]" : "h-[150px]")}
+                                className={cn("rounded-[8px]  mt-0")}
+                                minHeight={open?.data ? "200px" : "150px"}
                             />
                             <TextField
                                 name="question"

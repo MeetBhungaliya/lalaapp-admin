@@ -103,7 +103,8 @@ const AddRhymingWordModal = ({ open, setOpen }) => {
                             <RichTextEditor
                                 name="script"
                                 placeholder="Script"
-                                className={cn("rounded-[8px]  mt-0", open?.data ? "h-[200px]" : "h-[150px]")}
+                                className={cn("rounded-[8px]  mt-0")}
+                                minHeight={open?.data ? "200px" : "150px"}
                             />
                             <div className="grid grid-cols-1 sm:grid-cols-3 h-full gap-6">
                                 {fields.map((field, idx) => (

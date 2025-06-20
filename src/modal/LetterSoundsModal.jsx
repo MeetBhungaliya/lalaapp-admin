@@ -17,6 +17,7 @@ import SoundField from "@/form/SoundField";
 import { UploadImage } from "@/form/UploadImage";
 import RichTextEditor from "@/form/RichTextEditor";
 import { cn } from "@/lib/utils";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const LetterSoundsModal = ({ open, setOpen }) => {
   const defaultValues = {
@@ -87,7 +88,7 @@ const LetterSoundsModal = ({ open, setOpen }) => {
     <Dialog open={open?.open} onOpenChange={handleClose}>
       <DialogContent
         onOpenAutoFocus={(e) => e.preventDefault()}
-        className="sm:max-w-[655px] px-8 py-6 rounded-[24px]"
+        className="sm:max-w-[655px] px-8 py-6 rounded-[24px]  overflow-hidden"
       >
         <DialogHeader className="flex flex-row justify-between pb-4 -mx-6 px-6 border-b border-[#EDEDED]">
           <DialogTitle className="text-2xl font-bold text-primary">
@@ -97,23 +98,38 @@ const LetterSoundsModal = ({ open, setOpen }) => {
             <img src={CLOSE_SECONDARY_ICON} alt="CLOSE_ICON" />
           </div>
         </DialogHeader>
-
-        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-          <div className={`flex flex-col gap-6 pt-5 ${open?.data ? "px-12" : ""}`}>
-            <TextField
-              name="level"
-              prefix={<img src={LEVEL_ICON} alt="LEVEL_ICON" />}
-              placeholder="Level"
-              className="rounded-[8px]"
-            />
-            <RichTextEditor
-              name="script"
-              placeholder="Script"
-              className={cn("rounded-[8px]  mt-0" , open?.data ? "h-[200px]" : "h-[150px]")}
-            />
-            {open?.data ? (
-              <div className="border-2 border-dashed border-[#7E808C33] rounded-[8px] p-3 space-y-3">
-                <div className="text-[#04163C] text-lg underline text-end font-normal">Edit</div>
+        <ScrollArea className="max-h-[80vh] overflow-y-auto">
+          <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+            <div className={`flex flex-col gap-6 pt-5 ${open?.data ? "px-12" : ""}`}>
+              <TextField
+                name="level"
+                prefix={<img src={LEVEL_ICON} alt="LEVEL_ICON" />}
+                placeholder="Level"
+                className="rounded-[8px]"
+              />
+              <RichTextEditor
+                name="script"
+                placeholder="Script"
+                className={cn("rounded-[8px]  mt-0")}
+                minHeight={open?.data ? "200px" : "150px"}
+              />
+              {open?.data ? (
+                <div className="border-2 border-dashed border-[#7E808C33] rounded-[8px] p-3 space-y-3">
+                  <div className="text-[#04163C] text-lg underline text-end font-normal">Edit</div>
+                  <div className={`flex ${flexDirection} gap-x-8 gap-y-3`}>
+                    <SoundField
+                      name="sound"
+                      placeholder="sound"
+                      className="rounded-[8px] flex-1"
+                    />
+                    <UploadImage
+                      name="image"
+                      onDrop={onDrop}
+                      className="rounded-[8px] flex-1"
+                    />
+                  </div>
+                </div>
+              ) : (
                 <div className={`flex ${flexDirection} gap-x-8 gap-y-3`}>
                   <SoundField
                     name="sound"
@@ -126,31 +142,18 @@ const LetterSoundsModal = ({ open, setOpen }) => {
                     className="rounded-[8px] flex-1"
                   />
                 </div>
-              </div>
-            ) : (
-              <div className={`flex ${flexDirection} gap-x-8 gap-y-3`}>
-                <SoundField
-                  name="sound"
-                  placeholder="sound"
-                  className="rounded-[8px] flex-1"
-                />
-                <UploadImage
-                  name="image"
-                  onDrop={onDrop}
-                  className="rounded-[8px] flex-1"
-                />
-              </div>
-            )}
-          </div>
-          <DialogFooter className="flex sm:justify-center justify-center mt-8">
-            <Button
-              className="text-base shadow-[0px_4px_6px_0px_#8FD5FF] py-[12.5px] font-semibold sm:text-lg w-fit px-20"
-              type="submit"
-            >
-              {open?.data ? "Save" : "Add"}
-            </Button>
-          </DialogFooter>
-        </FormProvider>
+              )}
+            </div>
+            <DialogFooter className="flex sm:justify-center justify-center mt-8">
+              <Button
+                className="text-base shadow-[0px_4px_6px_0px_#8FD5FF] py-[12.5px] font-semibold sm:text-lg w-fit px-20"
+                type="submit"
+              >
+                {open?.data ? "Save" : "Add"}
+              </Button>
+            </DialogFooter>
+          </FormProvider>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );

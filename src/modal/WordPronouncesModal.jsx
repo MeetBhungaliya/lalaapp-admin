@@ -17,6 +17,7 @@ import SoundField from "@/form/SoundField";
 import { UploadImage } from "@/form/UploadImage";
 import RichTextEditor from "@/form/RichTextEditor";
 import { cn } from "@/lib/utils";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const WordPronouncesModal = ({ open, setOpen }) => {
   const defaultValues = {
@@ -82,7 +83,7 @@ const WordPronouncesModal = ({ open, setOpen }) => {
     <Dialog open={open?.open} onOpenChange={handleClose}>
       <DialogContent
         onOpenAutoFocus={(e) => e.preventDefault()}
-        className="sm:max-w-[655px] px-8 py-6 rounded-[24px]"
+        className="sm:max-w-[655px] px-8 py-6 rounded-[24px] overflow-hidden"
       >
         <DialogHeader className="flex flex-row justify-between pb-4 -mx-6 px-6 border-b border-[#EDEDED]">
           <DialogTitle className="text-2xl font-bold text-primary">
@@ -92,9 +93,9 @@ const WordPronouncesModal = ({ open, setOpen }) => {
             <img src={CLOSE_SECONDARY_ICON} alt="CLOS" />
           </div>
         </DialogHeader>
-
-        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-          <div className={`flex pt-3 flex-col gap-6 ${open?.data ? "px-12" : ""}`}>
+        <ScrollArea className="max-h-[80vh] overflow-y-auto"> 
+          <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+            <div className={`flex pt-3 flex-col gap-6 ${open?.data ? "px-12" : ""}`}>
             <div className={`${!open?.data ? "grid grid-cols-2 gap-4" : "grid grid-cols-1 gap-4"}`}>
               {!open?.data && <TextField
                 name="word"
@@ -112,7 +113,8 @@ const WordPronouncesModal = ({ open, setOpen }) => {
             <RichTextEditor
               name="script"
               placeholder="Script"
-              className={cn("rounded-[8px]  mt-0", open?.data ? "h-[200px]" : "h-[150px]")}
+              className={cn("rounded-[8px]  mt-0")}
+              minHeight={open?.data ? "200px" : "150px"}
             />
             {open?.data ? (
               <div className="border-2 border-dashed border-[#7E808C33] rounded-[8px] p-3 space-y-3">
@@ -160,6 +162,7 @@ const WordPronouncesModal = ({ open, setOpen }) => {
             </Button>
           </DialogFooter>
         </FormProvider>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );
