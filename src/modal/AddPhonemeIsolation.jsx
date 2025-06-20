@@ -17,6 +17,7 @@ import SoundField from "@/form/SoundField";
 import { UploadImage } from "@/form/UploadImage";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import RichTextEditor from "@/form/RichTextEditor";
 
 const PhonemeIsolationSchema = yup.object().shape({
     level: yup.string().required("Please enter level"),
@@ -30,6 +31,7 @@ const PhonemeIsolationSchema = yup.object().shape({
         .mixed()
         .required("Please select sound")
         .test("fileExists", "Please select sound", (value) => !!value),
+    script: yup.string().required("Please enter script")
 });
 
 const defaultValues = {
@@ -37,6 +39,7 @@ const defaultValues = {
     name: "",
     image: null,
     sound: null,
+    script: "",
 };
 
 const AddPhonemeIsolation = ({ open, setOpen }) => {
@@ -44,7 +47,7 @@ const AddPhonemeIsolation = ({ open, setOpen }) => {
         defaultValues,
         resolver: yupResolver(PhonemeIsolationSchema),
     });
-    const { handleSubmit, reset, setValue,watch } = methods;
+    const { handleSubmit, reset, setValue, watch } = methods;
 
     useEffect(() => {
         if (open?.data) {
@@ -53,6 +56,7 @@ const AddPhonemeIsolation = ({ open, setOpen }) => {
                 name: open.data.name || "",
                 image: open.data.image || null,
                 sound: open.data.sound || null,
+                script: open.data.script || "",
             });
         } else {
             reset(defaultValues);
@@ -69,7 +73,7 @@ const AddPhonemeIsolation = ({ open, setOpen }) => {
 
     return (
         <Dialog open={open?.open} onOpenChange={handleClose}>
-            <DialogContent className={cn(" max-h-[90vh] py-6 px-0 rounded-[24px]", open?.data ? "sm:max-w-[600px] max-w-[70%]" : "sm:max-w-[700px] max-w-[90%]")}>
+            <DialogContent className={cn(" max-h-[90vh] overflow-hidden py-6 px-0 rounded-[24px]", open?.data ? "sm:max-w-[600px] max-w-[70%]" : "sm:max-w-[700px] max-w-[90%]")}>
                 <DialogHeader className="flex flex-row justify-between  px-8 pb-4   border-b border-[#EDEDED]">
                     <DialogTitle className="text-2xl font-bold text-primary">
                         {open?.data ? "Edit Word" : "Add Words"}
@@ -78,7 +82,7 @@ const AddPhonemeIsolation = ({ open, setOpen }) => {
                         <img src={CLOSE_SECONDARY_ICON} alt="CLOSE_SECONDARY_ICON" />
                     </div>
                 </DialogHeader>
-                <ScrollArea className="flex-1 flex flex-col  px-8">
+                <ScrollArea className="flex-1 max-h-[80vh] overflow-y-auto flex flex-col  px-8">
                     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} className="max-h-[65vh]">
                         <div className={cn("flex flex-col gap-6  rounded-[8px] pt-2.5 ", open?.data ? "sm:px-14 px-5" : "px-0.5")}>
                             <div className={cn(!open?.data ? "grid grid-cols-2 gap-6" : "flex flex-col gap-3.5")}>
@@ -100,6 +104,11 @@ const AddPhonemeIsolation = ({ open, setOpen }) => {
 
 
                             </div>
+                            <RichTextEditor
+                                name="script"
+                                placeholder="Script"
+                                className={cn("rounded-[8px]  mt-0", open?.data ? "h-[200px]" : "h-[150px]")}
+                            />
                             <TextField
                                 name="question"
                                 prefix={<img src={QUESTION_ICON} alt="QUESTION_ICON" />}

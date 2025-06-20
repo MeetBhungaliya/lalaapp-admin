@@ -18,6 +18,7 @@ import { UploadImage } from "@/form/UploadImage";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { FaCircleCheck } from "react-icons/fa6";
+import RichTextEditor from "@/form/RichTextEditor";
 
 const Step1Schema = yup.object().shape({
     name: yup.string().required("Please enter word name"),
@@ -30,6 +31,7 @@ const Step1Schema = yup.object().shape({
         .mixed()
         .required("Please select image")
         .test("fileExists", "Please select image", (value) => !!value),
+    script: yup.string().required("Please enter script")
 });
 
 const Step2Schema = yup.object().shape({
@@ -53,6 +55,7 @@ const defaultValues = {
         { name: "", sound: null },
         { name: "", sound: null },
     ],
+    script: "",
 };
 
 const AddSegmentingWords = ({ open, setOpen }) => {
@@ -60,7 +63,7 @@ const AddSegmentingWords = ({ open, setOpen }) => {
     const methods = useForm({
         defaultValues,
         resolver: yupResolver(step === 1 ? Step1Schema : Step2Schema),
-        mode: "onTouched",
+        // mode: "onTouched",
     });
     const { handleSubmit, reset, control, watch, trigger, setValue, formState: { errors } } = methods;
     const { fields, append, remove } = useFieldArray({
@@ -76,7 +79,8 @@ const AddSegmentingWords = ({ open, setOpen }) => {
                 sound: open.data.sound || null,
                 image: open.data.image || null,
                 letters: open.data.letters || defaultValues.letters,
-            });
+                script: open.data.script || "",
+                });
         } else {
             reset(defaultValues);
         }
@@ -173,6 +177,13 @@ const AddSegmentingWords = ({ open, setOpen }) => {
                                             placeholder="Level"
                                             className="rounded-[8px] flex-1"
                                         />
+                                        <div className="col-span-2">
+                                            <RichTextEditor
+                                                name="script"
+                                                placeholder="Script"
+                                                className={cn("rounded-[8px]  mt-0", open?.data ? "h-[200px]" : "h-[150px]")}
+                                            />
+                                        </div>
                                         <div className={cn(!watch("image") && !watch("sound") ? "col-span-1" : "col-span-2")}>
                                             <SoundField
                                                 name="sound"

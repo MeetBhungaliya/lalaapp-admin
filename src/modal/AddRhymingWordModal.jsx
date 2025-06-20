@@ -16,6 +16,8 @@ import TextField from "@/form/TextField";
 import SoundField from "@/form/SoundField";
 import { UploadImage } from "@/form/UploadImage";
 import { cn } from "@/lib/utils";
+import RichTextEditor from "@/form/RichTextEditor";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const RhymingWordSchema = yup.object().shape({
     level: yup.string().required("Please enter level"),
@@ -32,6 +34,7 @@ const RhymingWordSchema = yup.object().shape({
                 .test("fileExists", "Please select image", (value) => !!value),
         })
     ).min(2, "At least two words required"),
+    script: yup.string().required("Please enter script")
 });
 
 const defaultValues = {
@@ -41,6 +44,7 @@ const defaultValues = {
         { name: "", image: null, sound: null },
         { name: "", image: null, sound: null },
     ],
+    script: "",
 };
 
 const AddRhymingWordModal = ({ open, setOpen }) => {
@@ -61,6 +65,7 @@ const AddRhymingWordModal = ({ open, setOpen }) => {
             reset({
                 level: open.data.level || "",
                 words: open.data.words || defaultValues.words,
+                script: open.data.script || "",
             });
         } else {
             reset(defaultValues);
@@ -77,7 +82,7 @@ const AddRhymingWordModal = ({ open, setOpen }) => {
 
     return (
         <Dialog open={open?.open} onOpenChange={handleClose}>
-            <DialogContent className="sm:max-w-[900px] max-w-[90%] px-8 max-h-[90vh] py-6 rounded-[24px] overflow-y-auto">
+            <DialogContent className="sm:max-w-[900px] max-w-[90%] px-8 max-h-[90vh] py-6 rounded-[24px] overflow-hidden">
                 <DialogHeader className="flex flex-row justify-between pb-4 -mx-6 px-6 border-b border-[#EDEDED]">
                     <DialogTitle className="text-2xl font-bold text-primary">
                         {open?.data ? "Edit Words" : "Add Words"}
@@ -86,71 +91,78 @@ const AddRhymingWordModal = ({ open, setOpen }) => {
                         <img src={CLOSE_SECONDARY_ICON} alt="CLOSE_SECONDARY_ICON" />
                     </div>
                 </DialogHeader>
-                <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-                    <div className="flex flex-col gap-6  border-2 p-4 mt-4 border-dashed border-[#7E808C33] rounded-[8px]">
-                        <TextField
-                            name="level"
-                            prefix={<img src={LEVEL_ICON} alt="LEVEL_ICON" />}
-                            placeholder="Level"
-                            className="rounded-[8px] flex-1"
-                        />
-                        <div className="grid grid-cols-1 sm:grid-cols-3 h-full gap-6">
-                            {fields.map((field, idx) => (
-                                <div key={field.id} className={cn("rounded-[8px] h-full  flex flex-col gap-3 relative", open?.data && "border-2 border-dashed border-[#7E808C33]", open?.data && "border-2 border-dashed border-[#7E808C33] px-3 pt-8 pb-4")}>
-                                    {open?.data && (
-                                        <div className="absolute top-2 right-2 flex items-center gap-1">
-                                            <span className="text-base  text-[#04163C] underline font-normal flex items-center gap-1 cursor-pointer">
-                                                Edit
-                                            </span>
-                                        </div>
-                                    )}
-                                    <div className={cn("space-y-5", open?.data && "pt-1.5 ")}>
-                                        <TextField
-                                            name={`words.${idx}.name`}
-                                            prefix={<img src={WORD_ICON} alt="WORD_ICON" />}
-                                            placeholder="Word name"
-                                            className="rounded-[8px] flex-1"
-                                        />
-                                        <UploadImage
-                                            name={`words.${idx}.image`}
-                                            className="rounded-[8px] flex-1"
-                                            onDrop={(acceptedFiles) => {
-                                                setValue(
-                                                    `words.${idx}.image`,
-                                                    Object.assign(acceptedFiles[0], {
-                                                        preview: URL.createObjectURL(acceptedFiles[0]),
-                                                    }),
-                                                    { shouldDirty: true, shouldValidate: true }
-                                                );
-                                            }}
-                                        />
-                                        <SoundField
-                                            name={`words.${idx}.sound`}
-                                            className="rounded-[8px] flex-1"
-                                        />
-                                        {open?.data > 2 && (
-                                            <button
-                                                type="button"
-                                                className="absolute -top-2 -left-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs shadow"
-                                                onClick={() => remove(idx)}
-                                            >
-                                                &times;
-                                            </button>
+                <ScrollArea className="max-h-[80vh] overflow-y-auto">
+                    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+                        <div className="flex flex-col gap-6  border-2 p-4 mt-4 border-dashed border-[#7E808C33] rounded-[8px]">
+                            <TextField
+                                name="level"
+                                prefix={<img src={LEVEL_ICON} alt="LEVEL_ICON" />}
+                                placeholder="Level"
+                                className="rounded-[8px] flex-1"
+                            />
+                            <RichTextEditor
+                                name="script"
+                                placeholder="Script"
+                                className={cn("rounded-[8px]  mt-0", open?.data ? "h-[200px]" : "h-[150px]")}
+                            />
+                            <div className="grid grid-cols-1 sm:grid-cols-3 h-full gap-6">
+                                {fields.map((field, idx) => (
+                                    <div key={field.id} className={cn("rounded-[8px] h-full  flex flex-col gap-3 relative", open?.data && "border-2 border-dashed border-[#7E808C33]", open?.data && "border-2 border-dashed border-[#7E808C33] px-3 pt-8 pb-4")}>
+                                        {open?.data && (
+                                            <div className="absolute top-2 right-2 flex items-center gap-1">
+                                                <span className="text-base  text-[#04163C] underline font-normal flex items-center gap-1 cursor-pointer">
+                                                    Edit
+                                                </span>
+                                            </div>
                                         )}
+                                        <div className={cn("space-y-5", open?.data && "pt-1.5 ")}>
+                                            <TextField
+                                                name={`words.${idx}.name`}
+                                                prefix={<img src={WORD_ICON} alt="WORD_ICON" />}
+                                                placeholder="Word name"
+                                                className="rounded-[8px] flex-1"
+                                            />
+                                            <UploadImage
+                                                name={`words.${idx}.image`}
+                                                className="rounded-[8px] flex-1"
+                                                onDrop={(acceptedFiles) => {
+                                                    setValue(
+                                                        `words.${idx}.image`,
+                                                        Object.assign(acceptedFiles[0], {
+                                                            preview: URL.createObjectURL(acceptedFiles[0]),
+                                                        }),
+                                                        { shouldDirty: true, shouldValidate: true }
+                                                    );
+                                                }}
+                                            />
+                                            <SoundField
+                                                name={`words.${idx}.sound`}
+                                                className="rounded-[8px] flex-1"
+                                            />
+                                            {open?.data > 2 && (
+                                                <button
+                                                    type="button"
+                                                    className="absolute -top-2 -left-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs shadow"
+                                                    onClick={() => remove(idx)}
+                                                >
+                                                    &times;
+                                                </button>
+                                            )}
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
+                            </div>
                         </div>
-                    </div>
-                    <DialogFooter className="flex sm:justify-center justify-center mt-8">
-                        <Button
-                            className="text-base shadow-[0px_4px_6px_0px_#8FD5FF] py-[12.5px] font-semibold sm:text-lg w-fit px-20"
-                            type="submit"
-                        >
-                            {open?.data ? "Save" : "Add"}
-                        </Button>
-                    </DialogFooter>
-                </FormProvider>
+                        <DialogFooter className="flex sm:justify-center justify-center mt-8">
+                            <Button
+                                className="text-base shadow-[0px_4px_6px_0px_#8FD5FF] py-[12.5px] font-semibold sm:text-lg w-fit px-20"
+                                type="submit"
+                            >
+                                {open?.data ? "Save" : "Add"}
+                            </Button>
+                        </DialogFooter>
+                    </FormProvider>
+                </ScrollArea>
             </DialogContent>
         </Dialog>
     );

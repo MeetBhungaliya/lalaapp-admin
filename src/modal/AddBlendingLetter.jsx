@@ -19,6 +19,7 @@ import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { RiRadioButtonFill } from "react-icons/ri";
 import { FaCircleCheck } from "react-icons/fa6";
+import RichTextEditor from "@/form/RichTextEditor";
 
 
 const blendTypes = ["Initial Blend", "Final Blend"];
@@ -31,6 +32,7 @@ const Step1Schema = yup.object().shape({
         .mixed()
         .required("Please select sound")
         .test("fileExists", "Please select sound", (value) => !!value),
+    script: yup.string().required("Please enter script")
 });
 
 const Step2Schema = yup.object().shape({
@@ -54,6 +56,7 @@ const defaultValues = {
         { name: "", image: null, sound: null },
         { name: "", image: null, sound: null },
     ],
+    script: "",
 };
 
 const AddBlendingLetter = ({ open, setOpen }) => {
@@ -64,6 +67,9 @@ const AddBlendingLetter = ({ open, setOpen }) => {
         resolver: yupResolver(step === 1 ? Step1Schema : Step2Schema),
         mode: "onTouched",
         reValidateMode: "onBlur",
+        mode: "onChange",
+        mode: "onSubmit",
+
     });
     const { handleSubmit, reset, control, setValue, trigger, formState: { errors } } = methods;
     const { fields, append, remove } = useFieldArray({
@@ -81,6 +87,7 @@ const AddBlendingLetter = ({ open, setOpen }) => {
                 sound: open.data.sound || null,
                 blendType: open.data.blendType || blendTypes[0],
                 blends: open.data.blends || defaultValues.blends,
+                script: open.data.script || "",
             });
             setSelectedBlendType(open.data.blendType || blendTypes[0]);
             // setStep(2);
@@ -184,6 +191,11 @@ const AddBlendingLetter = ({ open, setOpen }) => {
                                             className="rounded-[8px] flex-1"
                                         />
                                     </div>
+                                    <RichTextEditor
+                                        name="script"
+                                        placeholder="Script"
+                                        className={cn("rounded-[8px]  mt-0", open?.data ? "h-[200px]" : "h-[150px]")}
+                                    />
                                     <SoundField
                                         name="sound"
                                         className="rounded-[8px] flex-1"

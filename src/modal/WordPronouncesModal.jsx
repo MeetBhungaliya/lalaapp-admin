@@ -15,6 +15,8 @@ import Button from "@/components/custom/Button";
 import TextField from "@/form/TextField";
 import SoundField from "@/form/SoundField";
 import { UploadImage } from "@/form/UploadImage";
+import RichTextEditor from "@/form/RichTextEditor";
+import { cn } from "@/lib/utils";
 
 const WordPronouncesModal = ({ open, setOpen }) => {
   const defaultValues = {
@@ -22,6 +24,7 @@ const WordPronouncesModal = ({ open, setOpen }) => {
     word: "",
     sound: "",
     image: "",
+    script: "",
   };
 
   const methods = useForm({
@@ -37,13 +40,14 @@ const WordPronouncesModal = ({ open, setOpen }) => {
       word: open?.data?.row?.name ?? "",
       sound: open?.data?.row?.sound ?? "",
       image: open?.data?.row?.image ?? "",
+      script: open?.data?.row?.script ?? "",
     });
   }, [open?.data]);
 
   const soundValue = watch("sound");
   const imageValue = watch("image");
   const isAnySelected = !!soundValue || !!imageValue;
-  const flexDirection = isAnySelected ? "flex-col-reverse" : "flex-row";
+  const flexDirection = isAnySelected ? "flex-col-reverse" : "flex-col-reverse";
 
   const onSubmit = (values) => {
     setOpen({
@@ -91,7 +95,7 @@ const WordPronouncesModal = ({ open, setOpen }) => {
 
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
           <div className={`flex pt-3 flex-col gap-6 ${open?.data ? "px-12" : ""}`}>
-            <div className={`${!open?.data ? "grid grid-cols-2 gap-4" : ""}`}>
+            <div className={`${!open?.data ? "grid grid-cols-2 gap-4" : "grid grid-cols-1 gap-4"}`}>
               {!open?.data && <TextField
                 name="word"
                 prefix={<img src={WORD_ICON} alt="WORD_ICON" />}
@@ -105,6 +109,11 @@ const WordPronouncesModal = ({ open, setOpen }) => {
                 className="rounded-[8px] w-full"
               />
             </div>
+            <RichTextEditor
+              name="script"
+              placeholder="Script"
+              className={cn("rounded-[8px]  mt-0", open?.data ? "h-[200px]" : "h-[150px]")}
+            />
             {open?.data ? (
               <div className="border-2 border-dashed border-[#7E808C33] rounded-[8px] p-3 space-y-3">
                 <div className="text-[#04163C] text-lg underline text-end font-normal cursor-pointer">Edit</div>

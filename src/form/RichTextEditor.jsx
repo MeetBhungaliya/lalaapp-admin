@@ -508,10 +508,10 @@ const RichTextEditor = ({
                             </label>
                         )}
                         <div className='space-y-0.5'>
-                            <FormItem className="relative pt-2">
+                            <FormItem className="relative">
                                 <FormControl>
                                     <div className={cn(
-                                        'bg-ternary border-none rounded-[16px] overflow-hidden',
+                                        'bg-ternary border-none rounded-[16px] mt-2 overflow-hidden',
                                         fieldError?.message ? "ring-1 ring-red-500" : "ring-1 ring-gray-200 focus-within:ring-main",
                                         className
                                     )}>

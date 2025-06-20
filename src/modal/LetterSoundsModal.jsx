@@ -15,12 +15,15 @@ import Button from "@/components/custom/Button";
 import TextField from "@/form/TextField";
 import SoundField from "@/form/SoundField";
 import { UploadImage } from "@/form/UploadImage";
+import RichTextEditor from "@/form/RichTextEditor";
+import { cn } from "@/lib/utils";
 
 const LetterSoundsModal = ({ open, setOpen }) => {
   const defaultValues = {
     level: "",
     sound: "",
     image: "",
+    script: "",
   };
 
   const methods = useForm({
@@ -37,6 +40,7 @@ const LetterSoundsModal = ({ open, setOpen }) => {
       level: open?.data?.row?.level ?? "",
       sound: "https://file-examples.com/storage/feba78aab06819c7996c057/2017/11/file_example_MP3_700KB.mp3" ?? "",
       image: open?.data?.row?.image ?? "",
+      script: open?.data?.row?.script ?? "",
     });
   }, [open?.data]);
 
@@ -101,6 +105,11 @@ const LetterSoundsModal = ({ open, setOpen }) => {
               prefix={<img src={LEVEL_ICON} alt="LEVEL_ICON" />}
               placeholder="Level"
               className="rounded-[8px]"
+            />
+            <RichTextEditor
+              name="script"
+              placeholder="Script"
+              className={cn("rounded-[8px]  mt-0" , open?.data ? "h-[200px]" : "h-[150px]")}
             />
             {open?.data ? (
               <div className="border-2 border-dashed border-[#7E808C33] rounded-[8px] p-3 space-y-3">
