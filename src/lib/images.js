@@ -48,6 +48,7 @@ export const GALLERY_ICON = BASE_PATH + ICONS + "gallery_icon.svg"
 export const DOWNLOAD_ICON = BASE_PATH + ICONS + "download_icon.svg"
 export const SUBSCRIPTION_ACTIVE_ICON = BASE_PATH + ICONS + "crown_white.svg"
 export const QUESTION_ICON = BASE_PATH + ICONS + "message-question.svg"
+export const EDIT_WHITE_ICON = BASE_PATH + ICONS + "edit_white.svg"
 export const CLOSE_SECONDARY_ICON = BASE_PATH + ICONS + "close_secondary_icon.svg"
 
 export const LOGIN_IMAGE = BASE_PATH + IMAGES + 'login.png';

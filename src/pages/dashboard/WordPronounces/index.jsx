@@ -10,11 +10,14 @@ import { PAGINATION_DISPATCH_TYPES } from "@/utils/constants";
 import { faker } from "@faker-js/faker";
 import React, { useEffect, useState } from "react";
 import DeleteModal from "@/modal/DeleteModal";
+import AddScript from "@/modal/AddScript";
+import { EDIT_WHITE_ICON } from "@/lib/images";
 
 const WordPronounces = () => {
   const [open, setOpen] = useState({ open: false, data: null });
   const [openView, setOpenView] = useState({ open: false, data: null });
   const [openDelete, setOpenDelete] = useState({ open: false, data: null });
+  const [openScript, setOpenScript] = useState({ open: false, data: null });
 
   const total = 10;
   const {
@@ -55,7 +58,7 @@ const WordPronounces = () => {
 
   return (
     <>
-      <div className="flex-1 flex flex-col overflow-auto gap-6 p-6">
+      <div className="flex-1 flex flex-col overflow-hidden gap-6 p-6">
         <div className="flex items-center justify-between">
           <div className="max-w-[550px] min-w-[350px]">
             <SearchBox />
@@ -69,16 +72,34 @@ const WordPronounces = () => {
           </Button>
         </div>
 
-        <Datatable
-          data={dummyData}
-          columns={wordPronouncesColumns}
-          title="Word Pronounces"
-        />
+        <div className="flex-1 flex overflow-hidden gap-6 h-full">
+          {/* Datatable - 3/4 width */}
+          <div className="flex-1 w-3/4">
+            <Datatable
+              data={dummyData}
+              columns={wordPronouncesColumns}
+              title="Word Pronounces"
+            />
+          </div>
+          
+          {/* Script Section - 1/4 width */}
+          <div className="w-1/4 bg-white rounded-[24px] flex flex-col">
+            <div className="bg-[#F2F4FC] flex justify-between items-center px-5 py-[21px] rounded-t-[24px]">
+              <p className="text-lg font-medium text-black">Script</p>
+              <div className="sm:size-[36px] size-[32px] rounded-[8px] shadow-[0px_4px_6px_0px_#8FD5FF] bg-main flex items-center justify-center cursor-pointer">
+                <img src={EDIT_WHITE_ICON} alt="EDIT_WHITE_ICON" onClick={() => setOpenScript({ open: true, data: null })} />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <WordPronouncesModal open={open} setOpen={setOpen} />
       <ViewWordPronouncesModal open={openView} setOpen={setOpenView} />
       {
         openDelete.open && <DeleteModal open={openDelete} setOpen={setOpenDelete} title={openDelete.data?.name} name="Level" />
+      }
+      {
+        openScript?.open && <AddScript open={openScript} setOpen={setOpenScript} />
       }
       {/* <DeleteWordPronounceModal open={openDelete} setOpen={setOpenDelete} /> */}
     </>
