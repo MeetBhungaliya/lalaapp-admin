@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
 import Datatable from "@/components/common/Datatable";
 import SearchBox from "@/components/common/SearchBox";
 import useColumnDef from "@/hooks/useColumnDef";
 import usePagination from "@/hooks/usePagination";
-import { faker } from "@faker-js/faker";
-import UserDetail from "@/modal/UserDetail";
-import DeleteUserModal from "@/modal/DeleteUserModal";
 import DeleteModal from "@/modal/DeleteModal";
+import UserDetail from "@/modal/UserDetail";
+import { faker } from "@faker-js/faker";
+import { useEffect, useState } from "react";
 
 const Subscriptions = () => {
     const [openView, setOpenView] = useState({ open: false, data: null });

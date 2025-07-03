@@ -1,37 +1,54 @@
-import Loading from "@/components/common/Loading";
 import Button from "@/components/custom/Button";
+import { METHODS } from "@/constants/common";
+import { FORGOT_PASSWORD } from "@/constants/endpoints";
 import FormProvider from "@/form/FormProvider";
 import TextField from "@/form/TextField";
+import { fetchApi } from "@/lib/api";
 import {
   ARROW_LEFT_ICON,
   EMAIL_ICON,
-  FORGET_ICON,
   FORGOT_PASSWORD_IMAGE,
   SMS_ICON,
 } from "@/lib/images";
 import { ForgotPasswordSchema } from "@/lib/schema";
-import { forgotPassword } from "@/redux/actions/auth.action";
+import { asyncResponseToaster } from "@/lib/toasts";
 import { yupResolver } from "@hookform/resolvers/yup";
-import React from "react";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+
+const defaultValues = {
+  email: "",
+};
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.auth);
-  const defaultValues = {
-    email: "",
-  };
+
   const methods = useForm({
     defaultValues,
     resolver: yupResolver(ForgotPasswordSchema),
   });
-  const { handleSubmit } = methods;
 
-  const onSubmit = (values) => {
-    navigate("/verify_otp");
+  const {
+    handleSubmit,
+    formState: { isDirty },
+    reset,
+  } = methods;
+
+  const forgotPasswordMutation = useMutation({
+    mutationFn: async (data) =>
+      fetchApi({ url: FORGOT_PASSWORD, method: METHODS.POST, data }),
+  });
+
+  const onSubmit = async (values) => {
+    const result = await asyncResponseToaster(() =>
+      forgotPasswordMutation.mutateAsync({ email: values.email.toLowerCase() })
+    );
+
+    if (result.success && result.value && result.value.isSuccess) {
+      navigate("/verify_otp", { state: { email: values.email.toLowerCase() } });
+      reset();
+    }
   };
 
   return (
@@ -72,12 +89,12 @@ const ForgotPassword = () => {
                 </div>
                 <div className="max-sm:pt-1">
                   <Button
-                    disabled={loading}
+                    disabled={!isDirty || forgotPasswordMutation.isPending}
                     className="text-base max-sm:py-[12.5px] shadow-[0px_4px_6px_0px_#8FD5FF] font-semibold sm:text-lg"
                     type="submit"
-                    loader={loading}
+                    loader={forgotPasswordMutation.isPending}
                   >
-                    {loading ? <Loading className="text-2xl" /> : "Send Code"}
+                    Send Code
                   </Button>
                 </div>
               </div>

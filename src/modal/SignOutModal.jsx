@@ -1,11 +1,19 @@
 import Button from "@/components/custom/Button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { useAuthStore } from "@/hooks/use-auth";
 import { LOGOUT_PRIMARY_ICON } from "@/lib/images";
 import React from "react";
 import { useNavigate } from "react-router";
 
 const SignOutModal = ({ open, setOpen }) => {
+  const { removeuser } = useAuthStore();
   const navigate = useNavigate();
+
+  const onLogout = () => {
+    removeuser();
+    navigate("/login");
+    handleClose();
+  };
 
   const handleClose = () => {
     setOpen({
@@ -13,6 +21,7 @@ const SignOutModal = ({ open, setOpen }) => {
       data: null,
     });
   };
+
   return (
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent
@@ -24,7 +33,9 @@ const SignOutModal = ({ open, setOpen }) => {
             <img src={LOGOUT_PRIMARY_ICON} alt="LOGOUT_PRIMARY_ICON" />
           </div>
           <div className="space-y-0 mx-auto">
-            <h2 className="text-primary font-bold text-[26px] pt-3 text-center">Logout?</h2>
+            <h2 className="text-primary font-bold text-[26px] pt-3 text-center">
+              Logout?
+            </h2>
             <p className="text-[18px]  font-normal text-[#3D4152] text-center">
               Are you sure you want to logout?
             </p>
@@ -37,10 +48,7 @@ const SignOutModal = ({ open, setOpen }) => {
               No
             </Button>
             <Button
-              onClick={() => {
-                localStorage.clear();
-                navigate("/login");
-              }}
+              onClick={onLogout}
               className="text-base max-sm:py-[13.5px] font-semibold sm:text-lg shadow-[0px_4px_6px_0px_#8FD5FF]"
             >
               Yes

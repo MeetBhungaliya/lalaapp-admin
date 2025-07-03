@@ -16,3 +16,14 @@ export const breakpoints = {
   "4xl": 1800,
   "5xl": 2200
 }
+
+export async function tryCatch(fn, errorHandler) {
+  try {
+    const value = await fn()
+    return { success: true, value }
+  }
+  catch (error) {
+    const processedError = errorHandler ? errorHandler(error) : error
+    return { success: false, error: processedError, errorMsg: error?.response?.data?.message }
+  }
+}

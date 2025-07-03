@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { CROWN, USER, BADGE } from "@/lib/images";
 import TinyLineChart from "@/components/common/TinyLineChart";
 import SelectBox from "@/components/custom/SelectBox";
+import { BADGE, CROWN, USER } from "@/lib/images";
 import { chartFilterOptions } from "@/utils/constants";
+import { useEffect, useState } from "react";
 
 const stats = [
   {

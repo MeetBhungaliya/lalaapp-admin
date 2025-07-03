@@ -1,18 +1,16 @@
-import { useMemo } from "react";
 import { cn } from "@/lib/utils";
+import { useMemo } from "react";
 import {
+  CartesianGrid,
+  Line,
+  LineChart,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  LineChart,
-  Line,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
 } from "recharts";
-import { ChartContainer, ChartTooltipContent } from "../ui/chart";
+import { ChartContainer } from "../ui/chart";
 
-const CustomTooltip = ({ active, payload, label }) => {
+const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload.length) {
     return (
       <div

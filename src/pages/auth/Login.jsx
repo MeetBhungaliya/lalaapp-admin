@@ -1,39 +1,63 @@
-import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { LoginSchema } from "@/lib/schema";
-import {
-  LALA_LOGO,
-  LOCK_ICON,
-  LOGIN_ICON,
-  LOGIN_IMAGE,
-  SMS_ICON,
-} from "@/lib/images";
-import FormProvider from "@/form/FormProvider";
-import TextField from "@/form/TextField";
-import PasswordField from "@/form/PasswordField";
 import Button from "@/components/custom/Button";
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "@/redux/actions/auth.action";
+import { METHODS } from "@/constants/common";
+import { LOGIN } from "@/constants/endpoints";
+import FormProvider from "@/form/FormProvider";
+import PasswordField from "@/form/PasswordField";
+import TextField from "@/form/TextField";
+import { useAuthStore } from "@/hooks/use-auth";
+import { fetchApi } from "@/lib/api";
+import { LALA_LOGO, LOCK_ICON, LOGIN_IMAGE, SMS_ICON } from "@/lib/images";
+import { LoginSchema } from "@/lib/schema";
+import { asyncResponseToaster } from "@/lib/toasts";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useMutation } from "@tanstack/react-query";
 import md5 from "md5";
+import { useForm } from "react-hook-form";
+import { Link, Navigate, useNavigate } from "react-router";
+
+const defaultValues = {
+  email: "",
+  password: "",
+};
 
 const Login = () => {
-  const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.auth);
+  const authState = useAuthStore();
   const navigate = useNavigate();
-  const defaultValues = {
-    email: "",
-    password: "",
-  };
+
   const methods = useForm({
     defaultValues,
     resolver: yupResolver(LoginSchema),
   });
-  const { handleSubmit } = methods;
 
-  const onSubmit = (values) => {
-    navigate("/statistics");
+  const {
+    handleSubmit,
+    formState: { isDirty },
+    reset,
+  } = methods;
+
+  const loginMutation = useMutation({
+    mutationFn: async (data) =>
+      fetchApi({ url: LOGIN, method: METHODS.POST, data }),
+  });
+
+  const onSubmit = async (values) => {
+    const result = await asyncResponseToaster(() =>
+      loginMutation.mutateAsync({
+        email: values.email.toLowerCase(),
+        password: md5(values.password),
+      })
+    );
+
+    if (result.success && result.value && result.value.isSuccess) {
+      authState.adduser(result.value.data);
+      navigate("/statistics");
+      reset();
+    }
   };
+
+  if (authState.isAuthenticated) {
+    return <Navigate to="/statistics" replace />;
+  }
 
   return (
     <section className="min-h-dvh flex flex-col md:flex-row p-6">
@@ -84,10 +108,10 @@ const Login = () => {
                 </div>
                 <div className="max-sm:pt-1">
                   <Button
-                    disabled={loading}
+                    disabled={!isDirty || loginMutation.isPending}
                     className="text-base max-sm:py-[12.5px] font-semibold sm:text-lg shadow-[0px_4px_6px_0px_#8FD5FF]"
                     type="submit"
-                    loader={loading}
+                    loader={loginMutation.isPending}
                   >
                     Login
                   </Button>

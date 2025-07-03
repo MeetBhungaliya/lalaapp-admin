@@ -1,55 +1,75 @@
-import Loading from "@/components/common/Loading";
 import Button from "@/components/custom/Button";
+import { METHODS } from "@/constants/common";
+import { FORGOT_PASSWORD, VERIFY_OTP } from "@/constants/endpoints";
 import FormProvider from "@/form/FormProvider";
 import OtpField from "@/form/OTPField";
+import { fetchApi } from "@/lib/api";
 import {
   ARROW_LEFT_ICON,
   CALCULATOR_ICON,
-  LOGIN_IMAGE,
-  VERIFY_OTP_ICON,
   VERIFY_OTP_IMAGE,
 } from "@/lib/images";
 import { OTPSchema } from "@/lib/schema";
-import { forgotPassword, verifyOTP } from "@/redux/actions/auth.action";
+import { asyncResponseToaster } from "@/lib/toasts";
 import { yupResolver } from "@hookform/resolvers/yup";
-import React from "react";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router";
+import { Navigate, useLocation, useNavigate } from "react-router";
+
+const defaultValues = {
+  otp: "",
+};
 
 const VerifyOTP = () => {
-  const actionDispatch = useDispatch();
-  const { loading } = useSelector((state) => state.auth);
-  const navigate = useNavigate();
   const { state } = useLocation();
-  const defaultValues = {
-    otp: "",
-  };
+  const navigate = useNavigate();
 
   const methods = useForm({
     defaultValues,
     resolver: yupResolver(OTPSchema),
   });
 
-  const { handleSubmit, reset } = methods;
+  const {
+    handleSubmit,
+    formState: { isDirty },
+    reset,
+  } = methods;
 
-  const onSubmit = (values) => {
-    navigate("/reset_password");
+  const verifyOTPMutation = useMutation({
+    mutationFn: async (data) =>
+      fetchApi({ url: VERIFY_OTP, method: METHODS.POST, data }),
+  });
+
+  const resendOTPMutation = useMutation({
+    mutationFn: async (data) =>
+      fetchApi({ url: FORGOT_PASSWORD, method: METHODS.POST, data }),
+  });
+
+  const onSubmit = async (values) => {
+    const result = await asyncResponseToaster(() =>
+      verifyOTPMutation.mutateAsync({
+        email: state?.email,
+        otp: values.otp,
+      })
+    );
+
+    if (result.success && result.value && result.value.isSuccess) {
+      navigate("/reset_password", {
+        state: { email: state?.email, isOTPConfirmed: true },
+      });
+      reset();
+    }
   };
 
-  const resendCode = () => {
-    // actionDispatch(
-    //   forgotPassword({
-    //     email: state?.email,
-    //   })
-    // )
-    //   .unwrap()
-    //   .then(() => {
-    //     reset({
-    //       otp: "",
-    //     });
-    //   });
+  const resendCode = async () => {
+    await asyncResponseToaster(() =>
+      resendOTPMutation.mutateAsync({ email: state?.email })
+    );
   };
+
+  if (!state || !("email" in state)) {
+    return <Navigate to="/login" replace />;
+  }
 
   return (
     <section className="min-h-dvh flex flex-col md:flex-row p-6">
@@ -72,7 +92,6 @@ const VerifyOTP = () => {
               Authentication
             </h2>
             <p className="text-[20px] font-normal text-[#7E808C]">
-              {" "}
               Enter the verification code we just sent to your email address.
             </p>
           </div>
@@ -93,18 +112,23 @@ const VerifyOTP = () => {
                   className="text-main text-lg font-normal cursor-pointer"
                   onClick={resendCode}
                 >
-                  {" "}
                   Resend
                 </span>
               </p>
               <div className="pt-3">
                 <Button
-                  disabled={loading}
+                  disabled={
+                    !isDirty ||
+                    verifyOTPMutation.isPending ||
+                    resendOTPMutation.isPending
+                  }
                   className="text-base max-sm:py-[12.5px] shadow-[0px_4px_6px_0px_#8FD5FF] font-semibold sm:text-lg"
                   type="submit"
-                  loader={loading}
+                  loader={
+                    verifyOTPMutation.isPending || resendOTPMutation.isPending
+                  }
                 >
-                  {loading ? <Loading className="text-2xl" /> : "Verify"}
+                  Verify
                 </Button>
               </div>
             </div>

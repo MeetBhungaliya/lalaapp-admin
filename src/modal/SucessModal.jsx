@@ -1,7 +1,6 @@
 import Button from "@/components/custom/Button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { LOGOUT_PRIMARY_ICON, TICK_CIRCLE_ICON } from "@/lib/images";
-import React from "react";
+import { TICK_CIRCLE_ICON } from "@/lib/images";
 import { useNavigate } from "react-router";
 
 const SucessModal = ({ open, setOpen }) => {
@@ -31,9 +30,7 @@ const SucessModal = ({ open, setOpen }) => {
           </p>
           <div className="pt-7 w-full">
             <Button
-              onClick={() => {
-                navigate("/login");
-              }}
+              onClick={() => navigate("/login")}
               className="text-base max-sm:py-[13.5px] font-semibold sm:text-lg shadow-[0px_4px_6px_0px_#8FD5FF]"
             >
               Ok
