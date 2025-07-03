@@ -96,7 +96,7 @@ const TinyLineChart = ({ chartData, title, className = "" }) => {
 
             <Line
               type="monotone"
-              dataKey="premium"
+              dataKey="premiumUsers"
               name="Premium Users"
               stroke="#2393FF"
               strokeWidth={6}
@@ -105,7 +105,7 @@ const TinyLineChart = ({ chartData, title, className = "" }) => {
             />
             <Line
               type="monotone"
-              dataKey="free"
+              dataKey="freeUsers"
               name="Free Trial Users"
               stroke="#1E1614"
               strokeWidth={6}

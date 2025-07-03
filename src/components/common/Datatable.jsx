@@ -18,7 +18,13 @@ import TablePagination from "./TablePagination";
 import { NO_DATA_FOUND } from "@/lib/images";
 import Image from "@/components/common/Images";
 
-const Datatable = ({ data, columns, pagination = true, loading = false, title }) => {
+const Datatable = ({
+  data,
+  columns,
+  pagination = true,
+  loading = false,
+  title,
+}) => {
   const table = useReactTable({
     data,
     columns,
@@ -38,15 +44,25 @@ const Datatable = ({ data, columns, pagination = true, loading = false, title })
                   const meta = header.column.columnDef.meta;
                   return (
                     <TableHead
-                      style={
-                        {
-                          ...(!(header.getSize()) || header.getSize() == 150 ? { width: '100%' } : { minWidth: header.getSize() + 'px' }),
-                          ...({
-                            justifyContent: meta?.align ?? 'start'
-                          })
-                        }}
-                      className={cn('py-[15px] px-[26px] h-auto bg-transparent text-[#1F1F24] rounded-[12px] font-semibold text-sm sm:text-[16px] flex items-center')} key={header.id}>
-                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                      style={{
+                        ...(!header.getSize() || header.getSize() == 150
+                          ? { width: "100%" }
+                          : { minWidth: header.getSize() + "px" }),
+                        ...{
+                          justifyContent: meta?.align ?? "start",
+                        },
+                      }}
+                      className={cn(
+                        "py-[15px] px-[26px] h-auto bg-transparent text-[#1F1F24] rounded-[12px] font-semibold text-sm sm:text-[16px] flex items-center"
+                      )}
+                      key={header.id}
+                    >
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
                     </TableHead>
                   );
                 })}
@@ -55,28 +71,66 @@ const Datatable = ({ data, columns, pagination = true, loading = false, title })
           </TableHeader>
           <TableBody>
             {loading ? (
-              <TableRow className="h-[70vh] flex flex-col justify-center items-center">
-                {/* <Loader /> */}
-              </TableRow>
+              [...Array.from({ length: 10 })].map((_, index) => (
+                <TableRow
+                  key={index}
+                  className="border-basic hover:bg-fill flex items-center"
+                >
+                  {columns.map((col, colIndex) => {
+                    const randomWidth = `${
+                      Math.floor(Math.random() * 50) + 50
+                    }%`;
+                    return (
+                      <TableCell
+                        key={colIndex}
+                        className="px-3"
+                        style={{
+                          ...(!col.size || col.size == 150
+                            ? { width: "100%" }
+                            : { minWidth: col.size + "px" }),
+                          ...{
+                            justifyContent: col?.align ?? "start",
+                          },
+                        }}
+                      >
+                        <div
+                          style={{ width: randomWidth }}
+                          className="h-[72px] bg-[#7E808C] opacity-20 rounded-sm animate-pulse"
+                        />
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              ))
             ) : table.getRowModel()?.rows?.length > 0 ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
-                  className="border-basic hover:bg-fill flex   items-center"
+                  className="border-basic hover:bg-fill flex items-center"
                   key={row.id}
                 >
                   {row.getVisibleCells().map((cell) => {
                     const meta = cell.column.columnDef.meta;
                     return (
                       <TableCell
-                        style={
-                          {
-                            ...(!(cell.column?.getSize()) || cell.column?.getSize() == 150 ? { width: '100%' } : { minWidth: cell.column?.getSize() + 'px' }),
-                            ...({
-                              justifyContent: meta?.align ?? 'start'
-                            })
-                          }}
-                        className={cn("flex items-center text-primary text-base sm:text-lg break-words py-5 px-[26px] font-medium", meta?.align ?? 'start')} key={cell.id}>
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        style={{
+                          ...(!cell.column?.getSize() ||
+                          cell.column?.getSize() == 150
+                            ? { width: "100%" }
+                            : { minWidth: cell.column?.getSize() + "px" }),
+                          ...{
+                            justifyContent: meta?.align ?? "start",
+                          },
+                        }}
+                        className={cn(
+                          "flex items-center text-primary text-base sm:text-lg break-words py-5 px-[26px] font-medium",
+                          meta?.align ?? "start"
+                        )}
+                        key={cell.id}
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
                       </TableCell>
                     );
                   })}
@@ -94,7 +148,7 @@ const Datatable = ({ data, columns, pagination = true, loading = false, title })
         </Table>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
-      {pagination && <TablePagination count={data.length} />}
+      {pagination && <TablePagination count={data.length} loading={loading} />}
     </div>
   );
 };

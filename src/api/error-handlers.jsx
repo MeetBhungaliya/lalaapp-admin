@@ -61,9 +61,7 @@ async function refreshTokenAndRetry(query, mutation, variables) {
   const { user, adduser, removeuser } = useAuthStore.getState();
 
   try {
-    const refreshToken = `Bearer ${user?.refreshToken}`;
-
-    if (!isRefreshing && user?.refreshToken) {
+    if (!isRefreshing) {
       isRefreshing = true;
       failedQueue.push({ query, mutation, variables });
 
@@ -71,14 +69,14 @@ async function refreshTokenAndRetry(query, mutation, variables) {
         fetchApi({
           method: METHODS.POST,
           url: REFRESH_TOKEN,
-          headers: { Authorization: refreshToken },
+          headers: { adminId: user?.adminId },
         })
       );
 
       if (
         !refreshTokenResult.success ||
         !refreshTokenResult.value ||
-        refreshTokenResult.value.ResponseCode !== 1
+        !refreshTokenResult.value.isSuccess
       )
         throw messages.default.session_expired;
 

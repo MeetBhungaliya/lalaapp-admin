@@ -1,4 +1,3 @@
-import Loading from "@/components/common/Loading";
 import Button from "@/components/custom/Button";
 import { METHODS } from "@/constants/common";
 import { UPDATE_PASSWORD } from "@/constants/endpoints";
@@ -16,6 +15,7 @@ import { asyncResponseToaster } from "@/lib/toasts";
 import SucessModal from "@/modal/SucessModal";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
+import md5 from "md5";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Navigate, useLocation, useNavigate } from "react-router";
@@ -49,7 +49,7 @@ const ResetPassword = () => {
     const result = await asyncResponseToaster(() =>
       resetPasswordMutation.mutateAsync({
         email: state?.email,
-        new_pass: values.confirm_password,
+        new_pass: md5(values.confirm_password),
       })
     );
 

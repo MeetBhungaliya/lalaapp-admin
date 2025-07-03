@@ -55,9 +55,7 @@ const Login = () => {
     }
   };
 
-  if (authState.isAuthenticated) {
-    return <Navigate to="/statistics" replace />;
-  }
+  
 
   return (
     <section className="min-h-dvh flex flex-col md:flex-row p-6">

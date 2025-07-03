@@ -10,15 +10,15 @@ const PAGINATION_DISPATCH_TYPES = {
 
 const chartFilterOptions = [
     {
-        value: 'week',
+        value: 'weekly',
         label: 'Week'
     },
     {
-        value: 'month',
+        value: 'monthly',
         label: 'Month'
     },
     {
-        value: 'year',
+        value: 'yearly',
         label: 'Year'
     }
 ]

@@ -5,16 +5,15 @@ import { API_BASE_PATH } from './config'
 function onRequest(config) {
   const { setloading, isLoading } = useAuthStore.getState()
 
-
   if (config.headers.Authorization)
     return config
 
   const { user } = useAuthStore.getState()
 
-  const accessToken = `Bearer ${user?.accessToken}`
+  const token = `Bearer ${user?.token}`
 
-  if (user?.accessToken) {
-    config.headers.Authorization = accessToken
+  if (user?.token) {
+    config.headers.Authorization = token
   }
 
   if (isLoading)

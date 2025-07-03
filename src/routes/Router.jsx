@@ -1,5 +1,3 @@
-import ResetPasswordGuard from "@/guards/ResetPasswordGuard";
-import VerifyOtpGaurd from "@/guards/VerifyOtpGaurd";
 import AuthProtectedLayout from "@/layout/AuthProtectedLayout";
 import Layout from "@/layout/main";
 import ProtectedLayout from "@/layout/ProtectedLayout";
@@ -27,7 +25,7 @@ const router = createBrowserRouter(
       errorElement: <ErrorPage />,
       children: [
         {
-          // element: <ProtectedLayout />,
+          element: <ProtectedLayout />,
           children: [
             {
               path: "",
@@ -35,7 +33,7 @@ const router = createBrowserRouter(
               children: [
                 {
                   index: true,
-                  element: <Navigate to="/login" />
+                  element: <Navigate to="/login" replace />,
                 },
                 {
                   path: "statistics",
@@ -71,22 +69,21 @@ const router = createBrowserRouter(
                     {
                       path: "segmenting_words",
                       element: <SegmentingWords />,
-                    }
+                    },
                   ],
                 },
                 {
                   path: "subscriptions",
                   element: <Subscriptions />,
-                }
+                },
               ],
             },
           ],
         },
         {
-          // element: <AuthProtectedLayout />,
+          element: <AuthProtectedLayout />,
           children: [
             {
-              index: true,
               path: "login",
               element: <Login />,
             },
@@ -96,23 +93,11 @@ const router = createBrowserRouter(
             },
             {
               path: "verify_otp",
-              // element: <VerifyOtpGaurd />,
-              children: [
-                {
-                  index: true,
-                  element: <VerifyOTP />,
-                },
-              ],
+              element: <VerifyOTP />,
             },
             {
               path: "reset_password",
-              // element: <ResetPasswordGuard />,
-              children: [
-                {
-                  index: true,
-                  element: <ResetPassword />,
-                },
-              ],
+              element: <ResetPassword />,
             },
           ],
         },
