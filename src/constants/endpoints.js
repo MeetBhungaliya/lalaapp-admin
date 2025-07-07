@@ -9,3 +9,9 @@ export const GET_STATISTICS = "getStatisticData"
 
 export const GET_USERS = "getUserList"
 export const DELETE_USER = "deleteUser"
+
+export const GET_TUTORIALS = "getTutorialList"
+
+export const GET_LEVELS = "getLevelList"
+export const CREATE_LEVEL = "createLevel"
+export const ADD_UPDATE_TUTORIAL_SCRIPT = "addOrUpdateTutorialScript"

@@ -23,4 +23,8 @@ const chartFilterOptions = [
     }
 ]
 
+export const TUTORIAL_TYPES = {
+    letter_sound: "letterSound"
+}
+
 export { PAGINATION_DISPATCH_TYPES, chartFilterOptions }

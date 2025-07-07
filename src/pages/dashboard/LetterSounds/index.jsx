@@ -1,17 +1,19 @@
+import { getLevels, getTutorials } from "@/api/query-option";
 import Datatable from "@/components/common/Datatable";
 import SearchBox from "@/components/common/SearchBox";
 import Button from "@/components/custom/Button";
+import { SearchDataChange } from "@/context/SearchDataContext";
+import useDebounce from "@/hooks/use-debounce";
 import useColumnDef from "@/hooks/useColumnDef";
 import usePagination from "@/hooks/usePagination";
 import { EDIT_WHITE_ICON } from "@/lib/images";
 import AddScript from "@/modal/AddScript";
-import DeleteLetterModal from "@/modal/DeleteLetterModal";
 import DeleteModal from "@/modal/DeleteModal";
 import LetterSoundsModal from "@/modal/letterSoundsModal";
 import ViewLetterSoundsModal from "@/modal/ViewLetterSoundsModal";
-import { PAGINATION_DISPATCH_TYPES } from "@/utils/constants";
-import { faker } from "@faker-js/faker";
-import React, { useEffect, useState } from "react";
+import { PAGINATION_DISPATCH_TYPES, TUTORIAL_TYPES } from "@/utils/constants";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useMemo, useState } from "react";
 
 const LetterSounds = () => {
   const [open, setOpen] = useState({
@@ -31,33 +33,47 @@ const LetterSounds = () => {
     data: null,
   });
 
-
-  const total = 10;
   const {
     state: { page, limit },
     dispatch,
   } = usePagination();
+  const search = SearchDataChange();
+  const debouncedSearch = useDebounce(search.searchQuery);
 
-  const dummyData = Array.from({ length: 10 }, () => ({
-    _id: faker.database.mongodbObjectId(),
-    image: faker.image.avatar(),
-    level: `Level ${faker.number.int({ min: 1, max: 30 })}`,
-  }));
+  const tutorialsData = useQuery(getTutorials());
+
+  const { tutorialId, tutorialScript } = useMemo(() => {
+    if (tutorialsData.isFetching || !tutorialsData.data.data.list.length)
+      return { tutorialId: null };
+
+    const tutorial = tutorialsData.data.data.list.find(
+      (t) => t.tutorialType === TUTORIAL_TYPES.letter_sound
+    );
+
+    return {
+      tutorialId: tutorial?.tutorialId,
+      tutorialScript: tutorial?.tutorialScript,
+    };
+  }, [tutorialsData.isFetching]);
+
+  const levelsData = useQuery(
+    getLevels({ offset: page, limit, tutorialId, search: debouncedSearch })
+  );
 
   useEffect(() => {
-    if (total >= 0) {
-      dispatch({
-        type: PAGINATION_DISPATCH_TYPES.SET_TOTALRECORD,
-        payload: total,
-      });
-    }
+    if (!levelsData.data.data.total_record) return;
+
+    dispatch({
+      type: PAGINATION_DISPATCH_TYPES.SET_TOTALRECORD,
+      payload: levelsData.data.data.total_record,
+    });
+
     return () => {
       dispatch({ type: PAGINATION_DISPATCH_TYPES.SET_PAGE, payload: 1 });
     };
-  }, [total]);
+  }, [levelsData.isFetching, page, limit, debouncedSearch]);
 
   const handleView = (row) => {
-    console.log(row);
     setOpenView({
       open: true,
       data: row,
@@ -83,6 +99,7 @@ const LetterSounds = () => {
     handleEdit,
     handleDelete,
   });
+
   return (
     <>
       <div className="flex-1 flex flex-col overflow-hidden gap-6 p-6">
@@ -100,23 +117,31 @@ const LetterSounds = () => {
         </div>
 
         <div className="flex-1 flex overflow-hidden gap-6 h-full">
-          {/* Datatable - 2/3 width */}
           <div className="flex-1 w-3/4">
             <Datatable
-              data={dummyData}
+              data={levelsData.data.data.list}
+              loading={levelsData.isFetching}
               columns={letterSoundsColumns}
               title="Letter Sounds"
             />
           </div>
-
-          {/* Script Section - 1/3 width */}
           <div className="w-1/4 bg-white rounded-[24px] flex flex-col relative">
             <div className="bg-[#F2F4FC] flex justify-between items-center px-5 py-[21px] rounded-t-[24px]">
               <p className="text-lg font-medium text-black">Script</p>
               <div className="sm:size-[36px] size-[32px] rounded-[8px] shadow-[0px_4px_6px_0px_#8FD5FF] bg-main flex items-center justify-center cursor-pointer">
-                <img src={EDIT_WHITE_ICON} alt="EDIT_WHITE_ICON" onClick={() => setOpenScript({ open: true, data: null })} />
+                <img
+                  src={EDIT_WHITE_ICON}
+                  alt="EDIT_WHITE_ICON"
+                  onClick={() =>
+                    setOpenScript({ open: true, data: { tutorialScript } })
+                  }
+                />
               </div>
             </div>
+            <div
+              className="px-5 py-[21px]"
+              dangerouslySetInnerHTML={{ __html: tutorialScript }}
+            />
             <div className="absolute bottom-5 flex justify-center right-34">
               <Button
                 className="text-base shadow-[0px_4px_6px_0px_#8FD5FF] py-[12.5px] font-semibold sm:text-lg w-fit px-8 bg-main"
@@ -126,23 +151,30 @@ const LetterSounds = () => {
                 Delete
               </Button>
             </div>
-
-
-            {/* <div className="flex-1 p-5 flex items-center justify-center">
-              <p className="text-gray-500 text-sm text-center">Click the edit button to add or modify the script content.</p>
-            </div> */}
           </div>
         </div>
       </div>
-      <LetterSoundsModal open={open} setOpen={setOpen} />
+      <LetterSoundsModal
+        open={open}
+        setOpen={setOpen}
+        tutorialId={tutorialId}
+      />
       <ViewLetterSoundsModal open={openView} setOpen={setOpenView} />
-      <DeleteModal open={openDelete} setOpen={setOpenDelete} name={"Level"} title="Apple Word" />
-      {
-        openScript?.open && <AddScript open={openScript} setOpen={setOpenScript} />
-      }
-      {/* <DeleteLetterModal open={openDelete} setOpen={setOpenDelete} /> */}
+      <DeleteModal
+        open={openDelete}
+        setOpen={setOpenDelete}
+        name={"Level"}
+        title="Apple Word"
+      />
+      {openScript?.open && (
+        <AddScript
+          open={openScript}
+          setOpen={setOpenScript}
+          tutorialId={tutorialId}
+          refechQuery={levelsData.refetch}
+        />
+      )}
     </>
-
   );
 };
 

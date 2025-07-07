@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import Sidebar from "./sidebar";
-import Header from "./header";
+import { useState } from "react";
 import { Outlet } from "react-router";
+import Header from "./header";
+import Sidebar from "./sidebar";
 
 const Layout = () => {
   const [isSidebar, setIsSidebar] = useState(false);

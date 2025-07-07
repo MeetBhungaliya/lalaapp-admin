@@ -5,7 +5,7 @@ import { get } from "lodash";
 import React, { useRef, useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 
-const SoundField = ({ label, className, name }) => {
+const SoundField = ({ label, className, name, edit = false }) => {
   const { control, getValues, setValue } = useFormContext();
   const fieldValue = getValues(name); // Get value from form state
 
@@ -35,7 +35,7 @@ const SoundField = ({ label, className, name }) => {
     const file = e.target.files[0];
     if (file && file.type.startsWith("audio/")) {
       setAudioFile(file);
-      setAudioUrl(null); // Clear URL since new file is selected
+      setAudioUrl(null);
       setValue(name, file, { shouldDirty: true, shouldValidate: true });
     }
   };
@@ -51,9 +51,9 @@ const SoundField = ({ label, className, name }) => {
       if (isPlaying) {
         audioRef.current.pause();
       } else {
-        audioRef.current.play().catch((err) =>
-          console.error("Playback failed", err)
-        );
+        audioRef.current
+          .play()
+          .catch((err) => console.error("Playback failed", err));
       }
       setIsPlaying(!isPlaying);
     }
@@ -66,8 +66,8 @@ const SoundField = ({ label, className, name }) => {
       render={({ field, formState: { errors } }) => {
         const fieldError = get(errors, name);
 
-        // If a new file is selected, preview it
-        const displayFileName = audioFile ? audioFile.name : "Existing Audio";
+        const displayFileName =
+          (edit ? fieldValue : audioFile?.name) || "Existing Audio";
 
         return (
           <div className={className}>
@@ -103,10 +103,7 @@ const SoundField = ({ label, className, name }) => {
                   type="file"
                   accept="audio/*"
                   className="hidden"
-                  onChange={(e) => {
-                    handleFileChange(e);
-                    field.onChange(e);
-                  }}
+                  onChange={handleFileChange}
                 />
               </div>
             ) : (
@@ -135,7 +132,11 @@ const SoundField = ({ label, className, name }) => {
                         className="size-7 shrink-0"
                       />
                     ) : (
-                      <img src={PLAY_ICON} alt="PLAY_ICON" className="size-7 shrink-0" />
+                      <img
+                        src={PLAY_ICON}
+                        alt="PLAY_ICON"
+                        className="size-7 shrink-0"
+                      />
                     )}
                   </div>
                   <div

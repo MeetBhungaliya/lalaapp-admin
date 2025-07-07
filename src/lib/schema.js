@@ -26,15 +26,15 @@ const ResetPasswordSchema = yup.object().shape({
 })
 
 const LetterSoundsSchema = yup.object().shape({
-    // word: yup.string().required('Please enter word name'),
-    level: yup.string().required('Please enter level'),
-    sound: yup.mixed().required("Please select sound").test('Required', 'Please select sound', (value) => {
+    levelName: yup.string().required('Please enter level'),
+    wordAudio: yup.mixed().required("Please select sound").test('Required', 'Please select sound', (value) => {
         return value
     }),
-    image: yup.mixed().required("Please select image").test('Required', 'Please select image', (value) => {
-        return value
-    }),
-    script: yup.string().required("Please enter script")
+    // image: yup.mixed().required("Please select image").test('Required', 'Please select image', (value) => {
+    //     return value
+    // }),
+    image: yup.string().optional(),
+    levelScript: yup.string().required("Please enter script")
 })
 
 const PronunciationSchema = yup.object().shape({

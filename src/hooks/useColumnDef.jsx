@@ -115,7 +115,7 @@ const useColumnDef = (fns) => {
     () => [
       rowBuilder(
         "srNo",
-        () => <p className="">Sr. No.</p>,
+        "Sr. No.",
         ({ row }) => <p>{String(row.index + 1).padStart(2, "0")}</p>,
         {
           "3xl": 100,
@@ -124,16 +124,14 @@ const useColumnDef = (fns) => {
         "center"
       ),
       rowBuilder(
-        "name",
-        () => <p className="">Word Image</p>,
+        "wordsList",
+        "Word Image",
         ({ row }) => (
-          <div className="flex items-center gap-3 ">
+          <div className="flex items-center gap-3">
             <Image
-              src={row?.original?.image}
-              alt=""
+              src={row?.original?.wordsList?.[0]?.img}
               className="sm:size-[46px] size-[40px] rounded-[8px] object-cover shrink-0"
             />
-            {/* <p className=" text-primary text-wrap break-all">{getValue()}</p> */}
           </div>
         ),
         {
@@ -141,15 +139,10 @@ const useColumnDef = (fns) => {
           default: 250,
         }
       ),
-      rowBuilder(
-        "level",
-        () => <p className="">Level</p>,
-        ({ getValue }) => <p className="">{getValue()}</p>,
-        {
-          "3xl": null,
-          default: 250,
-        }
-      ),
+      rowBuilder("levelName", "Level", ({ getValue }) => <p>{getValue()}</p>, {
+        "3xl": null,
+        default: 250,
+      }),
       rowBuilder(
         "action",
         () => <p className="">Actions</p>,

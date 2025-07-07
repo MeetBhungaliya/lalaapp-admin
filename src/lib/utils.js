@@ -27,3 +27,28 @@ export async function tryCatch(fn, errorHandler) {
     return { success: false, error: processedError, errorMsg: error?.response?.data?.message }
   }
 }
+
+export function downloadAudio(url, filename) {
+  return fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.blob();
+    })
+    .then((blob) => {
+      const blobUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = blobUrl;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(blobUrl);
+      return { isSuccess: true, statusCode: 200, message: "Audio downloaded successfully" };
+    })
+    .catch((error) => {
+      console.error("Audio download failed:", error);
+      return { isSuccess: false, statusCode: 400, error, message: "Something went wrong while dowloading audio" };
+    });
+}

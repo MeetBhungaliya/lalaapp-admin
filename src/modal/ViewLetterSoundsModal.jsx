@@ -1,15 +1,14 @@
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { CLOSE_ICON } from "@/lib/images";
-import React from "react";
 import ViewSoundField from "@/form/ViewSoundField";
+import { CLOSE_ICON } from "@/lib/images";
+import { useMemo } from "react";
 
-const ViewLetterSoundsModal = ({ open, setOpen, data }) => {
+const ViewLetterSoundsModal = ({ open, setOpen }) => {
   const handleClose = () => {
     setOpen({
       open: false,
@@ -17,6 +16,12 @@ const ViewLetterSoundsModal = ({ open, setOpen, data }) => {
     });
   };
 
+  const totalSound = useMemo(() => {
+    if (!open?.open) return 0;
+    return (
+      open?.data?.row?.wordsList?.filter((word) => word?.audio)?.length ?? 0
+    );
+  }, [open.open]);
   return (
     <Dialog open={open?.open} onOpenChange={handleClose}>
       <DialogContent
@@ -32,27 +37,33 @@ const ViewLetterSoundsModal = ({ open, setOpen, data }) => {
           </div>
         </DialogHeader>
 
-        {/* Main Content */}
         <div className="flex  items-center justify-center gap-6 py-4">
           <div className="bg-[#F2F2F3] rounded-[12px] size-[110px] flex justify-center items-center">
             <img
-              src={open?.data?.row?.image}
+              src={open?.data?.row?.wordsList?.[0]?.img}
               alt="Level Icon"
               className="w-20 h-20"
             />
           </div>
           <div className="flex flex-col gap-2">
-            <div className="text-2xl font-bold">{open?.data?.row?.level}</div>
+            <div className="text-2xl font-bold">
+              {open?.data?.row?.levelName}
+            </div>
             <div className="text-[#7E808C] text-sm font-medium">
-              Total Sounds - 01
+              Total Sounds - {String(totalSound).padStart(2, "0")}
             </div>
           </div>
         </div>
         <div className="border-gradient-horizontal w-full h-[0.5px] mt-1 mb-4"></div>
-        <ViewSoundField
-          value="https://file-examples.com/storage/feba78aab06819c7996c057/2017/11/file_example_MP3_700KB.mp3"
-          className="rounded-[8px] flex-1"
-        />
+        {open?.data?.row?.wordsList?.map((word) => {
+          return (
+            <ViewSoundField
+              key={word?.wordsId}
+              value={word?.audio}
+              className="rounded-[8px] flex-1"
+            />
+          );
+        })}
       </DialogContent>
     </Dialog>
   );

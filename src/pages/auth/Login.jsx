@@ -13,7 +13,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
 import md5 from "md5";
 import { useForm } from "react-hook-form";
-import { Link, Navigate, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const defaultValues = {
   email: "",
@@ -54,8 +54,6 @@ const Login = () => {
       reset();
     }
   };
-
-  
 
   return (
     <section className="min-h-dvh flex flex-col md:flex-row p-6">

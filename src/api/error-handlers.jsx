@@ -26,7 +26,7 @@ async function errorHandler(error, query, mutation, variables) {
   try {
     setloading(true);
 
-    if (status === 401) {
+    if (status === 433) {
       if (mutation) {
         await refreshTokenAndRetry(undefined, mutation, variables);
       } else {

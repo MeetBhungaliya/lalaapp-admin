@@ -1,3 +1,5 @@
+import { getLevels } from "@/api/query-option";
+import Button from "@/components/custom/Button";
 import {
   Dialog,
   DialogContent,
@@ -5,62 +7,92 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import FormProvider from "@/form/FormProvider";
-import { CLOSE_ICON, CLOSE_SECONDARY_ICON, LEVEL_ICON } from "@/lib/images";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { LetterSoundsSchema } from "@/lib/schema";
-import React, { useEffect } from "react";
-import Button from "@/components/custom/Button";
-import TextField from "@/form/TextField";
-import SoundField from "@/form/SoundField";
-import { UploadImage } from "@/form/UploadImage";
-import RichTextEditor from "@/form/RichTextEditor";
-import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { METHODS } from "@/constants/common";
+import { CREATE_LEVEL } from "@/constants/endpoints";
+import FormProvider from "@/form/FormProvider";
+import RichTextEditor from "@/form/RichTextEditor";
+import SoundField from "@/form/SoundField";
+import TextField from "@/form/TextField";
+import { fetchApi } from "@/lib/api";
+import { CLOSE_SECONDARY_ICON, LEVEL_ICON } from "@/lib/images";
+import { LetterSoundsSchema } from "@/lib/schema";
+import { asyncResponseToaster } from "@/lib/toasts";
+import { cn } from "@/lib/utils";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toFormData } from "axios";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 
-const LetterSoundsModal = ({ open, setOpen }) => {
-  const defaultValues = {
-    level: "",
-    sound: "",
-    image: "",
-    script: "",
-  };
+const defaultValues = {
+  levelName: "",
+  wordAudio: "",
+  levelScript: "",
+};
+
+const LetterSoundsModal = ({ open, setOpen, tutorialId }) => {
+  const queryClient = useQueryClient();
 
   const methods = useForm({
     defaultValues,
     resolver: yupResolver(LetterSoundsSchema),
   });
-  const { handleSubmit, setValue, watch, reset } = methods;
+
+  const { handleSubmit, watch, reset } = methods;
 
   useEffect(() => {
     if (!open?.data) return;
-    console.log("open?.data: ", open?.data);
 
     reset({
-      level: open?.data?.row?.level ?? "",
-      sound: "https://file-examples.com/storage/feba78aab06819c7996c057/2017/11/file_example_MP3_700KB.mp3" ?? "",
-      image: open?.data?.row?.image ?? "",
-      script: open?.data?.row?.script ?? "",
+      levelName: open?.data?.row?.levelName ?? "",
+      wordAudio: open?.data?.row?.wordsList.map((e) => e.audio) ?? [],
+      levelScript: open?.data?.row?.levelScript ?? "",
     });
   }, [open?.data]);
 
-  // Watch the values of sound and image
-  const soundValue = watch("sound");
+  const soundValue = watch("wordAudio");
   const imageValue = watch("image");
 
-  // Determine flex direction
   const isAnySelected = !!soundValue || !!imageValue;
   const flexDirection = isAnySelected ? "flex-col-reverse" : "flex-row";
 
-  const onSubmit = (values) => {
-    console.log(values);
+  const createLevelMutation = useMutation({
+    mutationFn: async (data) =>
+      fetchApi({ url: CREATE_LEVEL, method: METHODS.POST, data }),
+  });
 
-    setOpen({
-      open: false,
-      data: null,
+  const onSubmit = async (values) => {
+    const prevAudio = open?.data?.row?.wordsList;
+
+    const updatedAudio = values.wordAudio;
+
+    let removedAudio = [];
+    prevAudio.forEach((e) => {
+      if (!updatedAudio.includes(e.audio)) {
+        removedAudio.push(e.wordsId);
+      }
     });
 
+    const payload = {
+      ...values,
+      // wordAudio: Array.isArray(values.wordAudio)
+      //   ? values.wordAudio
+      //   : [values.wordAudio],
+    };
+    const result = await asyncResponseToaster(() =>
+      createLevelMutation.mutateAsync(
+        toFormData({
+          ...payload,
+          tutorialId,
+        })
+      )
+    );
+
+    if (result.success && result.value && result.value.isSuccess) {
+      queryClient.refetchQueries(getLevels());
+      handleClose();
+    }
   };
 
   const handleClose = () => {
@@ -68,21 +100,21 @@ const LetterSoundsModal = ({ open, setOpen }) => {
       open: false,
       data: null,
     });
-    reset(defaultValues)
+    reset(defaultValues);
   };
 
-  const onDrop = (acceptedFiles) => {
-    setValue(
-      "image",
-      Object.assign(acceptedFiles[0], {
-        preview: URL.createObjectURL(acceptedFiles[0]),
-      }),
-      {
-        shouldDirty: true,
-        shouldValidate: true,
-      }
-    );
-  };
+  // const onDrop = (acceptedFiles) => {
+  //   setValue(
+  //     "image",
+  //     Object.assign(acceptedFiles[0], {
+  //       preview: URL.createObjectURL(acceptedFiles[0]),
+  //     }),
+  //     {
+  //       shouldDirty: true,
+  //       shouldValidate: true,
+  //     }
+  //   );
+  // };
 
   return (
     <Dialog open={open?.open} onOpenChange={handleClose}>
@@ -100,47 +132,61 @@ const LetterSoundsModal = ({ open, setOpen }) => {
         </DialogHeader>
         <ScrollArea className="max-h-[80vh] overflow-y-auto">
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-            <div className={`flex flex-col gap-6 pt-5 ${open?.data ? "px-12" : ""}`}>
+            <div
+              className={`flex flex-col gap-6 pt-5 ${
+                open?.data ? "px-12" : ""
+              }`}
+            >
               <TextField
-                name="level"
+                name="levelName"
                 prefix={<img src={LEVEL_ICON} alt="LEVEL_ICON" />}
                 placeholder="Level"
                 className="rounded-[8px]"
               />
               <RichTextEditor
-                name="script"
+                name="levelScript"
                 placeholder="Script"
                 className={cn("rounded-[8px]  mt-0")}
                 minHeight={open?.data ? "200px" : "150px"}
               />
               {open?.data ? (
                 <div className="border-2 border-dashed border-[#7E808C33] rounded-[8px] p-3 space-y-3">
-                  <div className="text-[#04163C] text-lg underline text-end font-normal">Edit</div>
+                  <div className="text-[#04163C] text-lg underline text-end font-normal">
+                    Edit
+                  </div>
                   <div className={`flex ${flexDirection} gap-x-8 gap-y-3`}>
-                    <SoundField
-                      name="sound"
-                      placeholder="sound"
-                      className="rounded-[8px] flex-1"
-                    />
-                    <UploadImage
+                    {Array.isArray(soundValue) &&
+                      soundValue.length &&
+                      soundValue.map((sound, index) => {
+                        return (
+                          <SoundField
+                            name={`wordAudio.${index}`}
+                            placeholder="sound"
+                            className="rounded-[8px] flex-1"
+                            edit
+                          />
+                        );
+                      })}
+
+                    {/* <UploadImage
                       name="image"
                       onDrop={onDrop}
                       className="rounded-[8px] flex-1"
-                    />
+                    /> */}
                   </div>
                 </div>
               ) : (
                 <div className={`flex ${flexDirection} gap-x-8 gap-y-3`}>
                   <SoundField
-                    name="sound"
+                    name="wordAudio"
                     placeholder="sound"
                     className="rounded-[8px] flex-1"
                   />
-                  <UploadImage
+                  {/* <UploadImage
                     name="image"
                     onDrop={onDrop}
                     className="rounded-[8px] flex-1"
-                  />
+                  /> */}
                 </div>
               )}
             </div>
