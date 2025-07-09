@@ -6,45 +6,77 @@ import usePagination from "@/hooks/usePagination";
 import DeleteWordPronounceModal from "@/modal/DeleteWordPronounceModal";
 import WordPronouncesModal from "@/modal/WordPronouncesModal";
 import ViewWordPronouncesModal from "@/modal/ViewWordPronouncesModal";
-import { PAGINATION_DISPATCH_TYPES } from "@/utils/constants";
+import { PAGINATION_DISPATCH_TYPES, TUTORIAL_TYPES } from "@/utils/constants";
 import { faker } from "@faker-js/faker";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import DeleteModal from "@/modal/DeleteModal";
 import AddScript from "@/modal/AddScript";
 import { EDIT_WHITE_ICON } from "@/lib/images";
+import { SearchDataChange } from "@/context/SearchDataContext";
+import useDebounce from "@/hooks/use-debounce";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getLevels, getTutorials } from "@/api/query-option";
+import { asyncResponseToaster } from "@/lib/toasts";
+import { fetchApi } from "@/lib/api";
+import { ADD_UPDATE_TUTORIAL_SCRIPT, DELETE_LEVEL } from "@/constants/endpoints";
+import { METHODS } from "@/constants/common";
 
 const WordPronounces = () => {
   const [open, setOpen] = useState({ open: false, data: null });
   const [openView, setOpenView] = useState({ open: false, data: null });
   const [openDelete, setOpenDelete] = useState({ open: false, data: null });
   const [openScript, setOpenScript] = useState({ open: false, data: null });
+  const [deleteScript, setDeleteScript] = useState(null);
 
-  const total = 10;
   const {
     state: { page, limit },
     dispatch,
   } = usePagination();
+  const search = SearchDataChange();
+  const debouncedSearch = useDebounce(search.searchQuery);
 
-  const dummyData = Array.from({ length: 10 }, () => ({
-    _id: faker.database.mongodbObjectId(),
-    image: faker.image.avatar(),
-    name: faker.word.noun(),
-    level: `Level ${faker.number.int({ min: 1, max: 30 })}`,
-    sound:
-      "https://file-examples.com/storage/feba78aab06819c7996c057/2017/11/file_example_MP3_700KB.mp3",
-  }));
+  const tutorialsData = useQuery(getTutorials());
+
+  const { tutorialId, tutorialScript } = useMemo(() => {
+    if (tutorialsData.isFetching || !tutorialsData.data.data.list.length)
+      return { tutorialId: null };
+
+    const tutorial = tutorialsData.data.data.list.find(
+      (t) => t.tutorialType === TUTORIAL_TYPES.word_pronunciation
+    );
+
+    return {
+      tutorialId: tutorial?.tutorialId,
+      tutorialScript: tutorial?.tutorialScript,
+    };
+  }, [tutorialsData.isFetching]);
+
+  const levelsData = useQuery(
+    getLevels({ offset: page, limit, tutorialId, search: debouncedSearch })
+  );
+
+  const addUpdateScriptMutation = useMutation({
+    mutationFn: async (data) =>
+      fetchApi({ url: ADD_UPDATE_TUTORIAL_SCRIPT, method: METHODS.POST, data }),
+  });
+
+  const deleteLevelMutation = useMutation({
+      mutationFn: async (data) =>
+        fetchApi({ url: DELETE_LEVEL, method: METHODS.DELETE, data }),
+    });
 
   useEffect(() => {
-    if (total >= 0) {
-      dispatch({
-        type: PAGINATION_DISPATCH_TYPES.SET_TOTALRECORD,
-        payload: total,
-      });
-    }
+    if (!levelsData.data.data.total_record) return;
+
+    dispatch({
+      type: PAGINATION_DISPATCH_TYPES.SET_TOTALRECORD,
+      payload: levelsData.data.data.total_record,
+    });
+
     return () => {
       dispatch({ type: PAGINATION_DISPATCH_TYPES.SET_PAGE, payload: 1 });
     };
-  }, [total]);
+  }, [levelsData.isFetching, page, limit, debouncedSearch]);
 
   const handleView = (row) => setOpenView({ open: true, data: row });
   const handleEdit = (row) => setOpen({ open: true, data: row });
@@ -56,6 +88,29 @@ const WordPronounces = () => {
     handleDelete,
   });
 
+  const onDeleteLevel = async (data) => {
+    const result = await asyncResponseToaster(() =>
+      deleteLevelMutation.mutateAsync({ levelId: data?.levelId })
+    );
+
+    if (result.success && result.value && result.value.isSuccess) {
+      levelsData.refetch();
+    }
+  };
+
+  const onDeleteScript = async () => {
+    const result = await asyncResponseToaster(() =>
+      addUpdateScriptMutation.mutateAsync({
+        tutorialId,
+        tutorialScript: "",
+      })
+    );
+
+    if (result.success && result.value && result.value.isSuccess) {
+      tutorialsData.refetch();
+    }
+  };
+  
   return (
     <>
       <div className="flex-1 flex flex-col overflow-hidden gap-6 p-6">
@@ -76,7 +131,8 @@ const WordPronounces = () => {
           {/* Datatable - 3/4 width */}
           <div className="flex-1 w-3/4">
             <Datatable
-              data={dummyData}
+              data={levelsData.data.data.list}
+              loading={levelsData.isFetching}
               columns={wordPronouncesColumns}
               title="Word Pronounces"
             />
@@ -87,14 +143,24 @@ const WordPronounces = () => {
             <div className="bg-[#F2F4FC] flex justify-between items-center px-5 py-[21px] rounded-t-[24px]">
               <p className="text-lg font-medium text-black">Script</p>
               <div className="sm:size-[36px] size-[32px] rounded-[8px] shadow-[0px_4px_6px_0px_#8FD5FF] bg-main flex items-center justify-center cursor-pointer">
-                <img src={EDIT_WHITE_ICON} alt="EDIT_WHITE_ICON" onClick={() => setOpenScript({ open: true, data: null })} />
+                <img
+                  src={EDIT_WHITE_ICON}
+                  alt="EDIT_WHITE_ICON"
+                  onClick={() =>
+                    setOpenScript({ open: true, data: { tutorialScript } })
+                  }
+                />
               </div>
             </div>
+            <div
+              className="px-5 py-[21px]"
+              dangerouslySetInnerHTML={{ __html: tutorialScript }}
+            />
             <div className="absolute bottom-5 flex justify-center right-34">
               <Button
                 className="text-base shadow-[0px_4px_6px_0px_#8FD5FF] py-[12.5px] font-semibold sm:text-lg w-fit px-8 bg-main"
                 type="button"
-                // onClick={() => setOpen({ open: true, data: null })}
+                onClick={() => setDeleteScript({ open: true, data: null })}
               >
                 Delete
               </Button>
@@ -102,14 +168,38 @@ const WordPronounces = () => {
           </div>
         </div>
       </div>
-      <WordPronouncesModal open={open} setOpen={setOpen} />
+      <WordPronouncesModal
+        open={open}
+        setOpen={setOpen}
+        tutorialId={tutorialId}
+      />
       <ViewWordPronouncesModal open={openView} setOpen={setOpenView} />
-      {
-        openDelete.open && <DeleteModal open={openDelete} setOpen={setOpenDelete} title={openDelete.data?.name} name="Level" />
-      }
-      {
-        openScript?.open && <AddScript open={openScript} setOpen={setOpenScript} />
-      }
+      {openDelete.open && (
+        <DeleteModal
+          open={openDelete}
+          setOpen={setOpenDelete}
+          name="Level"
+          title={openDelete?.data?.levelName}
+          onSucess={onDeleteLevel}
+        />
+      )}
+      {openScript?.open && (
+        <AddScript
+          open={openScript}
+          setOpen={setOpenScript}
+          tutorialId={tutorialId}
+          refechQuery={tutorialsData.refetch}
+        />
+      )}
+      {deleteScript?.open && (
+        <DeleteModal
+          open={deleteScript}
+          setOpen={setDeleteScript}
+          name="Script"
+          title="this script"
+          onSucess={onDeleteScript}
+        />
+      )}
       {/* <DeleteWordPronounceModal open={openDelete} setOpen={setOpenDelete} /> */}
     </>
   );

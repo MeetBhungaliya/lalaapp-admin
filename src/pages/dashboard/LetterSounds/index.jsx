@@ -2,20 +2,28 @@ import { getLevels, getTutorials } from "@/api/query-option";
 import Datatable from "@/components/common/Datatable";
 import SearchBox from "@/components/common/SearchBox";
 import Button from "@/components/custom/Button";
+import { METHODS } from "@/constants/common";
+import {
+  ADD_UPDATE_TUTORIAL_SCRIPT,
+  DELETE_LEVEL,
+} from "@/constants/endpoints";
 import { SearchDataChange } from "@/context/SearchDataContext";
 import useDebounce from "@/hooks/use-debounce";
 import useColumnDef from "@/hooks/useColumnDef";
 import usePagination from "@/hooks/usePagination";
+import { fetchApi } from "@/lib/api";
 import { EDIT_WHITE_ICON } from "@/lib/images";
+import { asyncResponseToaster } from "@/lib/toasts";
 import AddScript from "@/modal/AddScript";
 import DeleteModal from "@/modal/DeleteModal";
 import LetterSoundsModal from "@/modal/letterSoundsModal";
 import ViewLetterSoundsModal from "@/modal/ViewLetterSoundsModal";
 import { PAGINATION_DISPATCH_TYPES, TUTORIAL_TYPES } from "@/utils/constants";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 
 const LetterSounds = () => {
+  const [deleteScript, setDeleteScript] = useState(null);
   const [open, setOpen] = useState({
     open: false,
     data: null,
@@ -60,6 +68,16 @@ const LetterSounds = () => {
     getLevels({ offset: page, limit, tutorialId, search: debouncedSearch })
   );
 
+  const addUpdateScriptMutation = useMutation({
+    mutationFn: async (data) =>
+      fetchApi({ url: ADD_UPDATE_TUTORIAL_SCRIPT, method: METHODS.POST, data }),
+  });
+
+  const deleteLevelMutation = useMutation({
+    mutationFn: async (data) =>
+      fetchApi({ url: DELETE_LEVEL, method: METHODS.DELETE, data }),
+  });
+
   useEffect(() => {
     if (!levelsData.data.data.total_record) return;
 
@@ -90,8 +108,31 @@ const LetterSounds = () => {
   const handleDelete = (row) => {
     setOpenDelete({
       open: true,
-      data: row?.name,
+      data: { levelName: row?.levelName, levelId: row?.levelId },
     });
+  };
+
+  const onDeleteLevel = async (data) => {
+    const result = await asyncResponseToaster(() =>
+      deleteLevelMutation.mutateAsync({ levelId: data?.levelId })
+    );
+
+    if (result.success && result.value && result.value.isSuccess) {
+      levelsData.refetch();
+    }
+  };
+
+  const onDeleteScript = async () => {
+    const result = await asyncResponseToaster(() =>
+      addUpdateScriptMutation.mutateAsync({
+        tutorialId,
+        tutorialScript: "",
+      })
+    );
+
+    if (result.success && result.value && result.value.isSuccess) {
+      tutorialsData.refetch();
+    }
   };
 
   const { letterSoundsColumns } = useColumnDef({
@@ -146,7 +187,7 @@ const LetterSounds = () => {
               <Button
                 className="text-base shadow-[0px_4px_6px_0px_#8FD5FF] py-[12.5px] font-semibold sm:text-lg w-fit px-8 bg-main"
                 type="button"
-                // onClick={() => setOpen({ open: true, data: null })}
+                onClick={() => setDeleteScript({ open: true, data: null })}
               >
                 Delete
               </Button>
@@ -163,15 +204,25 @@ const LetterSounds = () => {
       <DeleteModal
         open={openDelete}
         setOpen={setOpenDelete}
-        name={"Level"}
-        title="Apple Word"
+        name="Level"
+        title={openDelete?.data?.levelName}
+        onSucess={onDeleteLevel}
       />
       {openScript?.open && (
         <AddScript
           open={openScript}
           setOpen={setOpenScript}
           tutorialId={tutorialId}
-          refechQuery={levelsData.refetch}
+          refechQuery={tutorialsData.refetch}
+        />
+      )}
+      {deleteScript?.open && (
+        <DeleteModal
+          open={deleteScript}
+          setOpen={setDeleteScript}
+          name="Script"
+          title="this script"
+          onSucess={onDeleteScript}
         />
       )}
     </>

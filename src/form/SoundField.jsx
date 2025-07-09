@@ -67,7 +67,11 @@ const SoundField = ({ label, className, name, edit = false }) => {
         const fieldError = get(errors, name);
 
         const displayFileName =
-          (edit ? fieldValue : audioFile?.name) || "Existing Audio";
+          (edit
+            ? fieldValue instanceof File
+              ? fieldValue?.name
+              : fieldValue
+            : audioFile?.name) || "Existing Audio";
 
         return (
           <div className={className}>

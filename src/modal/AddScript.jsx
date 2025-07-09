@@ -15,6 +15,7 @@ import { CLOSE_SECONDARY_ICON } from "@/lib/images";
 import { asyncResponseToaster } from "@/lib/toasts";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 
@@ -31,6 +32,14 @@ const AddScript = ({ open, setOpen, tutorialId, refechQuery }) => {
   });
 
   const { handleSubmit, reset } = methods;
+
+  useEffect(() => {
+    if (!open?.data) return;
+
+    reset({
+      tutorialScript: open?.data?.tutorialScript ?? "",
+    });
+  }, [open?.data]);
 
   const addUpdateScriptMutation = useMutation({
     mutationFn: async (data) =>

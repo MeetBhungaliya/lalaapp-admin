@@ -42,7 +42,10 @@ const DeleteModal = ({ open, setOpen, name, title, onSucess }) => {
               No
             </Button>
             <Button
-              onClick={() => onSucess(open.data)}
+              onClick={async() => {
+                await onSucess(open.data);
+                handleClose();
+              }}
               className="text-base max-sm:py-[13.5px] font-semibold sm:text-lg shadow-[0px_4px_6px_0px_#8FD5FF]"
             >
               Yes

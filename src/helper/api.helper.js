@@ -37,7 +37,8 @@ api.interceptors.response.use(
     const { response } = error;
     if (response) {
       const { data } = response;
-      if (data?.statusCode === 433 || data?.statusCode === 401) {
+      // if (data?.statusCode === 433 || data?.statusCode === 401) {
+      if (data?.statusCode === 401) {
         localStorage.clear();
         window.location.href = `${BASE_PATH}login`;
       } else {

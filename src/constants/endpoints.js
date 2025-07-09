@@ -14,4 +14,7 @@ export const GET_TUTORIALS = "getTutorialList"
 
 export const GET_LEVELS = "getLevelList"
 export const CREATE_LEVEL = "createLevel"
+export const UPDATE_LEVEL = "updateLevel"
+export const DELETE_LEVEL = "deleteLevel"
+
 export const ADD_UPDATE_TUTORIAL_SCRIPT = "addOrUpdateTutorialScript"

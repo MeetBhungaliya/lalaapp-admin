@@ -80,8 +80,8 @@ const useColumnDef = (fns) => {
 
       rowBuilder(
         "email",
-        () => <p className="">Email</p>,
-        ({ getValue }) => <p className="">{getValue()}</p>,
+        () => <p>Email</p>,
+        ({ getValue }) => <p>{getValue()}</p>,
         {
           "3xl": 450,
           default: 350,
@@ -89,7 +89,7 @@ const useColumnDef = (fns) => {
       ),
       rowBuilder(
         "action",
-        () => <p className="">Action</p>,
+        () => <p>Action</p>,
         ({ row }) => (
           <div className="flex justify-center gap-4">
             <div
@@ -145,7 +145,7 @@ const useColumnDef = (fns) => {
       }),
       rowBuilder(
         "action",
-        () => <p className="">Actions</p>,
+        () => <p>Actions</p>,
         ({ row }) => (
           <div className="flex gap-4">
             <div
@@ -193,7 +193,7 @@ const useColumnDef = (fns) => {
     () => [
       rowBuilder(
         "srNo",
-        () => <p className="">Sr. No.</p>,
+        "Sr. No.",
         ({ row }) => <p>{String(row.index + 1).padStart(2, "0")}</p>,
         {
           "3xl": 100,
@@ -202,17 +202,12 @@ const useColumnDef = (fns) => {
         "center"
       ),
       rowBuilder(
-        "name",
-        () => <p className="">Word Name</p>,
-        ({ getValue, row }) => (
-          <div className="flex items-center justify-start gap-3 ">
-            <Image
-              src={row?.original?.image}
-              alt=""
-              className="sm:size-[46px] size-[40px] rounded-[8px] object-cover shrink-0"
-            />
-            <p className=" text-primary text-wrap break-all">{getValue()}</p>
-          </div>
+        "wordsList",
+        () => <p>Word Name</p>,
+        ({ getValue }) => (
+          <p className=" text-primary text-wrap break-all">
+            {getValue()?.[0]?.word}
+          </p>
         ),
         {
           "3xl": null,
@@ -221,9 +216,9 @@ const useColumnDef = (fns) => {
       ),
 
       rowBuilder(
-        "level",
-        () => <p className="">Level</p>,
-        ({ getValue }) => <p className="">{getValue()}</p>,
+        "levelName",
+        () => <p>Level</p>,
+        ({ getValue }) => <p>{getValue()}</p>,
         {
           "3xl": null,
           default: 300,
@@ -231,7 +226,7 @@ const useColumnDef = (fns) => {
       ),
       rowBuilder(
         "action",
-        () => <p className="">Actions</p>,
+        () => <p>Actions</p>,
         ({ row }) => (
           <div className="flex gap-4">
             <div
@@ -279,7 +274,7 @@ const useColumnDef = (fns) => {
     () => [
       rowBuilder(
         "srNo",
-        () => <p className="">Sr. No.</p>,
+        () => <p>Sr. No.</p>,
         ({ row }) => <p>{String(row.index + 1).padStart(2, "0")}</p>,
         {
           "3xl": 100,
@@ -289,7 +284,7 @@ const useColumnDef = (fns) => {
       ),
       rowBuilder(
         "name",
-        () => <p className="">Name</p>,
+        () => <p>Name</p>,
         ({ getValue, row }) => (
           <div className="flex items-center gap-3 ">
             <Image
@@ -337,7 +332,7 @@ const useColumnDef = (fns) => {
       ),
       rowBuilder(
         "action",
-        () => <p className="">Actions</p>,
+        () => <p>Actions</p>,
         ({ row }) => (
           <div className="flex justify-center gap-4">
             <div
@@ -370,7 +365,7 @@ const useColumnDef = (fns) => {
     () => [
       rowBuilder(
         "srNo",
-        () => <p className="">Sr. No.</p>,
+        () => <p>Sr. No.</p>,
         ({ row }) => <p>{String(row.index + 1).padStart(2, "0")}</p>,
         {
           "3xl": 100,
@@ -380,7 +375,7 @@ const useColumnDef = (fns) => {
       ),
       rowBuilder(
         "name",
-        () => <p className="">Word Name</p>,
+        () => <p>Word Name</p>,
         ({ getValue, row }) => (
           <div className="flex items-center gap-3 ">
             {row?.original?.profile && (
@@ -409,7 +404,7 @@ const useColumnDef = (fns) => {
       ),
       rowBuilder(
         "action",
-        () => <p className="">Actions</p>,
+        () => <p>Actions</p>,
         ({ row }) => (
           <div className="flex justify-center gap-4">
             <div

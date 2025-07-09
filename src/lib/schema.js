@@ -38,15 +38,12 @@ const LetterSoundsSchema = yup.object().shape({
 })
 
 const PronunciationSchema = yup.object().shape({
-    word: yup.string().required('Please enter word name'),
-    level: yup.string().required('Please enter level'),
-    sound: yup.mixed().required("Please select sound").test('Required', 'Please select sound', (value) => {
+    levelName: yup.string().required('Please enter word name'),
+    wordAudio: yup.mixed().required("Please select sound").test('Required', 'Please select sound', (value) => {
         return value
     }),
-    image: yup.mixed().required("Please select image").test('Required', 'Please select image', (value) => {
-        return value
-    }),
-    script: yup.string().required("Please enter script")
+    levelScript: yup.string().required("Please enter script"),
+    wordsName: yup.string().required("Please enter word name")
 })
 
 

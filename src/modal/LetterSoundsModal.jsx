@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { METHODS } from "@/constants/common";
-import { CREATE_LEVEL } from "@/constants/endpoints";
+import { CREATE_LEVEL, UPDATE_LEVEL } from "@/constants/endpoints";
 import FormProvider from "@/form/FormProvider";
 import RichTextEditor from "@/form/RichTextEditor";
 import SoundField from "@/form/SoundField";
@@ -62,35 +62,42 @@ const LetterSoundsModal = ({ open, setOpen, tutorialId }) => {
       fetchApi({ url: CREATE_LEVEL, method: METHODS.POST, data }),
   });
 
+  const updateLevelMutation = useMutation({
+    mutationFn: async (data) =>
+      fetchApi({ url: UPDATE_LEVEL, method: METHODS.POST, data }),
+  });
+
   const onSubmit = async (values) => {
-    const prevAudio = open?.data?.row?.wordsList;
+    let payload = {};
+    let result = {};
 
-    const updatedAudio = values.wordAudio;
+    if (open?.data?.row?.levelId) {
+      const newAudio = values.wordAudio.filter((file) => file instanceof File);
 
-    let removedAudio = [];
-    prevAudio.forEach((e) => {
-      if (!updatedAudio.includes(e.audio)) {
-        removedAudio.push(e.wordsId);
-      }
-    });
+      payload = {
+        ...values,
+        tutorialId,
+        wordAudio: newAudio,
+        levelId: open?.data?.row?.levelId,
+      };
 
-    const payload = {
-      ...values,
-      // wordAudio: Array.isArray(values.wordAudio)
-      //   ? values.wordAudio
-      //   : [values.wordAudio],
-    };
-    const result = await asyncResponseToaster(() =>
-      createLevelMutation.mutateAsync(
-        toFormData({
-          ...payload,
-          tutorialId,
-        })
-      )
-    );
+      result = await asyncResponseToaster(() =>
+        updateLevelMutation.mutateAsync(toFormData(payload))
+      );
+    } else {
+      payload = {
+        ...values,
+        tutorialId,
+        wordAudio: [values.wordAudio],
+      };
+
+      result = await asyncResponseToaster(() =>
+        createLevelMutation.mutateAsync(toFormData(payload))
+      );
+    }
 
     if (result.success && result.value && result.value.isSuccess) {
-      queryClient.refetchQueries(getLevels());
+      queryClient.refetchQueries(() => getLevels({ tutorialId }));
       handleClose();
     }
   };
@@ -102,19 +109,6 @@ const LetterSoundsModal = ({ open, setOpen, tutorialId }) => {
     });
     reset(defaultValues);
   };
-
-  // const onDrop = (acceptedFiles) => {
-  //   setValue(
-  //     "image",
-  //     Object.assign(acceptedFiles[0], {
-  //       preview: URL.createObjectURL(acceptedFiles[0]),
-  //     }),
-  //     {
-  //       shouldDirty: true,
-  //       shouldValidate: true,
-  //     }
-  //   );
-  // };
 
   return (
     <Dialog open={open?.open} onOpenChange={handleClose}>
@@ -167,12 +161,6 @@ const LetterSoundsModal = ({ open, setOpen, tutorialId }) => {
                           />
                         );
                       })}
-
-                    {/* <UploadImage
-                      name="image"
-                      onDrop={onDrop}
-                      className="rounded-[8px] flex-1"
-                    /> */}
                   </div>
                 </div>
               ) : (
@@ -182,11 +170,6 @@ const LetterSoundsModal = ({ open, setOpen, tutorialId }) => {
                     placeholder="sound"
                     className="rounded-[8px] flex-1"
                   />
-                  {/* <UploadImage
-                    name="image"
-                    onDrop={onDrop}
-                    className="rounded-[8px] flex-1"
-                  /> */}
                 </div>
               )}
             </div>
