@@ -5,7 +5,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { CLOSE_ICON } from "@/lib/images";
-import React from "react";
+import React, { useMemo } from "react";
 import ViewSoundField from "@/form/ViewSoundField";
 
 const ViewWordPronouncesModal = ({ open, setOpen }) => {
@@ -16,6 +16,12 @@ const ViewWordPronouncesModal = ({ open, setOpen }) => {
     });
   };
 
+   const totalSound = useMemo(() => {
+      if (!open?.open) return 0;
+      return (
+        open?.data?.row?.wordsList?.filter((word) => word?.audio)?.length ?? 0
+      );
+    }, [open.open]);
   return (
     <Dialog open={open?.open} onOpenChange={handleClose}>
       <DialogContent
@@ -34,26 +40,33 @@ const ViewWordPronouncesModal = ({ open, setOpen }) => {
         <div className="flex items-center justify-center gap-6 py-4">
           <div className="bg-[#F2F2F3] rounded-[12px] size-[110px] flex flex-col items-center justify-center">
             <img
-              src={open?.data?.row?.image}
+              src={open?.data?.row?.wordsList?.[0]?.img}
               alt="Word"
               className="w-20 h-20"
             />
           </div>
           <div className="flex flex-col gap-2">
             <div className="text-2xl font-bold capitalize">
-              {open?.data?.row?.name}
+              {open?.data?.row?.levelName}
             </div>
-            <div className="text-[#7E808C] text-sm font-medium">{open?.data?.row?.level}</div>
             <div className="text-[#7E808C] text-sm font-medium">
-              Total Sounds - 01
+              {open?.data?.row?.level}
+            </div>
+            <div className="text-[#7E808C] text-sm font-medium">
+              Total Sounds - {String(totalSound).padStart(2, "0")}
             </div>
           </div>
         </div>
         <div className="border-gradient-horizontal w-full h-[0.5px] mt-1 mb-4"></div>
-        <ViewSoundField
-          value={open?.data?.row?.sound}
-          className="rounded-[8px] flex-1"
-        />
+        {open?.data?.row?.wordsList?.map((word) => {
+          return (
+            <ViewSoundField
+              key={word?.wordsId}
+              value={word?.audio}
+              className="rounded-[8px] flex-1"
+            />
+          );
+        })}
       </DialogContent>
     </Dialog>
   );

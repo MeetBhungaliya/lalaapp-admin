@@ -2,6 +2,8 @@ import { GET_LEVELS, GET_STATISTICS, GET_TUTORIALS, GET_USERS } from "@/constant
 import { fetchApi } from "@/lib/api";
 import { queryOptions } from "@tanstack/react-query";
 
+const getOffset = (page, size) => (page - 1) * size;
+
 export function getStatistic({ type }) {
   return queryOptions({
     queryKey: [GET_STATISTICS, type],
@@ -15,7 +17,7 @@ export function getUsers({ offset, limit, search }) {
     queryKey: [GET_USERS, offset, limit, search],
     queryFn: async () =>
       fetchApi({
-        url: `${GET_USERS}?offset=${offset}&limit=${limit}${
+        url: `${GET_USERS}?offset=${getOffset(offset, limit)}&limit=${limit}${
           search ? `&search=${search}` : ""
         }`,
       }),
@@ -36,7 +38,10 @@ export function getLevels({ offset, limit, tutorialId, search }) {
     queryKey: [GET_LEVELS, offset, limit, tutorialId, search],
     queryFn: async () =>
       fetchApi({
-        url: `${GET_LEVELS}?offset=${offset}&limit=${limit}&tutorialId=${tutorialId}${
+        url: `${GET_LEVELS}?offset=${getOffset(
+          offset,
+          limit
+        )}&limit=${limit}&tutorialId=${tutorialId}${
           search ? `&search=${search}` : ""
         }`,
       }),

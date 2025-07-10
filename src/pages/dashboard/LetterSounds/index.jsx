@@ -81,14 +81,16 @@ const LetterSounds = () => {
   useEffect(() => {
     if (!levelsData.data.data.total_record) return;
 
+    const pages = Math.ceil(levelsData.data.data.total_record / limit)
+
     dispatch({
       type: PAGINATION_DISPATCH_TYPES.SET_TOTALRECORD,
       payload: levelsData.data.data.total_record,
     });
 
-    return () => {
+    if (page > pages && page !== 1) {
       dispatch({ type: PAGINATION_DISPATCH_TYPES.SET_PAGE, payload: 1 });
-    };
+    }
   }, [levelsData.isFetching, page, limit, debouncedSearch]);
 
   const handleView = (row) => {

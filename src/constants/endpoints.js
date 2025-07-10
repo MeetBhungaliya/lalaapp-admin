@@ -17,4 +17,7 @@ export const CREATE_LEVEL = "createLevel"
 export const UPDATE_LEVEL = "updateLevel"
 export const DELETE_LEVEL = "deleteLevel"
 
+export const UPDATE_LETTER = "updateLetter"
+export const UPDATE_WORD = "updateWord"
+
 export const ADD_UPDATE_TUTORIAL_SCRIPT = "addOrUpdateTutorialScript"

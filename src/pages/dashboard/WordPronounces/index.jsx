@@ -1,25 +1,23 @@
+import { getLevels, getTutorials } from "@/api/query-option";
 import Datatable from "@/components/common/Datatable";
 import SearchBox from "@/components/common/SearchBox";
 import Button from "@/components/custom/Button";
-import useColumnDef from "@/hooks/useColumnDef";
-import usePagination from "@/hooks/usePagination";
-import DeleteWordPronounceModal from "@/modal/DeleteWordPronounceModal";
-import WordPronouncesModal from "@/modal/WordPronouncesModal";
-import ViewWordPronouncesModal from "@/modal/ViewWordPronouncesModal";
-import { PAGINATION_DISPATCH_TYPES, TUTORIAL_TYPES } from "@/utils/constants";
-import { faker } from "@faker-js/faker";
-import React, { useEffect, useMemo, useState } from "react";
-import DeleteModal from "@/modal/DeleteModal";
-import AddScript from "@/modal/AddScript";
-import { EDIT_WHITE_ICON } from "@/lib/images";
+import { METHODS } from "@/constants/common";
+import { ADD_UPDATE_TUTORIAL_SCRIPT, DELETE_LEVEL } from "@/constants/endpoints";
 import { SearchDataChange } from "@/context/SearchDataContext";
 import useDebounce from "@/hooks/use-debounce";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { getLevels, getTutorials } from "@/api/query-option";
-import { asyncResponseToaster } from "@/lib/toasts";
+import useColumnDef from "@/hooks/useColumnDef";
+import usePagination from "@/hooks/usePagination";
 import { fetchApi } from "@/lib/api";
-import { ADD_UPDATE_TUTORIAL_SCRIPT, DELETE_LEVEL } from "@/constants/endpoints";
-import { METHODS } from "@/constants/common";
+import { EDIT_WHITE_ICON } from "@/lib/images";
+import { asyncResponseToaster } from "@/lib/toasts";
+import AddScript from "@/modal/AddScript";
+import DeleteModal from "@/modal/DeleteModal";
+import ViewWordPronouncesModal from "@/modal/ViewWordPronouncesModal";
+import WordPronouncesModal from "@/modal/WordPronouncesModal";
+import { PAGINATION_DISPATCH_TYPES, TUTORIAL_TYPES } from "@/utils/constants";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useEffect, useMemo, useState } from "react";
 
 const WordPronounces = () => {
   const [open, setOpen] = useState({ open: false, data: null });
@@ -68,14 +66,16 @@ const WordPronounces = () => {
   useEffect(() => {
     if (!levelsData.data.data.total_record) return;
 
+    const pages = Math.ceil(levelsData.data.data.total_record / limit);
+
     dispatch({
       type: PAGINATION_DISPATCH_TYPES.SET_TOTALRECORD,
       payload: levelsData.data.data.total_record,
     });
 
-    return () => {
+    if (page > pages && page !== 1) {
       dispatch({ type: PAGINATION_DISPATCH_TYPES.SET_PAGE, payload: 1 });
-    };
+    }
   }, [levelsData.isFetching, page, limit, debouncedSearch]);
 
   const handleView = (row) => setOpenView({ open: true, data: row });

@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { METHODS } from "@/constants/common";
-import { CREATE_LEVEL, UPDATE_LEVEL } from "@/constants/endpoints";
+import { CREATE_LEVEL, UPDATE_LEVEL, UPDATE_WORD } from "@/constants/endpoints";
 import FormProvider from "@/form/FormProvider";
 import RichTextEditor from "@/form/RichTextEditor";
 import SoundField from "@/form/SoundField";
@@ -43,7 +43,6 @@ const WordPronouncesModal = ({ open, setOpen, tutorialId }) => {
 
   useEffect(() => {
     if (!open?.data) return;
-console.log(open?.data?.row)
     reset({
       levelName: open?.data?.row?.levelName ?? "",
       wordAudio: open?.data?.row?.wordsList.map((e) => e.audio) ?? [],
@@ -69,22 +68,40 @@ console.log(open?.data?.row)
       fetchApi({ url: UPDATE_LEVEL, method: METHODS.POST, data }),
   });
 
+  const updateWordMutation = useMutation({
+    mutationFn: async (data) =>
+      fetchApi({ url: UPDATE_WORD, method: METHODS.POST, data }),
+  });
+
   const onSubmit = async (values) => {
     let payload = {};
     let result = {};
 
-    if (open?.data?.row?.levelId) {
+    if (open?.data?.row?.levelId && open?.data?.row?.wordsList?.[0]?.wordsId) {
       const newAudio = values.wordAudio.filter((file) => file instanceof File);
 
+      if (
+        open?.data?.row?.levelName !== values?.levelName ||
+        open?.data?.row?.levelScript !== values?.levelScript
+      ) {
+        updateLevelMutation.mutateAsync(
+          toFormData({
+            tutorialId,
+            levelScript: values?.levelScript,
+            levelName: values?.levelName,
+            levelId: open?.data?.row?.levelId,
+          })
+        );
+      }
+
       payload = {
-        ...values,
-        tutorialId,
-        wordAudio: newAudio,
-        levelId: open?.data?.row?.levelId,
+        wordId:open?.data?.row?.wordsList?.[0]?.wordsId,
+        wordsName:values.wordsName,
+        wordAudio: newAudio?.[0],
       };
 
       result = await asyncResponseToaster(() =>
-        updateLevelMutation.mutateAsync(toFormData(payload))
+        updateWordMutation.mutateAsync(toFormData(payload))
       );
     } else {
       payload = {

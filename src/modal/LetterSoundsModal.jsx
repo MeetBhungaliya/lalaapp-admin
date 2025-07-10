@@ -9,13 +9,13 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { METHODS } from "@/constants/common";
-import { CREATE_LEVEL, UPDATE_LEVEL } from "@/constants/endpoints";
+import { CREATE_LEVEL, UPDATE_LETTER, UPDATE_LEVEL, UPDATE_WORD } from "@/constants/endpoints";
 import FormProvider from "@/form/FormProvider";
 import RichTextEditor from "@/form/RichTextEditor";
 import SoundField from "@/form/SoundField";
 import TextField from "@/form/TextField";
 import { fetchApi } from "@/lib/api";
-import { CLOSE_SECONDARY_ICON, LEVEL_ICON } from "@/lib/images";
+import { CLOSE_SECONDARY_ICON, LEVEL_ICON, WORD_ICON } from "@/lib/images";
 import { LetterSoundsSchema } from "@/lib/schema";
 import { asyncResponseToaster } from "@/lib/toasts";
 import { cn } from "@/lib/utils";
@@ -26,6 +26,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 const defaultValues = {
+  wordsName: [],
   levelName: "",
   wordAudio: "",
   levelScript: "",
@@ -45,6 +46,8 @@ const LetterSoundsModal = ({ open, setOpen, tutorialId }) => {
     if (!open?.data) return;
 
     reset({
+      wordsName:
+        open?.data?.row?.wordsList?.map((w) => w?.word).join(", ") ?? "",
       levelName: open?.data?.row?.levelName ?? "",
       wordAudio: open?.data?.row?.wordsList.map((e) => e.audio) ?? [],
       levelScript: open?.data?.row?.levelScript ?? "",
@@ -62,33 +65,52 @@ const LetterSoundsModal = ({ open, setOpen, tutorialId }) => {
       fetchApi({ url: CREATE_LEVEL, method: METHODS.POST, data }),
   });
 
-  const updateLevelMutation = useMutation({
+const updateLevelMutation = useMutation({
+  mutationFn: async (data) =>
+    fetchApi({ url: UPDATE_LEVEL, method: METHODS.POST, data }),
+});
+
+  const updateWordMutation = useMutation({
     mutationFn: async (data) =>
-      fetchApi({ url: UPDATE_LEVEL, method: METHODS.POST, data }),
+      fetchApi({ url: UPDATE_WORD, method: METHODS.POST, data }),
   });
 
   const onSubmit = async (values) => {
     let payload = {};
     let result = {};
 
-    if (open?.data?.row?.levelId) {
+    if (open?.data?.row?.levelId && open?.data?.row?.wordsList?.[0]?.wordsId) {
       const newAudio = values.wordAudio.filter((file) => file instanceof File);
 
+      if (
+        open?.data?.row?.levelName !== values?.levelName ||
+        open?.data?.row?.levelScript !== values?.levelScript
+      ) {
+        updateLevelMutation.mutateAsync(
+          toFormData({
+            tutorialId,
+            levelScript: values?.levelScript,
+            levelName: values?.levelName,
+            levelId: open?.data?.row?.levelId,
+          })
+        );
+      }
+
       payload = {
-        ...values,
-        tutorialId,
-        wordAudio: newAudio,
-        levelId: open?.data?.row?.levelId,
+        wordId: open?.data?.row?.wordsList?.[0]?.wordsId,
+        wordsName: values.wordsName,
+        wordAudio: newAudio?.[0],
       };
 
       result = await asyncResponseToaster(() =>
-        updateLevelMutation.mutateAsync(toFormData(payload))
+        updateWordMutation.mutateAsync(toFormData(payload))
       );
     } else {
       payload = {
         ...values,
         tutorialId,
         wordAudio: [values.wordAudio],
+        wordsName: JSON.stringify([values.wordsName]),
       };
 
       result = await asyncResponseToaster(() =>
@@ -131,12 +153,20 @@ const LetterSoundsModal = ({ open, setOpen, tutorialId }) => {
                 open?.data ? "px-12" : ""
               }`}
             >
-              <TextField
-                name="levelName"
-                prefix={<img src={LEVEL_ICON} alt="LEVEL_ICON" />}
-                placeholder="Level"
-                className="rounded-[8px]"
-              />
+              <div className="grid grid-cols-2 gap-4">
+                <TextField
+                  name="wordsName"
+                  prefix={<img src={WORD_ICON} alt="WORD_ICON" />}
+                  placeholder="Word name"
+                  className="rounded-[8px] w-full"
+                />
+                <TextField
+                  name="levelName"
+                  prefix={<img src={LEVEL_ICON} alt="LEVEL_ICON" />}
+                  placeholder="Level"
+                  className="rounded-[8px]"
+                />
+              </div>
               <RichTextEditor
                 name="levelScript"
                 placeholder="Script"
