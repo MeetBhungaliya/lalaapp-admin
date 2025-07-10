@@ -128,17 +128,14 @@ const WordPronounces = () => {
         </div>
 
         <div className="flex-1 flex overflow-hidden gap-6 h-full">
-          {/* Datatable - 3/4 width */}
           <div className="flex-1 w-3/4">
             <Datatable
               data={levelsData.data.data.list}
-              loading={levelsData.isFetching}
+              loading={Boolean(levelsData.isFetching || !tutorialId)}
               columns={wordPronouncesColumns}
               title="Word Pronounces"
             />
           </div>
-
-          {/* Script Section - 1/4 width */}
           <div className="w-1/4 bg-white rounded-[24px] flex flex-col relative">
             <div className="bg-[#F2F4FC] flex justify-between items-center px-5 py-[21px] rounded-t-[24px]">
               <p className="text-lg font-medium text-black">Script</p>

@@ -12,12 +12,14 @@ import { EDIT_WHITE_ICON } from '@/lib/images';
 
 const generateFakeWords = (count = 10) => {
     return Array.from({ length: count }, (_, i) => ({
-        id: i + 1,
-        name: faker.person.firstName(), // or .word.noun()
-        level: `Level ${String(i + 1).padStart(2, "0")}`,
-        profile: faker.image.urlPicsumPhotos(64, 64, true), // or use a static placeholder
-        sound: "https://file-examples.com/storage/feba78aab06819c7996c057/2017/11/file_example_MP3_700KB.mp3",
-        question: faker.lorem.sentence(),
+      id: i + 1,
+      name: faker.person.firstName(), // or .word.noun()
+      wordsList: [],
+      level: `Level ${String(i + 1).padStart(2, "0")}`,
+      profile: faker.image.urlPicsumPhotos(64, 64, true), // or use a static placeholder
+      sound:
+        "https://file-examples.com/storage/feba78aab06819c7996c057/2017/11/file_example_MP3_700KB.mp3",
+      question: faker.lorem.sentence(),
     }));
 };
 

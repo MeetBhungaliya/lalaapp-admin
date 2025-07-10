@@ -81,7 +81,7 @@ const LetterSounds = () => {
   useEffect(() => {
     if (!levelsData.data.data.total_record) return;
 
-    const pages = Math.ceil(levelsData.data.data.total_record / limit)
+    const pages = Math.ceil(levelsData.data.data.total_record / limit);
 
     dispatch({
       type: PAGINATION_DISPATCH_TYPES.SET_TOTALRECORD,
@@ -163,7 +163,7 @@ const LetterSounds = () => {
           <div className="flex-1 w-3/4">
             <Datatable
               data={levelsData.data.data.list}
-              loading={levelsData.isFetching}
+              loading={Boolean(levelsData.isFetching || !tutorialId)}
               columns={letterSoundsColumns}
               title="Letter Sounds"
             />

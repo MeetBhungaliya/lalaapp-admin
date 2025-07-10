@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { METHODS } from "@/constants/common";
-import { CREATE_LEVEL, UPDATE_LETTER, UPDATE_LEVEL, UPDATE_WORD } from "@/constants/endpoints";
+import { CREATE_LEVEL, UPDATE_LEVEL, UPDATE_WORD } from "@/constants/endpoints";
 import FormProvider from "@/form/FormProvider";
 import RichTextEditor from "@/form/RichTextEditor";
 import SoundField from "@/form/SoundField";

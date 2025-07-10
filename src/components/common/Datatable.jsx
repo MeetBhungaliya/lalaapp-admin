@@ -30,6 +30,7 @@ const Datatable = ({
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
+  
   return (
     <div className="h-full rounded-[24px] p-0 bg-white overflow-hidden flex flex-col">
       <ScrollArea className={cn("flex-1 overflow-auto")}>

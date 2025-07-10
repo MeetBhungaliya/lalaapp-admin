@@ -374,19 +374,14 @@ const useColumnDef = (fns) => {
         "center"
       ),
       rowBuilder(
-        "name",
+        "wordsList",
         () => <p>Word Name</p>,
-        ({ getValue, row }) => (
-          <div className="flex items-center gap-3 ">
-            {row?.original?.profile && (
-              <Image
-                src={row?.original?.profile}
-                alt=""
-                className="sm:size-[46px] size-[40px] object-cover shrink-0 rounded-[8px]"
-              />
-            )}
-            <p className="text-primary text-wrap break-all">{getValue()}</p>
-          </div>
+        ({ getValue }) => (
+          <p className="text-primary text-wrap break-all">
+            {getValue()
+              .map((w) => w?.word)
+              .join(" - ")}
+          </p>
         ),
         {
           "3xl": null,
@@ -394,9 +389,9 @@ const useColumnDef = (fns) => {
         }
       ),
       rowBuilder(
-        "level",
+        "levelName",
         "Level",
-        (props) => <p className="break-all text-wrap ">{cellBuilder(props)}</p>,
+        ({ getValue }) => <p className="break-all text-wrap">{getValue()}</p>,
         {
           "3xl": null,
           default: 350,

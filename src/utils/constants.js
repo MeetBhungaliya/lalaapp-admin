@@ -26,6 +26,7 @@ const chartFilterOptions = [
 export const TUTORIAL_TYPES = {
     letter_sound: "letterSound",
     word_pronunciation: "wordPronunciation",
+    rhyming_words: "rhymingWords",
 }
 
 export { PAGINATION_DISPATCH_TYPES, chartFilterOptions }
