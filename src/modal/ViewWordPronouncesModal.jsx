@@ -16,12 +16,13 @@ const ViewWordPronouncesModal = ({ open, setOpen }) => {
     });
   };
 
-   const totalSound = useMemo(() => {
-      if (!open?.open) return 0;
-      return (
-        open?.data?.row?.wordsList?.filter((word) => word?.audio)?.length ?? 0
-      );
-    }, [open.open]);
+  const totalSound = useMemo(() => {
+    if (!open?.open) return 0;
+    return (
+      open?.data?.row?.wordsList?.filter((word) => word?.audio)?.length ?? 0
+    );
+  }, [open.open]);
+
   return (
     <Dialog open={open?.open} onOpenChange={handleClose}>
       <DialogContent

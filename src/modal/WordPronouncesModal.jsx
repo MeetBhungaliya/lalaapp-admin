@@ -32,7 +32,7 @@ const WordPronouncesModal = ({ open, setOpen, tutorialId }) => {
     levelName: "",
     wordAudio: "",
     levelScript: "",
-    wordsName: [],
+    wordsName: "",
   };
 
   const methods = useForm({

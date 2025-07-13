@@ -27,6 +27,9 @@ export const TUTORIAL_TYPES = {
     letter_sound: "letterSound",
     word_pronunciation: "wordPronunciation",
     rhyming_words: "rhymingWords",
+    phoneme_isolation: "phonemeIsolation",
+    blending_letter: "blendingLetter",
+    segmenting_words: "segmentingWords",
 }
 
 export { PAGINATION_DISPATCH_TYPES, chartFilterOptions }

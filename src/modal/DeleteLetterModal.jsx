@@ -4,7 +4,6 @@ import { DELETE_ICON2 } from "@/lib/images";
 import React from "react";
 
 const DeleteLetterModal = ({ open, setOpen }) => {
-  console.log('open: ', open);
 
   const handleClose = () => {
     setOpen({

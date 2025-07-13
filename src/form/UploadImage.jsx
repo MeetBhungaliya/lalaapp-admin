@@ -22,7 +22,6 @@ export const UploadImage = ({ name, label, className, ...other }) => {
       name={name}
       control={control}
       render={({ field, formState: { errors } }) => {
-        console.log('field: ', field?.value);
         const fieldError = get(errors, name);
         return (
           <div className={className}>

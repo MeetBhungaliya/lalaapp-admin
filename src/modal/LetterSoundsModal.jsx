@@ -26,7 +26,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 const defaultValues = {
-  wordsName: [],
+  wordsName: "",
   levelName: "",
   wordAudio: "",
   levelScript: "",

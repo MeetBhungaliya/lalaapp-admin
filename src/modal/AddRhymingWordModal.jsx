@@ -31,8 +31,8 @@ const RhymingWordSchema = yup.object().shape({
     .array()
     .of(
       yup.object().shape({
-        wordsName: yup.string().required("Please enter word name"),
-        wordAudio: yup
+        word: yup.string().required("Please enter word name"),
+        audio: yup
           .mixed()
           .required("Please select sound")
           .test("fileExists", "Please select sound", (value) => !!value),
@@ -45,9 +45,9 @@ const RhymingWordSchema = yup.object().shape({
 const defaultValues = {
   levelName: "",
   words: [
-    { wordsName: "", wordAudio: null },
-    { wordsName: "", wordAudio: null },
-    { wordsName: "", wordAudio: null },
+    { word: "", audio: null },
+    { word: "", audio: null },
+    { word: "", audio: null },
   ],
   levelScript: "",
 };
@@ -72,12 +72,7 @@ const AddRhymingWordModal = ({ open, setOpen, tutorialId }) => {
       reset({
         levelName: open?.data?.levelName || "",
         levelScript: open?.data?.levelScript || "",
-        words:
-          open.data.wordsList?.map((w) => ({
-            ...w,
-            wordsName: w?.word,
-            wordAudio: w?.audio,
-          })) || defaultValues.words,
+        words: open.data.wordsList || defaultValues.words,
       });
     } else {
       reset(defaultValues);
@@ -111,11 +106,7 @@ const AddRhymingWordModal = ({ open, setOpen, tutorialId }) => {
           (w) => w?.wordsId === word?.wordsId
         );
 
-        const { wordsName, wordAudio, ...updatedWord } = word;
-        updatedWord.word = wordsName;
-        updatedWord.audio = wordAudio;
-
-        if (JSON.stringify(prevWord) !== JSON.stringify(updatedWord)) {
+        if (JSON.stringify(prevWord) !== JSON.stringify(word)) {
           updatedWords.push(word);
         }
       });
@@ -142,8 +133,8 @@ const AddRhymingWordModal = ({ open, setOpen, tutorialId }) => {
             return await updateWordMutation.mutateAsync(
               toFormData({
                 wordId: w?.wordsId,
-                wordsName: w?.wordsName,
-                wordAudio: w?.wordAudio,
+                wordsName: w?.word,
+                wordAudio: w?.audio,
               })
             );
           })
@@ -156,8 +147,8 @@ const AddRhymingWordModal = ({ open, setOpen, tutorialId }) => {
         tutorialId,
         levelName: values?.levelName,
         levelScript: values?.levelScript,
-        wordsName: JSON.stringify(values?.words?.map((w) => w?.wordsName)),
-        wordAudio: values?.words?.map((w) => w?.wordAudio),
+        wordsName: JSON.stringify(values?.words?.map((w) => w?.word)),
+        wordAudio: values?.words?.map((w) => w?.audio),
       };
 
       result = await asyncResponseToaster(() =>
@@ -221,14 +212,15 @@ const AddRhymingWordModal = ({ open, setOpen, tutorialId }) => {
                     )}
                     <div className={cn("space-y-5", open?.data && "pt-1.5 ")}>
                       <TextField
-                        name={`words.${idx}.wordsName`}
+                        name={`words.${idx}.word`}
                         prefix={<img src={WORD_ICON} alt="WORD_ICON" />}
                         placeholder="Word name"
                         className="rounded-[8px] flex-1"
                       />
                       <SoundField
-                        name={`words.${idx}.wordAudio`}
+                        name={`words.${idx}.audio`}
                         className="rounded-[8px] flex-1"
+                        edit={Boolean(open?.data)}
                       />
                       {open?.data > 2 && (
                         <button
