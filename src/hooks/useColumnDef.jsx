@@ -283,16 +283,18 @@ const useColumnDef = (fns) => {
         "center"
       ),
       rowBuilder(
-        "name",
+        "userDtl",
         () => <p>Name</p>,
         ({ getValue, row }) => (
           <div className="flex items-center gap-3 ">
             <Image
-              src={row?.original?.profile}
-              alt=""
+              src={getValue()?.profile}
+              alt="user profile"
               className="sm:size-[46px] size-[40px]  object-cover shrink-0 rounded-[8px]"
             />
-            <p className=" text-primary text-wrap break-all">{getValue()}</p>
+            <p className=" text-primary text-wrap break-all">
+              {getValue()?.fname} {getValue()?.lname}
+            </p>
           </div>
         ),
         {
@@ -302,9 +304,11 @@ const useColumnDef = (fns) => {
         }
       ),
       rowBuilder(
-        "planPrice",
+        "planDtl",
         "Plan Price",
-        (props) => <p className="break-all text-wrap">{cellBuilder(props)}</p>,
+        ({ getValue }) => (
+          <p className="break-all text-wrap">{getValue()?.amount}</p>
+        ),
         {
           "3xl": 250,
           default: 200,

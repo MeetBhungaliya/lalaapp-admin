@@ -1,4 +1,4 @@
-import { GET_LEVELS, GET_STATISTICS, GET_TUTORIALS, GET_USERS } from "@/constants/endpoints";
+import { GET_LEVELS, GET_STATISTICS, GET_SUBSCRIBERS, GET_TUTORIALS, GET_USERS } from "@/constants/endpoints";
 import { fetchApi } from "@/lib/api";
 import { queryOptions } from "@tanstack/react-query";
 
@@ -46,6 +46,19 @@ export function getLevels({ offset, limit, tutorialId, search }) {
         }`,
       }),
     enabled: Boolean(tutorialId),
+    placeholderData: { data: { list: [], total_record: null } },
+  });
+}
+
+export function getSubscriberList({ offset, limit, search }) {
+  return queryOptions({
+    queryKey: [GET_SUBSCRIBERS, offset, limit, search],
+    queryFn: async () =>
+      fetchApi({
+        url: `${GET_SUBSCRIBERS}?offset=${getOffset(offset, limit)}&limit=${limit}${
+          search ? `&search=${search}` : ""
+        }`,
+      }),
     placeholderData: { data: { list: [], total_record: null } },
   });
 }

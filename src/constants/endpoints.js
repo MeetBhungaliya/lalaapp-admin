@@ -22,3 +22,5 @@ export const DELETE_LETTER = "deleteLetter"
 export const UPDATE_WORD = "updateWord"
 
 export const ADD_UPDATE_TUTORIAL_SCRIPT = "addOrUpdateTutorialScript"
+
+export const GET_SUBSCRIBERS = "getSubscriberList"
