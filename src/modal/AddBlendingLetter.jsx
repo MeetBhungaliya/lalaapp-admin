@@ -380,6 +380,7 @@ const AddBlendingLetter = ({ open, setOpen, tutorialId }) => {
                   <SoundField
                     name="wordAudio"
                     className="rounded-[8px] flex-1"
+                    audioNameClass="max-w-[300px] truncate text-ellipsis"
                     edit={Boolean(open?.data)}
                   />
                 </div>
@@ -422,6 +423,7 @@ const AddBlendingLetter = ({ open, setOpen, tutorialId }) => {
                         <SoundField
                           name={`blends.${idx}.audio`}
                           className="rounded-[8px] flex-1"
+                          audioNameClass="max-w-[300px] truncate text-ellipsis"
                           edit={Boolean(open?.data)}
                         />
                         {fields.length > 1 && (

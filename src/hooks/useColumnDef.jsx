@@ -346,13 +346,13 @@ const useColumnDef = (fns) => {
             >
               <Image src={VIEW_ICON} alt="view" className="size-5" />
             </div>
-            <div
+            {/* <div
               onClick={() => fns?.handleDelete(row?.original)}
               className="bg-[#F7F7F7] rounded-[8px] p-3 shrink-0 cursor-pointer"
               type="button"
             >
               <Image src={DELETE_ICON} alt="delete" className="size-5" />
-            </div>
+            </div> */}
           </div>
         ),
         {

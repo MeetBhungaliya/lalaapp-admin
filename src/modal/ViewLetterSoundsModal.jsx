@@ -55,12 +55,20 @@ const ViewLetterSoundsModal = ({ open, setOpen }) => {
           </div>
         </div>
         <div className="border-gradient-horizontal w-full h-[0.5px] mt-1 mb-4"></div>
+        <div className="flex flex-col gap-1 pb-3">
+          <p className="sm:text-lg text-base font-semibold text-primary">Script</p>
+          <p className="sm:text-sm text-xs font-normal text-[#7E808C]">
+          This is the letter A it makes the letter sound A Can you make the letter sound A ? 
+          </p>
+        </div>
         {open?.data?.row?.wordsList?.map((word) => {
+          console.log(word?.audio);
           return (
             <ViewSoundField
               key={word?.wordsId}
               value={word?.audio}
               className="rounded-[8px] flex-1"
+              audioNameClass="max-w-[300px]"
             />
           );
         })}

@@ -149,14 +149,7 @@ const AddPhonemeIsolation = ({ open, setOpen, tutorialId }) => {
 
   return (
     <Dialog open={open?.open} onOpenChange={handleClose}>
-      <DialogContent
-        className={cn(
-          "max-h-[90vh] overflow-hidden py-6 px-0 rounded-[24px]",
-          open?.data
-            ? "sm:max-w-[600px] max-w-[70%]"
-            : "sm:max-w-[700px] max-w-[90%]"
-        )}
-      >
+      <DialogContent className={cn(" max-h-[90vh] overflow-hidden sm:max-w-[700px] max-w-[90%] py-6 px-0 rounded-[24px]")}>
         <DialogHeader className="flex flex-row justify-between  px-8 pb-4   border-b border-[#EDEDED]">
           <DialogTitle className="text-2xl font-bold text-primary">
             {open?.data ? "Edit Word" : "Add Words"}
@@ -165,25 +158,14 @@ const AddPhonemeIsolation = ({ open, setOpen, tutorialId }) => {
             <img src={CLOSE_SECONDARY_ICON} alt="CLOSE_SECONDARY_ICON" />
           </div>
         </DialogHeader>
-        <ScrollArea className="flex-1 max-h-[80vh] overflow-y-auto flex flex-col  px-8">
+        <ScrollArea className={cn("flex-1 max-h-[80vh] overflow-y-auto flex flex-col", open?.data ? "px-0" : "px-8")}>
           <FormProvider
             methods={methods}
             onSubmit={handleSubmit(onSubmit)}
             className="max-h-[65vh]"
           >
-            <div
-              className={cn(
-                "flex flex-col gap-6  rounded-[8px] pt-2.5 ",
-                open?.data ? "sm:px-14 px-5" : "px-0.5"
-              )}
-            >
-              <div
-                className={cn(
-                  !open?.data
-                    ? "grid grid-cols-2 gap-6"
-                    : "flex flex-col gap-3.5"
-                )}
-              >
+            <div className={cn("flex flex-col gap-6  rounded-[8px] pt-2.5 ", open?.data ? "sm:px-14 px-5" : "px-1.5")}>
+              <div className={cn(!open?.data ? "grid grid-cols-2 gap-6" : "flex flex-col gap-3.5")}>
                 {!open?.data && (
                   <TextField
                     name="wordsName"
@@ -236,14 +218,15 @@ const AddPhonemeIsolation = ({ open, setOpen, tutorialId }) => {
                     open?.data
                       ? "flex flex-col gap-3.5"
                       : !watch("sound") && !watch("image")
-                      ? "flex gap-6"
-                      : "flex flex-col  gap-3.5"
+                        ? "flex gap-6"
+                        : "flex flex-col  gap-3.5"
                   )}
                 >
                   <SoundField
                     name="wordAudio"
                     className="rounded-[8px] flex-1"
                     edit={Boolean(open?.data)}
+                    audioNameClass="max-w-[300px] truncate text-ellipsis"
                   />
                 </div>
               </div>

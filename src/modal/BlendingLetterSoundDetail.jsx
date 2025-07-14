@@ -53,10 +53,10 @@ const BlendingLetterSoundDetail = ({ open, setOpen }) => {
   };
 
   const onDownloadAudio = async (audio, name) => {
-      await asyncResponseToaster(() => downloadAudio(audio, name), {
-        loading: "Downloading audio...",
-      });
-    };
+    await asyncResponseToaster(() => downloadAudio(audio, name), {
+      loading: "Downloading audio...",
+    });
+  };
 
   return (
     <Dialog open={open?.open} onOpenChange={handleClose}>
@@ -80,34 +80,40 @@ const BlendingLetterSoundDetail = ({ open, setOpen }) => {
               </p>
             </div>
             <div className="border-gradient-horizontal w-full h-[0.5px] mt-2.5"></div>
+            <div className="flex flex-col gap-1 pb-2">
+              <p className="sm:text-lg text-base font-semibold text-primary">Script</p>
+              <p className="sm:text-sm text-xs font-normal text-[#7E808C]">
+                Here is our first word: C–A–T. Now you say it! What word did we make?
+              </p>
+            </div>
             <div className="grid grid-cols-2 gap-6">
               {open?.data?.letterList?.map((letter, index) => {
                 return (
                   <div
                     key={index}
-                    className="bg-[#F5F6FA] rounded-[8px] px-4 py-5 flex items-center justify-between"
+                    className="bg-[#F5F6FA] rounded-[8px] px-4 py-5 flex flex-wrap items-center justify-between"
                   >
                     <div className="flex items-center gap-2">
                       <div className="bg-white flex items-center justify-center size-[46px] rounded-full">
                         <img src={SOUND_ICON} alt="SOUND_ICON" />
                       </div>
-                      <div>
+                      <div className="flex-1 w-full">
                         <p className="text-base font-semibold text-primary">
                           {letter?.letter}
                         </p>
-                        <p className="text-[10px] font-normal text-[#1F1F24]">
+                        <p className="text-[10px] max-w-[150px] font-normal flex-1 w-full truncate text-[#1F1F24]">
                           {letter?.audio}
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center">
+                    <div className="flex items-center ml-auto">
                       <div
                         onClick={() => handlePlay(index)}
                         className="cursor-pointer mr-3"
                       >
                         {activeAudioIndex === index &&
-                        audioRefs.current[index] &&
-                        !audioRefs.current[index].paused ? (
+                          audioRefs.current[index] &&
+                          !audioRefs.current[index].paused ? (
                           <img
                             src={PAUSE_ICON}
                             alt="PAUSE_ICON"

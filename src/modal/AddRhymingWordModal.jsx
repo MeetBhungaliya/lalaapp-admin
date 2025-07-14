@@ -168,8 +168,8 @@ const AddRhymingWordModal = ({ open, setOpen, tutorialId }) => {
 
   return (
     <Dialog open={open?.open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[900px] max-w-[90%] px-8 max-h-[90vh] py-6 rounded-[24px] overflow-hidden">
-        <DialogHeader className="flex flex-row justify-between pb-4 -mx-6 px-6 border-b border-[#EDEDED]">
+      <DialogContent className="sm:max-w-[900px] max-w-[90%] px-0 max-h-[90vh] py-6 rounded-[24px] overflow-hidden">
+        <DialogHeader className={cn("flex flex-row justify-between pb-4   border-b border-[#EDEDED]", open?.data ? "px-7" : "px-6")}>
           <DialogTitle className="text-2xl font-bold text-primary">
             {open?.data ? "Edit Words" : "Add Words"}
           </DialogTitle>
@@ -178,8 +178,8 @@ const AddRhymingWordModal = ({ open, setOpen, tutorialId }) => {
           </div>
         </DialogHeader>
         <ScrollArea className="max-h-[80vh] overflow-y-auto">
-          <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-            <div className="flex flex-col gap-6  border-2 p-4 mt-4 border-dashed border-[#7E808C33] rounded-[8px]">
+          <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} className={cn("px-1.5", open?.data ? "px-6" : "px-6")}>
+            <div className={cn("flex flex-col gap-6  border-2 p-4 mt-4 border-dashed border-[#7E808C33] rounded-[8px]")}>
               <TextField
                 name="levelName"
                 prefix={<img src={LEVEL_ICON} alt="LEVEL_ICON" />}
@@ -200,7 +200,7 @@ const AddRhymingWordModal = ({ open, setOpen, tutorialId }) => {
                       "rounded-[8px] h-full  flex flex-col gap-3 relative",
                       open?.data && "border-2 border-dashed border-[#7E808C33]",
                       open?.data &&
-                        "border-2 border-dashed border-[#7E808C33] px-3 pt-8 pb-4"
+                      "border-2 border-dashed border-[#7E808C33] px-3 pt-8 pb-4"
                     )}
                   >
                     {open?.data && (
@@ -221,6 +221,7 @@ const AddRhymingWordModal = ({ open, setOpen, tutorialId }) => {
                         name={`words.${idx}.audio`}
                         className="rounded-[8px] flex-1"
                         edit={Boolean(open?.data)}
+                        audioNameClass="max-w-[100px] truncate text-ellipsis"
                       />
                       {open?.data > 2 && (
                         <button

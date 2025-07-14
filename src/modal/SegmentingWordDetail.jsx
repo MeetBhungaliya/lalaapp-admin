@@ -1,17 +1,17 @@
 import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import ViewSoundField from "@/form/ViewSoundField";
 import {
-    CLOSE_ICON,
-    DOWNLOAD_ICON,
-    PAUSE_ICON,
-    PLAY_ICON,
-    SOUND_ICON,
+  CLOSE_ICON,
+  DOWNLOAD_ICON,
+  PAUSE_ICON,
+  PLAY_ICON,
+  SOUND_ICON,
 } from "@/lib/images";
 import { asyncResponseToaster } from "@/lib/toasts";
 import { downloadAudio } from "@/lib/utils";
@@ -99,6 +99,12 @@ const SegmentingWordDetail = ({ open, setOpen }) => {
               })}
             </div>
             <div className="border-gradient-horizontal w-full h-[0.5px] mt-2.5"></div>
+            <div className="flex flex-col gap-1 pb-3">
+              <p className="sm:text-lg text-base font-semibold text-primary">Script</p>
+              <p className="sm:text-sm text-xs font-normal text-[#7E808C]">
+                Here is the word CAT. What happens when we remove the letter C. We make a different word.
+              </p>
+            </div>
             {open?.data?.wordsList?.map((word) => {
               return (
                 <ViewSoundField
@@ -134,8 +140,8 @@ const SegmentingWordDetail = ({ open, setOpen }) => {
                         className="cursor-pointer mr-3"
                       >
                         {activeAudioIndex === index &&
-                        audioRefs.current[index] &&
-                        !audioRefs.current[index].paused ? (
+                          audioRefs.current[index] &&
+                          !audioRefs.current[index].paused ? (
                           <img
                             src={PAUSE_ICON}
                             alt="PAUSE_ICON"

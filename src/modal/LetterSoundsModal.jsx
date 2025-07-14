@@ -65,10 +65,10 @@ const LetterSoundsModal = ({ open, setOpen, tutorialId }) => {
       fetchApi({ url: CREATE_LEVEL, method: METHODS.POST, data }),
   });
 
-const updateLevelMutation = useMutation({
-  mutationFn: async (data) =>
-    fetchApi({ url: UPDATE_LEVEL, method: METHODS.POST, data }),
-});
+  const updateLevelMutation = useMutation({
+    mutationFn: async (data) =>
+      fetchApi({ url: UPDATE_LEVEL, method: METHODS.POST, data }),
+  });
 
   const updateWordMutation = useMutation({
     mutationFn: async (data) =>
@@ -136,9 +136,9 @@ const updateLevelMutation = useMutation({
     <Dialog open={open?.open} onOpenChange={handleClose}>
       <DialogContent
         onOpenAutoFocus={(e) => e.preventDefault()}
-        className="sm:max-w-[655px] px-8 py-6 rounded-[24px]  overflow-hidden"
+        className={cn("sm:max-w-[655px]  py-6 rounded-[24px]  overflow-hidden", open?.data ? "px-0" : "px-7")}
       >
-        <DialogHeader className="flex flex-row justify-between pb-4 -mx-6 px-6 border-b border-[#EDEDED]">
+        <DialogHeader className={cn("flex flex-row justify-between pb-4  border-b border-[#EDEDED]", open?.data ? "px-7" : "px-3")}>
           <DialogTitle className="text-2xl font-bold text-primary">
             {open?.data ? "Edit" : "Add"} Word
           </DialogTitle>
@@ -149,9 +149,7 @@ const updateLevelMutation = useMutation({
         <ScrollArea className="max-h-[80vh] overflow-y-auto">
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <div
-              className={`flex flex-col gap-6 pt-5 ${
-                open?.data ? "px-12" : ""
-              }`}
+              className={`flex flex-col gap-6 px-1.5 pt-5 ${open?.data ? "px-12" : ""}`}
             >
               <div className="grid grid-cols-2 gap-4">
                 <TextField
@@ -187,6 +185,7 @@ const updateLevelMutation = useMutation({
                             name={`wordAudio.${index}`}
                             placeholder="sound"
                             className="rounded-[8px] flex-1"
+                            audioNameClass="max-w-[300px] truncate text-ellipsis"
                             edit
                           />
                         );
@@ -199,6 +198,7 @@ const updateLevelMutation = useMutation({
                     name="wordAudio"
                     placeholder="sound"
                     className="rounded-[8px] flex-1"
+                    audioNameClass="max-w-[300px] truncate text-ellipsis"
                   />
                 </div>
               )}

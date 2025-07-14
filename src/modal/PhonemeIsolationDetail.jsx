@@ -1,9 +1,9 @@
 import Image from "@/components/common/Images";
 import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import ViewSoundField from "@/form/ViewSoundField";
 import { CLOSE_ICON } from "@/lib/images";
@@ -56,12 +56,19 @@ const PhonemeIsolationDetail = ({ open, setOpen }) => {
               {open?.data?.question}
             </p>
           </div>
+          <div className="flex flex-col gap-1 pb-2">
+            <p className="sm:text-lg text-base font-semibold text-primary">Script</p>
+            <p className="sm:text-sm text-xs font-normal text-[#7E808C]">
+              What’s the first sound in cat? The letter C is wiggling — can you say its sound?
+            </p>
+          </div>
           {open?.data?.wordsList?.map((word) => {
             return (
               <ViewSoundField
                 key={word?.wordsId}
                 value={word?.audio}
                 className="rounded-[8px] flex-1"
+                audioNameClass="max-w-[250px]"
               />
             );
           })}

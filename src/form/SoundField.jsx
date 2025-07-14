@@ -5,7 +5,7 @@ import { get } from "lodash";
 import React, { useRef, useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 
-const SoundField = ({ label, className, name, edit = false }) => {
+const SoundField = ({ label, className, name, edit = false, audioNameClass }) => {
   const { control, getValues, setValue } = useFormContext();
   const fieldValue = getValues(name); // Get value from form state
 
@@ -75,103 +75,102 @@ const SoundField = ({ label, className, name, edit = false }) => {
 
         return (
           <div className={className}>
-            {label && (
-              <label className="text-primary font-semibold text-sm sm:text-base md:text-lg">
-                {label}
-              </label>
-            )}
+          {label && (
+            <label className="text-primary font-semibold text-sm sm:text-base md:text-lg">
+              {label}
+            </label>
+          )}
 
-            {!audioFile && !audioUrl ? (
-              <div
-                className={cn(
-                  "flex flex-col items-center justify-center bg-ternary rounded-[8px] py-6 cursor-pointer",
-                  fieldError?.message
-                    ? "border border-red-500"
-                    : "focus-visible:ring-main"
-                )}
-                onClick={() =>
-                  document.getElementById(`audio-input-${name}`).click()
-                }
-              >
-                <div>
-                  <span className=" rounded-full flex items-center justify-center">
-                    <img src={SOUND_ICON} alt="SOUND_ICON" />
-                  </span>
-                </div>
-                <div className="text-secondary text-lg mt-1 sm:text-base font-normal">
-                  Add Sounds
-                </div>
-                <input
-                  id={`audio-input-${name}`}
-                  {...field}
-                  type="file"
-                  accept="audio/*"
-                  className="hidden"
-                  onChange={handleFileChange}
-                />
+          {!audioFile && !audioUrl ? (
+            <div
+              className={cn(
+                "flex flex-col items-center justify-center bg-ternary rounded-[8px] py-6 cursor-pointer",
+                fieldError?.message
+                  ? "border border-red-500"
+                  : "focus-visible:ring-main"
+              )}
+              onClick={() =>
+                document.getElementById(`audio-input-${name}`).click()
+              }
+            >
+              <div>
+                <span className=" rounded-full flex items-center justify-center">
+                  <img src={SOUND_ICON} alt="SOUND_ICON" />
+                </span>
               </div>
-            ) : (
-              <div
-                className={cn(
-                  "flex items-center justify-between bg-[#D0ECFF] h-[52px] sm:h-[58px] px-4.5 rounded-[8px]",
-                  fieldError?.message
-                    ? "border border-red-500"
-                    : "focus-visible:ring-main"
-                )}
-              >
-                <div className="flex items-center gap-3 ">
-                  <span className=" rounded-full flex items-center justify-center shrink-0">
-                    <img src={SOUND_ICON} alt="SOUND_ICON" />
-                  </span>
-                  <span className="text-primary font-normal text-base line-clamp-1">
-                    {displayFileName}
-                  </span>
-                </div>
-                <div className="flex items-center w-fit shrink-0">
-                  <div onClick={handlePlay} className="cursor-pointer">
-                    {isPlaying ? (
-                      <img
-                        src={PAUSE_ICON}
-                        alt="PAUSE_ICON"
-                        className="size-7 shrink-0"
-                      />
-                    ) : (
-                      <img
-                        src={PLAY_ICON}
-                        alt="PLAY_ICON"
-                        className="size-7 shrink-0"
-                      />
-                    )}
-                  </div>
-                  <div
-                    onClick={() => {
-                      handleRemove();
-                      field.onChange(null);
-                    }}
-                    className="cursor-pointer ml-3"
-                  >
+              <div className="text-secondary text-lg mt-1 sm:text-base font-normal">
+                Add Sounds
+              </div>
+              <input
+                id={`audio-input-${name}`}
+                {...field}
+                type="file"
+                accept="audio/*"
+                className="hidden"
+                onChange={(e) => {
+                  handleFileChange(e);
+                  field.onChange(e);
+                }}
+              />
+            </div>
+          ) : (
+            <div
+              className={cn(
+                "flex flex-wrap items-center py-1.5 gap-1 justify-between bg-[#D0ECFF] min-h-[52px] sm:min-h-[58px] w-full px-4.5 rounded-[8px] ",
+                fieldError?.message
+                  ? "border border-red-500"
+                  : "focus-visible:ring-main"
+              )}
+            >
+              <div className="flex flex-1 items-center gap-3">
+                <span className=" rounded-full flex items-center justify-center shrink-0 ">
+                  <img src={SOUND_ICON} alt="SOUND_ICON" />
+                </span>
+                <span className={cn("text-primary flex-1 line-clamp-2 truncate font-normal text-base ", audioNameClass)}>
+                  {displayFileName}
+                </span>
+              </div>
+              <div className="flex items-center w-fit shrink-0 ml-auto">
+                <div onClick={handlePlay} className="cursor-pointer">
+                  {isPlaying ? (
                     <img
-                      src={CLOSE_ICON2}
-                      alt="CLOSE_ICON2"
+                      src={PAUSE_ICON}
+                      alt="PAUSE_ICON"
                       className="size-7 shrink-0"
                     />
-                  </div>
+                  ) : (
+                    <img src={PLAY_ICON} alt="PLAY_ICON" className="size-7 shrink-0" />
+                  )}
                 </div>
-
-                <audio
-                  ref={audioRef}
-                  controls={false}
-                  onEnded={() => setIsPlaying(false)}
-                />
+                <div
+                  onClick={() => {
+                    handleRemove();
+                    field.onChange(null);
+                  }}
+                  className="cursor-pointer ml-3"
+                >
+                  <img
+                    src={CLOSE_ICON2}
+                    alt="CLOSE_ICON2"
+                    className="size-7 shrink-0"
+                  />
+                </div>
               </div>
-            )}
 
-            {fieldError?.message && (
-              <div className="pl-3 text-xs sm:text-sm font-normal text-red-500">
-                {fieldError.message}
-              </div>
-            )}
-          </div>
+              <audio
+                ref={audioRef}
+                controls={false}
+                onEnded={() => setIsPlaying(false)}
+              />
+            </div>
+          )}
+
+          {fieldError?.message && (
+            <div className="pl-3 text-xs sm:text-sm font-normal text-red-500">
+              {fieldError.message}
+            </div>
+          )}
+        </div>
         );
       }}
     />

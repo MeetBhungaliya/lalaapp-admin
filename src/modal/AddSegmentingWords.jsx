@@ -389,6 +389,7 @@ const AddSegmentingWords = ({ open, setOpen, tutorialId }) => {
                       <SoundField
                         name="wordAudio"
                         className="rounded-[8px] flex-1"
+                        audioNameClass="max-w-[300px] truncate text-ellipsis"
                         edit={Boolean(open?.data)}
                       />
                     </div>
@@ -402,6 +403,7 @@ const AddSegmentingWords = ({ open, setOpen, tutorialId }) => {
                       <SoundField
                         name="afterRemoveAudio"
                         className="rounded-[8px] flex-1"
+                        audioNameClass="max-w-[300px] truncate text-ellipsis"
                         edit={Boolean(open?.data)}
                       />
                     </div>

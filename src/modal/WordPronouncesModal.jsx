@@ -95,8 +95,8 @@ const WordPronouncesModal = ({ open, setOpen, tutorialId }) => {
       }
 
       payload = {
-        wordId:open?.data?.row?.wordsList?.[0]?.wordsId,
-        wordsName:values.wordsName,
+        wordId: open?.data?.row?.wordsList?.[0]?.wordsId,
+        wordsName: values.wordsName,
         wordAudio: newAudio?.[0],
       };
 
@@ -134,9 +134,9 @@ const WordPronouncesModal = ({ open, setOpen, tutorialId }) => {
     <Dialog open={open?.open} onOpenChange={handleClose}>
       <DialogContent
         onOpenAutoFocus={(e) => e.preventDefault()}
-        className="sm:max-w-[655px] px-8 py-6 rounded-[24px] overflow-hidden"
+        className={cn("sm:max-w-[655px]  py-6 rounded-[24px] overflow-hidden", open?.data ? "px-0" : "")}
       >
-        <DialogHeader className="flex flex-row justify-between pb-4 -mx-6 px-6 border-b border-[#EDEDED]">
+        <DialogHeader className={cn("flex flex-row justify-between pb-4   border-b border-[#EDEDED]", open?.data ? "px-7" : "px-2")}>
           <DialogTitle className="text-2xl font-bold text-primary">
             {open?.data ? "Edit" : "Add"} Word
           </DialogTitle>
@@ -146,17 +146,15 @@ const WordPronouncesModal = ({ open, setOpen, tutorialId }) => {
         </DialogHeader>
         <ScrollArea className="max-h-[80vh] overflow-y-auto">
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-            <div
-              className={`flex pt-3 flex-col gap-6 ${
-                open?.data ? "px-12" : ""
-              }`}
-            >
+          <div className={`flex pt-3 flex-col gap-6 ${open?.data ? "px-12" : "px-1.5"}`}>
+            {/* <div
+              className={`${!open?.data ? "grid grid-cols-2 gap-4" : "grid grid-cols-1 gap-4"}`}
+            > */}
               <div
-                className={`${
-                  !open?.data
+                className={`${!open?.data
                     ? "grid grid-cols-2 gap-4"
                     : "grid grid-cols-1 gap-4"
-                }`}
+                  }`}
               >
                 {!open?.data && (
                   <TextField
@@ -189,6 +187,7 @@ const WordPronouncesModal = ({ open, setOpen, tutorialId }) => {
                       name="wordAudio"
                       placeholder="sound"
                       className="rounded-[8px] flex-1"
+                      audioNameClass="max-w-[300px] truncate text-ellipsis"
                       edit
                     />
                     <TextField
@@ -205,6 +204,7 @@ const WordPronouncesModal = ({ open, setOpen, tutorialId }) => {
                     name="wordAudio"
                     placeholder="sound"
                     className="rounded-[8px] flex-1"
+                    audioNameClass="max-w-[400px]"
                   />
                 </div>
               )}
@@ -217,6 +217,7 @@ const WordPronouncesModal = ({ open, setOpen, tutorialId }) => {
                 {open?.data ? "Save" : "Add"}
               </Button>
             </DialogFooter>
+            {/* </div> */}
           </FormProvider>
         </ScrollArea>
       </DialogContent>

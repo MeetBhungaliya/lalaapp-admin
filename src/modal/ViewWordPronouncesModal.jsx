@@ -59,12 +59,19 @@ const ViewWordPronouncesModal = ({ open, setOpen }) => {
           </div>
         </div>
         <div className="border-gradient-horizontal w-full h-[0.5px] mt-1 mb-4"></div>
+        <div className="flex flex-col gap-1 pb-3">
+          <p className="sm:text-lg text-base font-semibold text-primary">Script</p>
+          <p className="sm:text-sm text-xs font-normal text-[#7E808C]">
+          Let’s say a simple word first — say apple!We’ll try harder words later.
+          </p>
+        </div>
         {open?.data?.row?.wordsList?.map((word) => {
           return (
             <ViewSoundField
               key={word?.wordsId}
               value={word?.audio}
               className="rounded-[8px] flex-1"
+              audioNameClass="max-w-[300px]"
             />
           );
         })}
