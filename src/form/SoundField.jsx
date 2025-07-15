@@ -109,7 +109,7 @@ const SoundField = ({ label, className, name, edit = false, audioNameClass }) =>
                 className="hidden"
                 onChange={(e) => {
                   handleFileChange(e);
-                  field.onChange(e);
+                  field.onChange(e.target.files[0]);
                 }}
               />
             </div>

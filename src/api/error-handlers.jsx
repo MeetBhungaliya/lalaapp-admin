@@ -21,7 +21,7 @@ export function mutationErrorHandler(error, variables, context, mutation) {
 
 async function errorHandler(error, query, mutation, variables) {
   const { status, data } = error.response;
-  const { setloading } = useAuthStore.getState();
+  const { setloading, removeuser } = useAuthStore.getState();
 
   try {
     setloading(true);
@@ -36,7 +36,13 @@ async function errorHandler(error, query, mutation, variables) {
       console.error(data?.message);
     }
   } catch (error) {
-    console.log(error);
+    console.log(error)
+    removeuser();
+
+    if (!isRedirecting) {
+      isRedirecting = true;
+      window.location = `${window.location.origin}${BASE_PATH}login`;
+    }
   } finally {
     setloading(false);
   }
