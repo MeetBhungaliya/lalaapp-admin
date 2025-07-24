@@ -179,9 +179,9 @@ const WordPronouncesModal = ({ open, setOpen, tutorialId }) => {
               />
               {open?.data ? (
                 <div className="border-2 border-dashed border-[#7E808C33] rounded-[8px] p-3 space-y-3">
-                  <div className="text-[#04163C] text-lg underline text-end font-normal cursor-pointer">
+                  {/* <div className="text-[#04163C] text-lg underline text-end font-normal cursor-pointer">
                     Edit
-                  </div>
+                  </div> */}
                   <div className={`flex ${flexDirection} gap-x-4 gap-y-3`}>
                     <SoundField
                       name="wordAudio"

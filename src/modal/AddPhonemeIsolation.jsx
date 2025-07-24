@@ -200,11 +200,11 @@ const AddPhonemeIsolation = ({ open, setOpen, tutorialId }) => {
                     : "border-2 border-dashed border-[#7E808C33] rounded-[8px] p-4 space-y-3.5"
                 )}
               >
-                {open?.data && (
-                  <p className="text-base font-normal underline text-[#04163C]ml-auto text-end">
-                    Edit
-                  </p>
-                )}
+                {/* {open?.data && (
+                  // <p className="text-base font-normal underline text-[#04163C]ml-auto text-end">
+                  //   Edit
+                  // </p>
+                )} */}
                 {open?.data && (
                   <TextField
                     name="wordsName"

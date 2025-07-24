@@ -1,20 +1,20 @@
 import { getLevels } from "@/api/query-option";
 import Button from "@/components/custom/Button";
 import {
-    Dialog,
-    DialogContent,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { METHODS } from "@/constants/common";
 import {
-    CREATE_LEVEL,
-    DELETE_LETTER,
-    UPDATE_LETTER,
-    UPDATE_LEVEL,
-    UPDATE_WORD,
+  CREATE_LEVEL,
+  DELETE_LETTER,
+  UPDATE_LETTER,
+  UPDATE_LEVEL,
+  UPDATE_WORD,
 } from "@/constants/endpoints";
 import FormProvider from "@/form/FormProvider";
 import RichTextEditor from "@/form/RichTextEditor";
@@ -22,10 +22,10 @@ import SoundField from "@/form/SoundField";
 import TextField from "@/form/TextField";
 import { fetchApi } from "@/lib/api";
 import {
-    CLOSE_ICON2,
-    CLOSE_SECONDARY_ICON,
-    LEVEL_ICON,
-    WORD_ICON,
+  CLOSE_ICON2,
+  CLOSE_SECONDARY_ICON,
+  LEVEL_ICON,
+  WORD_ICON,
 } from "@/lib/images";
 import { asyncResponseToaster } from "@/lib/toasts";
 import { cn } from "@/lib/utils";
