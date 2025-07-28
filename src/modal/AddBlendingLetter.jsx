@@ -59,10 +59,10 @@ const Step2Schema = yup.object().shape({
     .of(
       yup.object().shape({
         letter: yup.string().required("Please enter blend name"),
-        audio: yup
-          .mixed()
-          .required("Please select sound")
-          .test("fileExists", "Please select sound", (value) => !!value),
+        // audio: yup
+        //   .mixed()
+        //   .required("Please select sound")
+        //   .test("fileExists", "Please select sound", (value) => !!value),
       })
     )
     .min(1, "At least one blend required"),
@@ -420,12 +420,12 @@ const AddBlendingLetter = ({ open, setOpen, tutorialId }) => {
                           className="rounded-[8px] flex-1"
                         />
 
-                        <SoundField
+                        {/* <SoundField
                           name={`blends.${idx}.audio`}
                           className="rounded-[8px] flex-1"
                           audioNameClass="max-w-[300px] truncate text-ellipsis"
                           edit={Boolean(open?.data)}
-                        />
+                        /> */}
                         {fields.length > 1 && (
                           <button
                             type="button"

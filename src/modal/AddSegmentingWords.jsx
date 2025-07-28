@@ -258,7 +258,7 @@ const AddSegmentingWords = ({ open, setOpen, tutorialId }) => {
         levelScript: values?.levelScript,
         wordsName: JSON.stringify([values.wordsName]),
         wordAudio: [values.wordAudio],
-        letter: JSON.stringify(letter),
+        // letter: JSON.stringify(letter),
         afterRemoveAudio: [values.afterRemoveAudio],
         removeLetter: JSON.stringify([values.removeLetter]),
       };
@@ -301,7 +301,7 @@ const AddSegmentingWords = ({ open, setOpen, tutorialId }) => {
             onSubmit={handleSubmit(onSubmit)}
             className="max-h-[60vh] px-8"
           >
-            <div className="flex items-center justify-center w-full mb-8 mt-4">
+            {/* <div className="flex items-center justify-center w-full mb-8 mt-4">
               <div className="flex items-center">
                 <div
                   className={cn(
@@ -359,7 +359,7 @@ const AddSegmentingWords = ({ open, setOpen, tutorialId }) => {
                   Letter Detail
                 </span>
               </div>
-            </div>
+            </div> */}
 
             {step === 1 ? (
               <div className="flex flex-col gap-3">
@@ -410,12 +410,18 @@ const AddSegmentingWords = ({ open, setOpen, tutorialId }) => {
                   </div>
                 </div>
                 <DialogFooter className="flex sm:justify-center justify-center mt-8 mb-2">
-                  <Button
+                  {/* <Button
                     className="text-base max-sm:py-[13.5px] font-semibold sm:text-lg w-fit px-20 shadow-[0px_4px_6px_0px_#8FD5FF]"
                     type="button"
                     onClick={handleNext}
                   >
                     Next
+                  </Button> */}
+                  <Button
+                    className="text-base max-sm:py-[13.5px] font-semibold sm:text-lg w-fit px-20 shadow-[0px_4px_6px_0px_#8FD5FF]"
+                    type="submit"
+                  >
+                    {open?.data ? "Save" : "Add"}
                   </Button>
                 </DialogFooter>
               </div>
