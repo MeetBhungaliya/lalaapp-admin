@@ -26,9 +26,10 @@ const RhymingWordDetail = ({ open, setOpen }) => {
         <ScrollArea className="flex-1 flex flex-col px-8 pt-2">
           <div className="flex flex-col gap-1 pb-6">
             <p className="sm:text-lg text-base font-semibold text-primary">Script</p>
-            <p className="sm:text-sm text-xs font-normal text-[#7E808C]">
+            {/* <p className="sm:text-sm text-xs font-normal text-[#7E808C]">
               All of these words — cat, bat, and mat  have the same sound at the end.
-            </p>
+            </p> */}
+            <p className="sm:text-sm text-xs font-normal text-[#7E808C]" dangerouslySetInnerHTML={{ __html: open?.data?.levelScript }} ></p>
           </div>
           <div className="flex flex-col gap-6 max-h-[60vh]">
             {open?.data?.wordsList.map((data) => {

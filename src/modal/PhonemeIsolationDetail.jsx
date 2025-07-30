@@ -58,9 +58,10 @@ const PhonemeIsolationDetail = ({ open, setOpen }) => {
           </div>
           <div className="flex flex-col gap-1 pb-2">
             <p className="sm:text-lg text-base font-semibold text-primary">Script</p>
-            <p className="sm:text-sm text-xs font-normal text-[#7E808C]">
+            <p className="sm:text-sm text-xs font-normal text-[#7E808C]" dangerouslySetInnerHTML={{ __html: open?.data?.levelScript }} ></p>
+            {/* <p className="sm:text-sm text-xs font-normal text-[#7E808C]">
               What’s the first sound in cat? The letter C is wiggling — can you say its sound?
-            </p>
+            </p> */}
           </div>
           {open?.data?.wordsList?.map((word) => {
             return (
