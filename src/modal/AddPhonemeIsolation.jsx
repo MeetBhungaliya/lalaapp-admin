@@ -41,7 +41,7 @@ const PhonemeIsolationSchema = yup.object().shape({
     }),
   image: yup.string().optional(),
   levelScript: yup.string().required("Please enter script"),
-  // question: yup.string().required("Please enter question"),
+  question: yup.string().required("Please enter letter"),
 });
 
 const defaultValues = {
@@ -49,7 +49,7 @@ const defaultValues = {
   levelName: "",
   wordAudio: "",
   levelScript: "",
-  // question: "",
+  question: "",
 };
 
 const AddPhonemeIsolation = ({ open, setOpen, tutorialId }) => {
@@ -69,7 +69,7 @@ const AddPhonemeIsolation = ({ open, setOpen, tutorialId }) => {
         levelName: open?.data?.levelName ?? "",
         wordAudio: open?.data?.wordsList.map((e) => e.audio) ?? [],
         levelScript: open?.data?.levelScript ?? "",
-        // question: open?.data?.question ?? "",
+        question: open?.data?.question ?? "",
       });
     } else {
       reset(defaultValues);
@@ -187,12 +187,12 @@ const AddPhonemeIsolation = ({ open, setOpen, tutorialId }) => {
                 className={cn("rounded-[8px]  mt-0")}
                 minHeight={open?.data ? "200px" : "150px"}
               />
-              {/* <TextField
+              <TextField
                 name="question"
                 prefix={<img src={QUESTION_ICON} alt="QUESTION_ICON" />}
-                placeholder="Question"
+                placeholder="Letter"
                 className="rounded-[8px] flex-1"
-              /> */}
+              />
               <div
                 className={cn(
                   !open?.data

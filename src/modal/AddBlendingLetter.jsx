@@ -99,7 +99,8 @@ const AddBlendingLetter = ({ open, setOpen, tutorialId }) => {
     mode: "onChange",
   });
 
-  const { handleSubmit, reset, control, trigger } = methods;
+  const { handleSubmit, reset, control, trigger, formState: { errors } } = methods;
+  console.log(errors);
 
   const { fields, append, remove } = useFieldArray({
     control,
