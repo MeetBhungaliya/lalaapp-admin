@@ -107,6 +107,7 @@ const AddPhonemeIsolation = ({ open, setOpen, tutorialId }) => {
             levelScript: values?.levelScript,
             levelName: values?.levelName,
             levelId: open?.data?.levelId,
+            question: values?.question,
           })
         );
       }
@@ -115,6 +116,7 @@ const AddPhonemeIsolation = ({ open, setOpen, tutorialId }) => {
         wordId: open?.data?.wordsList?.[0]?.wordsId,
         wordsName: values.wordsName,
         wordAudio: values?.wordAudio,
+        question: values?.question,
       };
 
       result = await asyncResponseToaster(() =>
