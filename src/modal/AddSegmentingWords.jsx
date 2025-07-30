@@ -48,13 +48,13 @@ const Step1Schema = yup.object().shape({
     }),
   image: yup.string().optional(),
   levelScript: yup.string().required("Please enter script"),
-  removeLetter: yup.string().required("Please enter word name"),
-  afterRemoveAudio: yup
-    .mixed()
-    .required("Please select sound")
-    .test("Required", "Please select sound", (value) => {
-      return value;
-    }),
+  // removeLetter: yup.string().required("Please enter word name"),
+  // afterRemoveAudio: yup
+  //   .mixed()
+  //   .required("Please select sound")
+  //   .test("Required", "Please select sound", (value) => {
+  //     return value;
+  //   }),
 });
 
 const Step2Schema = yup.object().shape({
@@ -362,7 +362,7 @@ const AddSegmentingWords = ({ open, setOpen, tutorialId }) => {
             </div> */}
 
             {step === 1 ? (
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-3 mt-5">
                 <div className="flex flex-col gap-3">
                   <div className="grid grid-cols-2 gap-4">
                     <TextField
@@ -393,7 +393,7 @@ const AddSegmentingWords = ({ open, setOpen, tutorialId }) => {
                         edit={Boolean(open?.data)}
                       />
                     </div>
-                    <div className="col-span-2 flex flex-col gap-4">
+                    {/* <div className="col-span-2 flex flex-col gap-4">
                       <TextField
                         name="removeLetter"
                         prefix={<img src={WORD_ICON} alt="WORD_ICON" />}
@@ -406,7 +406,7 @@ const AddSegmentingWords = ({ open, setOpen, tutorialId }) => {
                         audioNameClass="max-w-[300px] truncate text-ellipsis"
                         edit={Boolean(open?.data)}
                       />
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 <DialogFooter className="flex sm:justify-center justify-center mt-8 mb-2">

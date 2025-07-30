@@ -54,18 +54,18 @@ const Step1Schema = yup.object().shape({
 });
 
 const Step2Schema = yup.object().shape({
-  blends: yup
-    .array()
-    .of(
-      yup.object().shape({
-        letter: yup.string().required("Please enter blend name"),
-        // audio: yup
-        //   .mixed()
-        //   .required("Please select sound")
-        //   .test("fileExists", "Please select sound", (value) => !!value),
-      })
-    )
-    .min(1, "At least one blend required"),
+  // blends: yup
+  //   .array()
+  //   .of(
+  //     yup.object().shape({
+  //       letter: yup.string().required("Please enter blend name"),
+  //       // audio: yup
+  //       //   .mixed()
+  //       //   .required("Please select sound")
+  //       //   .test("fileExists", "Please select sound", (value) => !!value),
+  //     })
+  //   )
+  //   .min(1, "At least one blend required"),
 });
 
 const defaultValues = {
@@ -75,10 +75,14 @@ const defaultValues = {
   levelScript: "",
   question: "",
   blendType: blendTypes[0],
-  blends: [
-    { letter: "", audio: null },
-    { letter: "", audio: null },
-  ],
+  // blends: [
+  //   { letter: "", audio: null },
+  //   { letter: "", audio: null },
+  // ],
+  // blends: [
+  //   { letter: "", },
+  //   { letter: "", },
+  // ],
 };
 
 const AddBlendingLetter = ({ open, setOpen, tutorialId }) => {
@@ -156,10 +160,15 @@ const AddBlendingLetter = ({ open, setOpen, tutorialId }) => {
   };
 
   const onSubmit = async (values) => {
+    console.log(values);
     let payload = {};
     let result = {};
 
-    const letter = values?.blends?.map((b) => b?.name);
+    const letter = values?.blends?.map((b) => {
+      console.log(b?.letter);
+      return b?.letter;
+    });
+    console.log(letter);
     const audio = values?.blends?.map((b) => b?.sound);
 
     if (open?.data?.levelId && open?.data?.letterList?.[0]?.letterId) {
@@ -294,7 +303,7 @@ const AddBlendingLetter = ({ open, setOpen, tutorialId }) => {
             onSubmit={handleSubmit(onSubmit)}
             className="max-h-[60vh] px-8"
           >
-            <div className="flex items-center justify-center w-full mb-8 mt-4">
+            {/* {  <div className="flex items-center justify-center w-full mb-8 mt-4">
               <div className="flex items-center">
                 <div
                   className={cn(
@@ -352,10 +361,10 @@ const AddBlendingLetter = ({ open, setOpen, tutorialId }) => {
                   Letter Detail
                 </span>
               </div>
-            </div>
+            </div>} */}
 
             {step === 1 ? (
-              <div className="flex flex-col">
+              <div className="flex flex-col mt-4">
                 <div className="flex flex-col gap-3 space-y-3">
                   <div className="grid grid-cols-2 items-start gap-6">
                     <TextField
@@ -385,13 +394,21 @@ const AddBlendingLetter = ({ open, setOpen, tutorialId }) => {
                   />
                 </div>
 
-                <DialogFooter className="flex sm:justify-center justify-center mt-8 mb-2">
+                {/* <DialogFooter className="flex sm:justify-center justify-center mt-8 mb-2">
                   <Button
                     className="text-base shadow-[0px_4px_6px_0px_#8FD5FF] py-[12.5px] font-semibold sm:text-lg w-fit px-20"
                     type="button"
                     onClick={handleNext}
                   >
                     Next
+                  </Button>
+                </DialogFooter> */}
+                <DialogFooter className="flex sm:justify-center justify-center mt-5">
+                  <Button
+                    className="text-base shadow-[0px_4px_6px_0px_#8FD5FF] py-[12.5px] font-semibold sm:text-lg w-fit px-20 mb-2"
+                    type="submit"
+                  >
+                    {open?.data ? "Save" : "Add"}
                   </Button>
                 </DialogFooter>
               </div>
