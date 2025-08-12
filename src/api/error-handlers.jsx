@@ -36,7 +36,6 @@ async function errorHandler(error, query, mutation, variables) {
       console.error(data?.message);
     }
   } catch (error) {
-    console.log(error)
     removeuser();
 
     if (!isRedirecting) {

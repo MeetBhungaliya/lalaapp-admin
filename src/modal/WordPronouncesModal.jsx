@@ -146,14 +146,14 @@ const WordPronouncesModal = ({ open, setOpen, tutorialId }) => {
         </DialogHeader>
         <ScrollArea className="max-h-[80vh] overflow-y-auto">
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-          <div className={`flex pt-3 flex-col gap-6 ${open?.data ? "px-12" : "px-1.5"}`}>
-            {/* <div
+            <div className={`flex pt-3 flex-col gap-6 ${open?.data ? "px-12" : "px-1.5"}`}>
+              {/* <div
               className={`${!open?.data ? "grid grid-cols-2 gap-4" : "grid grid-cols-1 gap-4"}`}
             > */}
               <div
                 className={`${!open?.data
-                    ? "grid grid-cols-2 gap-4"
-                    : "grid grid-cols-1 gap-4"
+                  ? "grid grid-cols-2 gap-4"
+                  : "grid grid-cols-1 gap-4"
                   }`}
               >
                 {!open?.data && (
@@ -183,13 +183,13 @@ const WordPronouncesModal = ({ open, setOpen, tutorialId }) => {
                     Edit
                   </div> */}
                   <div className={`flex ${flexDirection} gap-x-4 gap-y-3`}>
-                    <SoundField
+                    {/* <SoundField
                       name="wordAudio"
                       placeholder="sound"
                       className="rounded-[8px] flex-1"
                       audioNameClass="max-w-[300px] truncate text-ellipsis"
                       edit
-                    />
+                    /> */}
                     <TextField
                       name="wordsName"
                       prefix={<img src={WORD_ICON} alt="WORD_ICON" />}
@@ -200,12 +200,12 @@ const WordPronouncesModal = ({ open, setOpen, tutorialId }) => {
                 </div>
               ) : (
                 <div className={`flex ${flexDirection} gap-x-4 gap-y-3`}>
-                  <SoundField
+                  {/* <SoundField
                     name="wordAudio"
                     placeholder="sound"
                     className="rounded-[8px] flex-1"
                     audioNameClass="max-w-[400px]"
-                  />
+                  /> */}
                 </div>
               )}
             </div>

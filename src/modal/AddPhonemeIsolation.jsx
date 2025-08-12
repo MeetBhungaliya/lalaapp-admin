@@ -33,12 +33,12 @@ import * as yup from "yup";
 const PhonemeIsolationSchema = yup.object().shape({
   wordsName: yup.string().required("Please enter word name"),
   levelName: yup.string().required("Please enter level"),
-  wordAudio: yup
-    .mixed()
-    .required("Please select sound")
-    .test("Required", "Please select sound", (value) => {
-      return value;
-    }),
+  // wordAudio: yup
+  //   .mixed()
+  //   .required("Please select sound")
+  //   .test("Required", "Please select sound", (value) => {
+  //     return value;
+  //   }),
   image: yup.string().optional(),
   levelScript: yup.string().required("Please enter script"),
   question: yup.string().required("Please enter letter"),
@@ -224,12 +224,12 @@ const AddPhonemeIsolation = ({ open, setOpen, tutorialId }) => {
                         : "flex flex-col  gap-3.5"
                   )}
                 >
-                  <SoundField
+                  {/* <SoundField
                     name="wordAudio"
                     className="rounded-[8px] flex-1"
                     edit={Boolean(open?.data)}
                     audioNameClass="max-w-[300px] truncate text-ellipsis"
-                  />
+                  /> */}
                 </div>
               </div>
             </div>

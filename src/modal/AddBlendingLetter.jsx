@@ -42,12 +42,12 @@ const blendTypes = ["Initial Blend", "Final Blend"];
 const Step1Schema = yup.object().shape({
   wordsName: yup.string().required("Please enter word name"),
   levelName: yup.string().required("Please enter level"),
-  wordAudio: yup
-    .mixed()
-    .required("Please select sound")
-    .test("Required", "Please select sound", (value) => {
-      return value;
-    }),
+  // wordAudio: yup
+  //   .mixed()
+  //   .required("Please select sound")
+  //   .test("Required", "Please select sound", (value) => {
+  //     return value;
+  //   }),
   image: yup.string().optional(),
   levelScript: yup.string().required("Please enter script"),
   blendType: yup.string().required("Please select blend type"),
@@ -100,7 +100,6 @@ const AddBlendingLetter = ({ open, setOpen, tutorialId }) => {
   });
 
   const { handleSubmit, reset, control, trigger, formState: { errors } } = methods;
-  console.log(errors);
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -161,15 +160,12 @@ const AddBlendingLetter = ({ open, setOpen, tutorialId }) => {
   };
 
   const onSubmit = async (values) => {
-    console.log(values);
     let payload = {};
     let result = {};
 
     const letter = values?.blends?.map((b) => {
-      console.log(b?.letter);
       return b?.letter;
     });
-    console.log(letter);
     const audio = values?.blends?.map((b) => b?.sound);
 
     if (open?.data?.levelId && open?.data?.letterList?.[0]?.letterId) {
@@ -387,12 +383,12 @@ const AddBlendingLetter = ({ open, setOpen, tutorialId }) => {
                     className={cn("rounded-[8px] mt-0")}
                     minHeight={open?.data ? "200px" : "150px"}
                   />
-                  <SoundField
+                  {/* <SoundField
                     name="wordAudio"
                     className="rounded-[8px] flex-1"
                     audioNameClass="max-w-[300px] truncate text-ellipsis"
                     edit={Boolean(open?.data)}
-                  />
+                  /> */}
                 </div>
 
                 {/* <DialogFooter className="flex sm:justify-center justify-center mt-8 mb-2">

@@ -63,7 +63,6 @@ const ViewLetterSoundsModal = ({ open, setOpen }) => {
           </p> */}
         </div>
         {open?.data?.row?.wordsList?.map((word) => {
-          console.log(word?.audio);
           return (
             <ViewSoundField
               key={word?.wordsId}

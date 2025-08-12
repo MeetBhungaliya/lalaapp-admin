@@ -40,12 +40,12 @@ import * as yup from "yup";
 const Step1Schema = yup.object().shape({
   wordsName: yup.string().required("Please enter word name"),
   levelName: yup.string().required("Please enter level"),
-  wordAudio: yup
-    .mixed()
-    .required("Please select sound")
-    .test("Required", "Please select sound", (value) => {
-      return value;
-    }),
+  // wordAudio: yup
+  //   .mixed()
+  //   .required("Please select sound")
+  //   .test("Required", "Please select sound", (value) => {
+  //     return value;
+  //   }),
   image: yup.string().optional(),
   levelScript: yup.string().required("Please enter script"),
   // removeLetter: yup.string().required("Please enter word name"),
@@ -386,12 +386,12 @@ const AddSegmentingWords = ({ open, setOpen, tutorialId }) => {
                       />
                     </div>
                     <div className="col-span-2">
-                      <SoundField
+                      {/* <SoundField
                         name="wordAudio"
                         className="rounded-[8px] flex-1"
                         audioNameClass="max-w-[300px] truncate text-ellipsis"
                         edit={Boolean(open?.data)}
-                      />
+                      /> */}
                     </div>
                     {/* <div className="col-span-2 flex flex-col gap-4">
                       <TextField
