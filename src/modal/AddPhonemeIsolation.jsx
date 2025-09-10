@@ -33,15 +33,15 @@ import * as yup from "yup";
 const PhonemeIsolationSchema = yup.object().shape({
   wordsName: yup.string().required("Please enter word name"),
   levelName: yup.string().required("Please enter level"),
-  wordAudio: yup
-    .mixed()
-    .required("Please select sound")
-    .test("Required", "Please select sound", (value) => {
-      return value;
-    }),
+  // wordAudio: yup
+  //   .mixed()
+  //   .required("Please select sound")
+  //   .test("Required", "Please select sound", (value) => {
+  //     return value;
+  //   }),
   image: yup.string().optional(),
   levelScript: yup.string().required("Please enter script"),
-  question: yup.string().required("Please enter question"),
+  question: yup.string().required("Please enter letter"),
 });
 
 const defaultValues = {
@@ -107,6 +107,7 @@ const AddPhonemeIsolation = ({ open, setOpen, tutorialId }) => {
             levelScript: values?.levelScript,
             levelName: values?.levelName,
             levelId: open?.data?.levelId,
+            question: values?.question,
           })
         );
       }
@@ -115,6 +116,7 @@ const AddPhonemeIsolation = ({ open, setOpen, tutorialId }) => {
         wordId: open?.data?.wordsList?.[0]?.wordsId,
         wordsName: values.wordsName,
         wordAudio: values?.wordAudio,
+        question: values?.question,
       };
 
       result = await asyncResponseToaster(() =>
@@ -190,7 +192,7 @@ const AddPhonemeIsolation = ({ open, setOpen, tutorialId }) => {
               <TextField
                 name="question"
                 prefix={<img src={QUESTION_ICON} alt="QUESTION_ICON" />}
-                placeholder="Question"
+                placeholder="Letter"
                 className="rounded-[8px] flex-1"
               />
               <div
@@ -200,11 +202,11 @@ const AddPhonemeIsolation = ({ open, setOpen, tutorialId }) => {
                     : "border-2 border-dashed border-[#7E808C33] rounded-[8px] p-4 space-y-3.5"
                 )}
               >
-                {open?.data && (
-                  <p className="text-base font-normal underline text-[#04163C]ml-auto text-end">
-                    Edit
-                  </p>
-                )}
+                {/* {open?.data && (
+                  // <p className="text-base font-normal underline text-[#04163C]ml-auto text-end">
+                  //   Edit
+                  // </p>
+                )} */}
                 {open?.data && (
                   <TextField
                     name="wordsName"
@@ -222,12 +224,12 @@ const AddPhonemeIsolation = ({ open, setOpen, tutorialId }) => {
                         : "flex flex-col  gap-3.5"
                   )}
                 >
-                  <SoundField
+                  {/* <SoundField
                     name="wordAudio"
                     className="rounded-[8px] flex-1"
                     edit={Boolean(open?.data)}
                     audioNameClass="max-w-[300px] truncate text-ellipsis"
-                  />
+                  /> */}
                 </div>
               </div>
             </div>

@@ -1,20 +1,20 @@
 import { getLevels } from "@/api/query-option";
 import Button from "@/components/custom/Button";
 import {
-    Dialog,
-    DialogContent,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { METHODS } from "@/constants/common";
 import {
-    CREATE_LEVEL,
-    DELETE_LETTER,
-    UPDATE_LETTER,
-    UPDATE_LEVEL,
-    UPDATE_WORD,
+  CREATE_LEVEL,
+  DELETE_LETTER,
+  UPDATE_LETTER,
+  UPDATE_LEVEL,
+  UPDATE_WORD,
 } from "@/constants/endpoints";
 import FormProvider from "@/form/FormProvider";
 import RichTextEditor from "@/form/RichTextEditor";
@@ -22,10 +22,10 @@ import SoundField from "@/form/SoundField";
 import TextField from "@/form/TextField";
 import { fetchApi } from "@/lib/api";
 import {
-    CLOSE_ICON2,
-    CLOSE_SECONDARY_ICON,
-    LEVEL_ICON,
-    WORD_ICON,
+  CLOSE_ICON2,
+  CLOSE_SECONDARY_ICON,
+  LEVEL_ICON,
+  WORD_ICON,
 } from "@/lib/images";
 import { asyncResponseToaster } from "@/lib/toasts";
 import { cn } from "@/lib/utils";
@@ -40,21 +40,21 @@ import * as yup from "yup";
 const Step1Schema = yup.object().shape({
   wordsName: yup.string().required("Please enter word name"),
   levelName: yup.string().required("Please enter level"),
-  wordAudio: yup
-    .mixed()
-    .required("Please select sound")
-    .test("Required", "Please select sound", (value) => {
-      return value;
-    }),
+  // wordAudio: yup
+  //   .mixed()
+  //   .required("Please select sound")
+  //   .test("Required", "Please select sound", (value) => {
+  //     return value;
+  //   }),
   image: yup.string().optional(),
   levelScript: yup.string().required("Please enter script"),
-  removeLetter: yup.string().required("Please enter word name"),
-  afterRemoveAudio: yup
-    .mixed()
-    .required("Please select sound")
-    .test("Required", "Please select sound", (value) => {
-      return value;
-    }),
+  // removeLetter: yup.string().required("Please enter word name"),
+  // afterRemoveAudio: yup
+  //   .mixed()
+  //   .required("Please select sound")
+  //   .test("Required", "Please select sound", (value) => {
+  //     return value;
+  //   }),
 });
 
 const Step2Schema = yup.object().shape({
@@ -258,7 +258,7 @@ const AddSegmentingWords = ({ open, setOpen, tutorialId }) => {
         levelScript: values?.levelScript,
         wordsName: JSON.stringify([values.wordsName]),
         wordAudio: [values.wordAudio],
-        letter: JSON.stringify(letter),
+        // letter: JSON.stringify(letter),
         afterRemoveAudio: [values.afterRemoveAudio],
         removeLetter: JSON.stringify([values.removeLetter]),
       };
@@ -301,7 +301,7 @@ const AddSegmentingWords = ({ open, setOpen, tutorialId }) => {
             onSubmit={handleSubmit(onSubmit)}
             className="max-h-[60vh] px-8"
           >
-            <div className="flex items-center justify-center w-full mb-8 mt-4">
+            {/* <div className="flex items-center justify-center w-full mb-8 mt-4">
               <div className="flex items-center">
                 <div
                   className={cn(
@@ -359,10 +359,10 @@ const AddSegmentingWords = ({ open, setOpen, tutorialId }) => {
                   Letter Detail
                 </span>
               </div>
-            </div>
+            </div> */}
 
             {step === 1 ? (
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-3 mt-5">
                 <div className="flex flex-col gap-3">
                   <div className="grid grid-cols-2 gap-4">
                     <TextField
@@ -386,14 +386,14 @@ const AddSegmentingWords = ({ open, setOpen, tutorialId }) => {
                       />
                     </div>
                     <div className="col-span-2">
-                      <SoundField
+                      {/* <SoundField
                         name="wordAudio"
                         className="rounded-[8px] flex-1"
                         audioNameClass="max-w-[300px] truncate text-ellipsis"
                         edit={Boolean(open?.data)}
-                      />
+                      /> */}
                     </div>
-                    <div className="col-span-2 flex flex-col gap-4">
+                    {/* <div className="col-span-2 flex flex-col gap-4">
                       <TextField
                         name="removeLetter"
                         prefix={<img src={WORD_ICON} alt="WORD_ICON" />}
@@ -406,16 +406,22 @@ const AddSegmentingWords = ({ open, setOpen, tutorialId }) => {
                         audioNameClass="max-w-[300px] truncate text-ellipsis"
                         edit={Boolean(open?.data)}
                       />
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 <DialogFooter className="flex sm:justify-center justify-center mt-8 mb-2">
-                  <Button
+                  {/* <Button
                     className="text-base max-sm:py-[13.5px] font-semibold sm:text-lg w-fit px-20 shadow-[0px_4px_6px_0px_#8FD5FF]"
                     type="button"
                     onClick={handleNext}
                   >
                     Next
+                  </Button> */}
+                  <Button
+                    className="text-base max-sm:py-[13.5px] font-semibold sm:text-lg w-fit px-20 shadow-[0px_4px_6px_0px_#8FD5FF]"
+                    type="submit"
+                  >
+                    {open?.data ? "Save" : "Add"}
                   </Button>
                 </DialogFooter>
               </div>

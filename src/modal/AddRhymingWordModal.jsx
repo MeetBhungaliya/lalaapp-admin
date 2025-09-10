@@ -32,10 +32,10 @@ const RhymingWordSchema = yup.object().shape({
     .of(
       yup.object().shape({
         word: yup.string().required("Please enter word name"),
-        audio: yup
-          .mixed()
-          .required("Please select sound")
-          .test("fileExists", "Please select sound", (value) => !!value),
+        // audio: yup
+        //   .mixed()
+        //   .required("Please select sound")
+        //   .test("fileExists", "Please select sound", (value) => !!value),
       })
     )
     .min(2, "At least two words required"),
@@ -205,9 +205,9 @@ const AddRhymingWordModal = ({ open, setOpen, tutorialId }) => {
                   >
                     {open?.data && (
                       <div className="absolute top-2 right-2 flex items-center gap-1">
-                        <span className="text-base  text-[#04163C] underline font-normal flex items-center gap-1 cursor-pointer">
+                        {/* <span className="text-base  text-[#04163C] underline font-normal flex items-center gap-1 cursor-pointer">
                           Edit
-                        </span>
+                        </span> */}
                       </div>
                     )}
                     <div className={cn("space-y-5", open?.data && "pt-1.5 ")}>
@@ -217,12 +217,12 @@ const AddRhymingWordModal = ({ open, setOpen, tutorialId }) => {
                         placeholder="Word name"
                         className="rounded-[8px] flex-1"
                       />
-                      <SoundField
+                      {/* <SoundField
                         name={`words.${idx}.audio`}
                         className="rounded-[8px] flex-1"
                         edit={Boolean(open?.data)}
                         audioNameClass="max-w-[100px] truncate text-ellipsis"
-                      />
+                      /> */}
                       {open?.data > 2 && (
                         <button
                           type="button"

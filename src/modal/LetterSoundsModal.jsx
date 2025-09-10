@@ -171,11 +171,8 @@ const LetterSoundsModal = ({ open, setOpen, tutorialId }) => {
                 className={cn("rounded-[8px]  mt-0")}
                 minHeight={open?.data ? "200px" : "150px"}
               />
-              {open?.data ? (
+              {/* {open?.data ? (
                 <div className="border-2 border-dashed border-[#7E808C33] rounded-[8px] p-3 space-y-3">
-                  <div className="text-[#04163C] text-lg underline text-end font-normal">
-                    Edit
-                  </div>
                   <div className={`flex ${flexDirection} gap-x-8 gap-y-3`}>
                     {Array.isArray(soundValue) &&
                       soundValue.length &&
@@ -201,7 +198,7 @@ const LetterSoundsModal = ({ open, setOpen, tutorialId }) => {
                     audioNameClass="max-w-[300px] truncate text-ellipsis"
                   />
                 </div>
-              )}
+              )} */}
             </div>
             <DialogFooter className="flex sm:justify-center justify-center mt-8">
               <Button

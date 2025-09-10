@@ -12,16 +12,16 @@ import TextStyle from '@tiptap/extension-text-style'
 import Color from '@tiptap/extension-color'
 import Highlight from '@tiptap/extension-highlight'
 import Image from '@tiptap/extension-image'
-import { 
-    Bold, 
-    Italic, 
-    Underline as UnderlineIcon, 
-    Strikethrough, 
-    List, 
-    ListOrdered, 
-    AlignLeft, 
-    AlignCenter, 
-    AlignRight, 
+import {
+    Bold,
+    Italic,
+    Underline as UnderlineIcon,
+    Strikethrough,
+    List,
+    ListOrdered,
+    AlignLeft,
+    AlignCenter,
+    AlignRight,
     AlignJustify,
     Highlighter,
     Palette,
@@ -44,7 +44,7 @@ const ImagePicker = ({ onImageSelect }) => {
                 alert('Please select an image file')
                 return
             }
-            
+
             // Validate file size (max 5MB)
             if (file.size > 5 * 1024 * 1024) {
                 alert('Image size should be less than 5MB')
@@ -58,7 +58,7 @@ const ImagePicker = ({ onImageSelect }) => {
             }
             reader.readAsDataURL(file)
         }
-        
+
         // Reset the input so the same file can be selected again
         e.target.value = ''
     }
@@ -116,7 +116,7 @@ const ColorPicker = ({ onColorSelect, currentColor, title, colors }) => {
                 <Palette size={16} />
                 <ChevronDown size={12} />
             </button>
-            
+
             {isOpen && (
                 <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-50 min-w-[200px]">
                     <div className="grid grid-cols-7 gap-2">
@@ -174,7 +174,7 @@ const HighlightPicker = ({ onColorSelect, currentColor, title, colors }) => {
                 <Highlighter size={16} />
                 <ChevronDown size={12} />
             </button>
-            
+
             {isOpen && (
                 <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-50 min-w-[200px]">
                     <div className="grid grid-cols-5 gap-2">
@@ -435,13 +435,13 @@ const MenuBar = ({ editor }) => {
     )
 }
 
-const RichTextEditor = ({ 
-    name, 
-    placeholder = 'Start typing...', 
-    label, 
-    className, 
+const RichTextEditor = ({
+    name,
+    placeholder = 'Start typing...',
+    label,
+    className,
     minHeight = '200px',
-    ...other 
+    ...other
 }) => {
     const { control, setValue, watch } = useFormContext()
     const currentValue = watch(name)
@@ -516,12 +516,17 @@ const RichTextEditor = ({
                                         className
                                     )}>
                                         <MenuBar editor={editor} />
-                                        <div 
+                                        <div
                                             className="p-4 min-h-[200px] max-h-[400px] overflow-y-auto"
                                             style={{ minHeight }}
+                                            onClick={() => {
+                                                if (!editor?.isFocused) {
+                                                    editor?.chain().focus().run()
+                                                }
+                                            }}
                                         >
-                                            <EditorContent 
-                                                editor={editor} 
+                                            <EditorContent
+                                                editor={editor}
                                                 className="focus:outline-none"
                                                 {...other}
                                             />

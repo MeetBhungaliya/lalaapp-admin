@@ -42,30 +42,30 @@ const blendTypes = ["Initial Blend", "Final Blend"];
 const Step1Schema = yup.object().shape({
   wordsName: yup.string().required("Please enter word name"),
   levelName: yup.string().required("Please enter level"),
-  wordAudio: yup
-    .mixed()
-    .required("Please select sound")
-    .test("Required", "Please select sound", (value) => {
-      return value;
-    }),
+  // wordAudio: yup
+  //   .mixed()
+  //   .required("Please select sound")
+  //   .test("Required", "Please select sound", (value) => {
+  //     return value;
+  //   }),
   image: yup.string().optional(),
   levelScript: yup.string().required("Please enter script"),
   blendType: yup.string().required("Please select blend type"),
 });
 
 const Step2Schema = yup.object().shape({
-  blends: yup
-    .array()
-    .of(
-      yup.object().shape({
-        letter: yup.string().required("Please enter blend name"),
-        audio: yup
-          .mixed()
-          .required("Please select sound")
-          .test("fileExists", "Please select sound", (value) => !!value),
-      })
-    )
-    .min(1, "At least one blend required"),
+  // blends: yup
+  //   .array()
+  //   .of(
+  //     yup.object().shape({
+  //       letter: yup.string().required("Please enter blend name"),
+  //       // audio: yup
+  //       //   .mixed()
+  //       //   .required("Please select sound")
+  //       //   .test("fileExists", "Please select sound", (value) => !!value),
+  //     })
+  //   )
+  //   .min(1, "At least one blend required"),
 });
 
 const defaultValues = {
@@ -75,10 +75,14 @@ const defaultValues = {
   levelScript: "",
   question: "",
   blendType: blendTypes[0],
-  blends: [
-    { letter: "", audio: null },
-    { letter: "", audio: null },
-  ],
+  // blends: [
+  //   { letter: "", audio: null },
+  //   { letter: "", audio: null },
+  // ],
+  // blends: [
+  //   { letter: "", },
+  //   { letter: "", },
+  // ],
 };
 
 const AddBlendingLetter = ({ open, setOpen, tutorialId }) => {
@@ -95,7 +99,7 @@ const AddBlendingLetter = ({ open, setOpen, tutorialId }) => {
     mode: "onChange",
   });
 
-  const { handleSubmit, reset, control, trigger } = methods;
+  const { handleSubmit, reset, control, trigger, formState: { errors } } = methods;
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -159,7 +163,9 @@ const AddBlendingLetter = ({ open, setOpen, tutorialId }) => {
     let payload = {};
     let result = {};
 
-    const letter = values?.blends?.map((b) => b?.name);
+    const letter = values?.blends?.map((b) => {
+      return b?.letter;
+    });
     const audio = values?.blends?.map((b) => b?.sound);
 
     if (open?.data?.levelId && open?.data?.letterList?.[0]?.letterId) {
@@ -294,7 +300,7 @@ const AddBlendingLetter = ({ open, setOpen, tutorialId }) => {
             onSubmit={handleSubmit(onSubmit)}
             className="max-h-[60vh] px-8"
           >
-            <div className="flex items-center justify-center w-full mb-8 mt-4">
+            {/* {  <div className="flex items-center justify-center w-full mb-8 mt-4">
               <div className="flex items-center">
                 <div
                   className={cn(
@@ -352,10 +358,10 @@ const AddBlendingLetter = ({ open, setOpen, tutorialId }) => {
                   Letter Detail
                 </span>
               </div>
-            </div>
+            </div>} */}
 
             {step === 1 ? (
-              <div className="flex flex-col">
+              <div className="flex flex-col mt-4">
                 <div className="flex flex-col gap-3 space-y-3">
                   <div className="grid grid-cols-2 items-start gap-6">
                     <TextField
@@ -377,21 +383,29 @@ const AddBlendingLetter = ({ open, setOpen, tutorialId }) => {
                     className={cn("rounded-[8px] mt-0")}
                     minHeight={open?.data ? "200px" : "150px"}
                   />
-                  <SoundField
+                  {/* <SoundField
                     name="wordAudio"
                     className="rounded-[8px] flex-1"
                     audioNameClass="max-w-[300px] truncate text-ellipsis"
                     edit={Boolean(open?.data)}
-                  />
+                  /> */}
                 </div>
 
-                <DialogFooter className="flex sm:justify-center justify-center mt-8 mb-2">
+                {/* <DialogFooter className="flex sm:justify-center justify-center mt-8 mb-2">
                   <Button
                     className="text-base shadow-[0px_4px_6px_0px_#8FD5FF] py-[12.5px] font-semibold sm:text-lg w-fit px-20"
                     type="button"
                     onClick={handleNext}
                   >
                     Next
+                  </Button>
+                </DialogFooter> */}
+                <DialogFooter className="flex sm:justify-center justify-center mt-5">
+                  <Button
+                    className="text-base shadow-[0px_4px_6px_0px_#8FD5FF] py-[12.5px] font-semibold sm:text-lg w-fit px-20 mb-2"
+                    type="submit"
+                  >
+                    {open?.data ? "Save" : "Add"}
                   </Button>
                 </DialogFooter>
               </div>
@@ -420,12 +434,12 @@ const AddBlendingLetter = ({ open, setOpen, tutorialId }) => {
                           className="rounded-[8px] flex-1"
                         />
 
-                        <SoundField
+                        {/* <SoundField
                           name={`blends.${idx}.audio`}
                           className="rounded-[8px] flex-1"
                           audioNameClass="max-w-[300px] truncate text-ellipsis"
                           edit={Boolean(open?.data)}
-                        />
+                        /> */}
                         {fields.length > 1 && (
                           <button
                             type="button"

@@ -82,11 +82,11 @@ const BlendingLetterSoundDetail = ({ open, setOpen }) => {
             <div className="border-gradient-horizontal w-full h-[0.5px] mt-2.5"></div>
             <div className="flex flex-col gap-1 pb-2">
               <p className="sm:text-lg text-base font-semibold text-primary">Script</p>
-              <p className="sm:text-sm text-xs font-normal text-[#7E808C]">
-                Here is our first word: C–A–T. Now you say it! What word did we make?
+              <p className="sm:text-sm text-xs font-normal text-[#7E808C]" dangerouslySetInnerHTML={{ __html: open?.data?.levelScript }} >
+                {/* Here is our first word: C–A–T. Now you say it! What word did we make? */}
               </p>
             </div>
-            <div className="grid grid-cols-2 gap-6">
+            {/* <div className="grid grid-cols-2 gap-6">
               {open?.data?.letterList?.map((letter, index) => {
                 return (
                   <div
@@ -154,7 +154,7 @@ const BlendingLetterSoundDetail = ({ open, setOpen }) => {
                   </div>
                 );
               })}
-            </div>
+            </div> */}
           </div>
         </ScrollArea>
       </DialogContent>
