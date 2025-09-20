@@ -86,7 +86,7 @@ const BlendingLetterSoundDetail = ({ open, setOpen }) => {
                 {/* Here is our first word: C–A–T. Now you say it! What word did we make? */}
               </p>
             </div>
-            {/* <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 gap-6">
               {open?.data?.letterList?.map((letter, index) => {
                 return (
                   <div
@@ -154,7 +154,7 @@ const BlendingLetterSoundDetail = ({ open, setOpen }) => {
                   </div>
                 );
               })}
-            </div> */}
+            </div>
           </div>
         </ScrollArea>
       </DialogContent>
