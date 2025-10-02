@@ -87,7 +87,9 @@ const ImagePicker = ({ onImageSelect }) => {
 
 const ColorPicker = ({ onColorSelect, currentColor, title, colors }) => {
     const [isOpen, setIsOpen] = useState(false)
+    const [dropdownPosition, setDropdownPosition] = useState('left')
     const pickerRef = useRef(null)
+    const buttonRef = useRef(null)
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -98,6 +100,8 @@ const ColorPicker = ({ onColorSelect, currentColor, title, colors }) => {
 
         if (isOpen) {
             document.addEventListener('mousedown', handleClickOutside)
+            // Calculate dropdown position based on available space
+            calculateDropdownPosition()
         }
 
         return () => {
@@ -105,9 +109,31 @@ const ColorPicker = ({ onColorSelect, currentColor, title, colors }) => {
         }
     }, [isOpen])
 
+    const calculateDropdownPosition = () => {
+        if (buttonRef.current) {
+            const buttonRect = buttonRef.current.getBoundingClientRect()
+            const viewportWidth = window.innerWidth
+            const dropdownWidth = 200 // min-w-[200px]
+            
+            // Check if there's enough space on the right
+            const spaceOnRight = viewportWidth - buttonRect.right
+            const spaceOnLeft = buttonRect.left
+            
+            if (spaceOnRight >= dropdownWidth) {
+                setDropdownPosition('left')
+            } else if (spaceOnLeft >= dropdownWidth) {
+                setDropdownPosition('right')
+            } else {
+                // If neither side has enough space, prefer right to avoid cutoff
+                setDropdownPosition('right')
+            }
+        }
+    }
+
     return (
         <div className="relative" ref={pickerRef}>
             <button
+                ref={buttonRef}
                 type="button"
                 onClick={() => setIsOpen(!isOpen)}
                 className="p-2 rounded hover:bg-gray-200 transition-colors text-gray-600 flex items-center gap-1"
@@ -118,7 +144,10 @@ const ColorPicker = ({ onColorSelect, currentColor, title, colors }) => {
             </button>
 
             {isOpen && (
-                <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-50 min-w-[200px]">
+                <div className={cn(
+                    "absolute top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-50 min-w-[200px]",
+                    dropdownPosition === 'left' ? "left-0" : "right-0"
+                )}>
                     <div className="grid grid-cols-7 gap-2">
                         {colors.map((color) => (
                             <button
@@ -145,7 +174,9 @@ const ColorPicker = ({ onColorSelect, currentColor, title, colors }) => {
 
 const HighlightPicker = ({ onColorSelect, currentColor, title, colors }) => {
     const [isOpen, setIsOpen] = useState(false)
+    const [dropdownPosition, setDropdownPosition] = useState('left')
     const pickerRef = useRef(null)
+    const buttonRef = useRef(null)
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -156,6 +187,8 @@ const HighlightPicker = ({ onColorSelect, currentColor, title, colors }) => {
 
         if (isOpen) {
             document.addEventListener('mousedown', handleClickOutside)
+            // Calculate dropdown position based on available space
+            calculateDropdownPosition()
         }
 
         return () => {
@@ -163,9 +196,31 @@ const HighlightPicker = ({ onColorSelect, currentColor, title, colors }) => {
         }
     }, [isOpen])
 
+    const calculateDropdownPosition = () => {
+        if (buttonRef.current) {
+            const buttonRect = buttonRef.current.getBoundingClientRect()
+            const viewportWidth = window.innerWidth
+            const dropdownWidth = 200 // min-w-[200px]
+            
+            // Check if there's enough space on the right
+            const spaceOnRight = viewportWidth - buttonRect.right
+            const spaceOnLeft = buttonRect.left
+            
+            if (spaceOnRight >= dropdownWidth) {
+                setDropdownPosition('left')
+            } else if (spaceOnLeft >= dropdownWidth) {
+                setDropdownPosition('right')
+            } else {
+                // If neither side has enough space, prefer right to avoid cutoff
+                setDropdownPosition('right')
+            }
+        }
+    }
+
     return (
         <div className="relative" ref={pickerRef}>
             <button
+                ref={buttonRef}
                 type="button"
                 onClick={() => setIsOpen(!isOpen)}
                 className="p-2 rounded hover:bg-gray-200 transition-colors text-gray-600 flex items-center gap-1"
@@ -176,7 +231,10 @@ const HighlightPicker = ({ onColorSelect, currentColor, title, colors }) => {
             </button>
 
             {isOpen && (
-                <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-50 min-w-[200px]">
+                <div className={cn(
+                    "absolute top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-50 min-w-[200px]",
+                    dropdownPosition === 'left' ? "left-0" : "right-0"
+                )}>
                     <div className="grid grid-cols-5 gap-2">
                         {colors.map((color) => (
                             <button

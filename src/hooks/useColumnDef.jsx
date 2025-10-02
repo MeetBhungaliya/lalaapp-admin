@@ -307,7 +307,7 @@ const useColumnDef = (fns) => {
         "planDtl",
         "Plan Price",
         ({ getValue }) => (
-          <p className="break-all text-wrap">{getValue()?.amount}</p>
+          <p className="break-all text-wrap">${getValue()?.amount}</p>
         ),
         {
           "3xl": 250,
