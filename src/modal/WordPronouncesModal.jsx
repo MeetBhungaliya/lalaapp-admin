@@ -134,7 +134,7 @@ const WordPronouncesModal = ({ open, setOpen, tutorialId }) => {
     <Dialog open={open?.open} onOpenChange={handleClose}>
       <DialogContent
         onOpenAutoFocus={(e) => e.preventDefault()}
-        className={cn("sm:max-w-[655px]  py-6 rounded-[24px] overflow-hidden", open?.data ? "px-0" : "")}
+        className={cn("sm:max-w-[655px] py-6 rounded-[24px] overflow-visible", open?.data ? "px-0" : "")}
       >
         <DialogHeader className={cn("flex flex-row justify-between pb-4   border-b border-[#EDEDED]", open?.data ? "px-7" : "px-2")}>
           <DialogTitle className="text-2xl font-bold text-primary">
@@ -144,7 +144,7 @@ const WordPronouncesModal = ({ open, setOpen, tutorialId }) => {
             <img src={CLOSE_SECONDARY_ICON} alt="CLOS" />
           </div>
         </DialogHeader>
-        <ScrollArea className="max-h-[80vh] overflow-y-auto">
+        <ScrollArea className="max-h-[80vh] overflow-y-auto overflow-x-visible">
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <div className={`flex pt-3 flex-col gap-6 ${open?.data ? "px-12" : "px-1.5"}`}>
               {/* <div
@@ -171,12 +171,14 @@ const WordPronouncesModal = ({ open, setOpen, tutorialId }) => {
                   className="rounded-[8px] w-full"
                 />
               </div>
-              <RichTextEditor
-                name="levelScript"
-                placeholder="Script"
-                className={cn("rounded-[8px]  mt-0")}
-                minHeight={open?.data ? "200px" : "150px"}
-              />
+              <div className="overflow-visible">
+                <RichTextEditor
+                  name="levelScript"
+                  placeholder="Script"
+                  className={cn("rounded-[8px]  mt-0")}
+                  minHeight={open?.data ? "200px" : "150px"}
+                />
+              </div>
               {open?.data ? (
                 <div className="border-2 border-dashed border-[#7E808C33] rounded-[8px] p-3 space-y-3">
                   {/* <div className="text-[#04163C] text-lg underline text-end font-normal cursor-pointer">

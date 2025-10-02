@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { useFormContext } from 'react-hook-form'
 import { FormControl, FormField, FormItem } from '@/components/ui/form'
 import { cn } from '@/lib/utils'
@@ -87,7 +88,7 @@ const ImagePicker = ({ onImageSelect }) => {
 
 const ColorPicker = ({ onColorSelect, currentColor, title, colors }) => {
     const [isOpen, setIsOpen] = useState(false)
-    const [dropdownPosition, setDropdownPosition] = useState('left')
+    const [dropdownPosition, setDropdownPosition] = useState({ top: 100, left: 100 })
     const pickerRef = useRef(null)
     const buttonRef = useRef(null)
 
@@ -98,44 +99,74 @@ const ColorPicker = ({ onColorSelect, currentColor, title, colors }) => {
             }
         }
 
+        const handleResize = () => {
+            if (isOpen && buttonRef.current) {
+                const rect = buttonRef.current.getBoundingClientRect()
+                if (rect) {
+                    const viewportWidth = window.innerWidth
+                    const dropdownWidth = 200
+                    
+                    let left = rect.left
+                    let top = rect.bottom + 4
+                    
+                    // Check if dropdown would overflow on the right
+                    if (left + dropdownWidth > viewportWidth - 20) {
+                        left = rect.right - dropdownWidth
+                    }
+                    
+                    // Ensure it doesn't go off the left edge
+                    if (left < 20) {
+                        left = 20
+                    }
+                    
+                    setDropdownPosition({ top, left })
+                }
+            }
+        }
+
         if (isOpen) {
             document.addEventListener('mousedown', handleClickOutside)
-            // Calculate dropdown position based on available space
-            calculateDropdownPosition()
+            window.addEventListener('resize', handleResize)
         }
 
         return () => {
             document.removeEventListener('mousedown', handleClickOutside)
+            window.removeEventListener('resize', handleResize)
         }
     }, [isOpen])
 
-    const calculateDropdownPosition = () => {
-        if (buttonRef.current) {
-            const buttonRect = buttonRef.current.getBoundingClientRect()
-            const viewportWidth = window.innerWidth
-            const dropdownWidth = 200 // min-w-[200px]
-            
-            // Check if there's enough space on the right
-            const spaceOnRight = viewportWidth - buttonRect.right
-            const spaceOnLeft = buttonRect.left
-            
-            if (spaceOnRight >= dropdownWidth) {
-                setDropdownPosition('left')
-            } else if (spaceOnLeft >= dropdownWidth) {
-                setDropdownPosition('right')
-            } else {
-                // If neither side has enough space, prefer right to avoid cutoff
-                setDropdownPosition('right')
-            }
-        }
-    }
 
     return (
         <div className="relative" ref={pickerRef}>
             <button
                 ref={buttonRef}
                 type="button"
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={() => {
+                    if (!isOpen) {
+                        // Calculate position immediately when opening
+                        const rect = buttonRef.current?.getBoundingClientRect()
+                        if (rect) {
+                            const viewportWidth = window.innerWidth
+                            const dropdownWidth = 200
+                            
+                            let left = rect.left
+                            let top = rect.bottom + 4
+                            
+                            // Check if dropdown would overflow on the right
+                            if (left + dropdownWidth > viewportWidth - 20) {
+                                left = rect.right - dropdownWidth
+                            }
+                            
+                            // Ensure it doesn't go off the left edge
+                            if (left < 20) {
+                                left = 20
+                            }
+                            
+                            setDropdownPosition({ top, left })
+                        }
+                    }
+                    setIsOpen(!isOpen)
+                }}
                 className="p-2 rounded hover:bg-gray-200 transition-colors text-gray-600 flex items-center gap-1"
                 title={title}
             >
@@ -143,11 +174,15 @@ const ColorPicker = ({ onColorSelect, currentColor, title, colors }) => {
                 <ChevronDown size={12} />
             </button>
 
-            {isOpen && (
-                <div className={cn(
-                    "absolute top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-50 min-w-[200px]",
-                    dropdownPosition === 'left' ? "left-0" : "right-0"
-                )}>
+            {isOpen && createPortal(
+                <div 
+                    className="fixed bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-[9999] min-w-[200px]"
+                    style={{
+                        top: dropdownPosition.top,
+                        left: dropdownPosition.left,
+                        maxWidth: 'calc(100vw - 40px)'
+                    }}
+                >
                     <div className="grid grid-cols-7 gap-2">
                         {colors.map((color) => (
                             <button
@@ -166,7 +201,8 @@ const ColorPicker = ({ onColorSelect, currentColor, title, colors }) => {
                             />
                         ))}
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </div>
     )
@@ -174,7 +210,7 @@ const ColorPicker = ({ onColorSelect, currentColor, title, colors }) => {
 
 const HighlightPicker = ({ onColorSelect, currentColor, title, colors }) => {
     const [isOpen, setIsOpen] = useState(false)
-    const [dropdownPosition, setDropdownPosition] = useState('left')
+    const [dropdownPosition, setDropdownPosition] = useState({ top: 100, left: 100 })
     const pickerRef = useRef(null)
     const buttonRef = useRef(null)
 
@@ -185,44 +221,74 @@ const HighlightPicker = ({ onColorSelect, currentColor, title, colors }) => {
             }
         }
 
+        const handleResize = () => {
+            if (isOpen && buttonRef.current) {
+                const rect = buttonRef.current.getBoundingClientRect()
+                if (rect) {
+                    const viewportWidth = window.innerWidth
+                    const dropdownWidth = 200
+                    
+                    let left = rect.left
+                    let top = rect.bottom + 4
+                    
+                    // Check if dropdown would overflow on the right
+                    if (left + dropdownWidth > viewportWidth - 20) {
+                        left = rect.right - dropdownWidth
+                    }
+                    
+                    // Ensure it doesn't go off the left edge
+                    if (left < 20) {
+                        left = 20
+                    }
+                    
+                    setDropdownPosition({ top, left })
+                }
+            }
+        }
+
         if (isOpen) {
             document.addEventListener('mousedown', handleClickOutside)
-            // Calculate dropdown position based on available space
-            calculateDropdownPosition()
+            window.addEventListener('resize', handleResize)
         }
 
         return () => {
             document.removeEventListener('mousedown', handleClickOutside)
+            window.removeEventListener('resize', handleResize)
         }
     }, [isOpen])
 
-    const calculateDropdownPosition = () => {
-        if (buttonRef.current) {
-            const buttonRect = buttonRef.current.getBoundingClientRect()
-            const viewportWidth = window.innerWidth
-            const dropdownWidth = 200 // min-w-[200px]
-            
-            // Check if there's enough space on the right
-            const spaceOnRight = viewportWidth - buttonRect.right
-            const spaceOnLeft = buttonRect.left
-            
-            if (spaceOnRight >= dropdownWidth) {
-                setDropdownPosition('left')
-            } else if (spaceOnLeft >= dropdownWidth) {
-                setDropdownPosition('right')
-            } else {
-                // If neither side has enough space, prefer right to avoid cutoff
-                setDropdownPosition('right')
-            }
-        }
-    }
 
     return (
         <div className="relative" ref={pickerRef}>
             <button
                 ref={buttonRef}
                 type="button"
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={() => {
+                    if (!isOpen) {
+                        // Calculate position immediately when opening
+                        const rect = buttonRef.current?.getBoundingClientRect()
+                        if (rect) {
+                            const viewportWidth = window.innerWidth
+                            const dropdownWidth = 200
+                            
+                            let left = rect.left
+                            let top = rect.bottom + 4
+                            
+                            // Check if dropdown would overflow on the right
+                            if (left + dropdownWidth > viewportWidth - 20) {
+                                left = rect.right - dropdownWidth
+                            }
+                            
+                            // Ensure it doesn't go off the left edge
+                            if (left < 20) {
+                                left = 20
+                            }
+                            
+                            setDropdownPosition({ top, left })
+                        }
+                    }
+                    setIsOpen(!isOpen)
+                }}
                 className="p-2 rounded hover:bg-gray-200 transition-colors text-gray-600 flex items-center gap-1"
                 title={title}
             >
@@ -230,11 +296,15 @@ const HighlightPicker = ({ onColorSelect, currentColor, title, colors }) => {
                 <ChevronDown size={12} />
             </button>
 
-            {isOpen && (
-                <div className={cn(
-                    "absolute top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-50 min-w-[200px]",
-                    dropdownPosition === 'left' ? "left-0" : "right-0"
-                )}>
+            {isOpen && createPortal(
+                <div 
+                    className="fixed bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-[9999] min-w-[200px]"
+                    style={{
+                        top: dropdownPosition.top,
+                        left: dropdownPosition.left,
+                        maxWidth: 'calc(100vw - 40px)'
+                    }}
+                >
                     <div className="grid grid-cols-5 gap-2">
                         {colors.map((color) => (
                             <button
@@ -253,7 +323,8 @@ const HighlightPicker = ({ onColorSelect, currentColor, title, colors }) => {
                             />
                         ))}
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </div>
     )
