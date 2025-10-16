@@ -30,6 +30,7 @@ const defaultValues = {
   levelName: "",
   wordAudio: "",
   levelScript: "",
+  levelScriptPlain: "",
 };
 
 const LetterSoundsModal = ({ open, setOpen, tutorialId }) => {
@@ -51,6 +52,7 @@ const LetterSoundsModal = ({ open, setOpen, tutorialId }) => {
       levelName: open?.data?.row?.levelName ?? "",
       wordAudio: open?.data?.row?.wordsList.map((e) => e.audio) ?? [],
       levelScript: open?.data?.row?.levelScript ?? "",
+      levelScriptPlain: open?.data?.row?.levelScriptPlain ?? "",
     });
   }, [open?.data]);
 
@@ -79,21 +81,29 @@ const LetterSoundsModal = ({ open, setOpen, tutorialId }) => {
     let payload = {};
     let result = {};
 
+    // Debug logging
+    console.log('Form values:', values);
+    console.log('levelScript:', values?.levelScript);
+    console.log('levelScriptPlain:', values?.levelScriptPlain);
+
     if (open?.data?.row?.levelId && open?.data?.row?.wordsList?.[0]?.wordsId) {
       const newAudio = values.wordAudio.filter((file) => file instanceof File);
 
       if (
         open?.data?.row?.levelName !== values?.levelName ||
-        open?.data?.row?.levelScript !== values?.levelScript
+        open?.data?.row?.levelScript !== values?.levelScript ||
+        open?.data?.row?.levelScriptPlain !== values?.levelScriptPlain
       ) {
-        updateLevelMutation.mutateAsync(
-          toFormData({
-            tutorialId,
-            levelScript: values?.levelScript,
-            levelName: values?.levelName,
-            levelId: open?.data?.row?.levelId,
-          })
-        );
+        const updatePayload = {
+          tutorialId,
+          levelScript: values?.levelScript,
+          levelScriptPlain: values?.levelScriptPlain,
+          levelName: values?.levelName,
+          levelId: open?.data?.row?.levelId,
+        };
+
+        console.log('Update payload:', updatePayload);
+        updateLevelMutation.mutateAsync(toFormData(updatePayload));
       }
 
       payload = {
@@ -107,12 +117,15 @@ const LetterSoundsModal = ({ open, setOpen, tutorialId }) => {
       );
     } else {
       payload = {
-        ...values,
         tutorialId,
+        levelName: values?.levelName,
+        levelScript: values?.levelScript,
+        levelScriptPlain: values?.levelScriptPlain,
         wordAudio: [values.wordAudio],
         wordsName: JSON.stringify([values.wordsName]),
       };
 
+      console.log('Create payload:', payload);
       result = await asyncResponseToaster(() =>
         createLevelMutation.mutateAsync(toFormData(payload))
       );

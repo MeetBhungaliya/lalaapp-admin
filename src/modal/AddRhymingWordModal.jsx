@@ -50,6 +50,7 @@ const defaultValues = {
     { word: "", audio: null },
   ],
   levelScript: "",
+  levelScriptPlain: "",
 };
 
 const AddRhymingWordModal = ({ open, setOpen, tutorialId }) => {
@@ -72,6 +73,7 @@ const AddRhymingWordModal = ({ open, setOpen, tutorialId }) => {
       reset({
         levelName: open?.data?.levelName || "",
         levelScript: open?.data?.levelScript || "",
+        levelScriptPlain: open?.data?.levelScriptPlain || "",
         words: open.data.wordsList || defaultValues.words,
       });
     } else {
@@ -113,13 +115,15 @@ const AddRhymingWordModal = ({ open, setOpen, tutorialId }) => {
 
       if (
         open?.data?.levelName !== values?.levelName ||
-        open?.data?.levelScript !== values?.levelScript
+        open?.data?.levelScript !== values?.levelScript ||
+        open?.data?.levelScriptPlain !== values?.levelScriptPlain
       ) {
         result = await asyncResponseToaster(() =>
           updateLevelMutation.mutateAsync(
             toFormData({
               tutorialId,
               levelScript: values?.levelScript,
+              levelScriptPlain: values?.levelScriptPlain,
               levelName: values?.levelName,
               levelId: open?.data?.levelId,
             })
@@ -147,6 +151,7 @@ const AddRhymingWordModal = ({ open, setOpen, tutorialId }) => {
         tutorialId,
         levelName: values?.levelName,
         levelScript: values?.levelScript,
+        levelScriptPlain: values?.levelScriptPlain,
         wordsName: JSON.stringify(values?.words?.map((w) => w?.word)),
         wordAudio: values?.words?.map((w) => w?.audio),
       };

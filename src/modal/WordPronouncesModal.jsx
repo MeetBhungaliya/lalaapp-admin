@@ -32,6 +32,7 @@ const WordPronouncesModal = ({ open, setOpen, tutorialId }) => {
     levelName: "",
     wordAudio: "",
     levelScript: "",
+    levelScriptPlain: "",
     wordsName: "",
   };
 
@@ -47,6 +48,7 @@ const WordPronouncesModal = ({ open, setOpen, tutorialId }) => {
       levelName: open?.data?.row?.levelName ?? "",
       wordAudio: open?.data?.row?.wordsList.map((e) => e.audio) ?? [],
       levelScript: open?.data?.row?.levelScript ?? "",
+      levelScriptPlain: open?.data?.row?.levelScriptPlain ?? "",
       wordsName:
         open?.data?.row?.wordsList?.map((w) => w?.word).join(", ") ?? "",
     });
@@ -82,12 +84,14 @@ const WordPronouncesModal = ({ open, setOpen, tutorialId }) => {
 
       if (
         open?.data?.row?.levelName !== values?.levelName ||
-        open?.data?.row?.levelScript !== values?.levelScript
+        open?.data?.row?.levelScript !== values?.levelScript ||
+        open?.data?.row?.levelScriptPlain !== values?.levelScriptPlain
       ) {
         updateLevelMutation.mutateAsync(
           toFormData({
             tutorialId,
             levelScript: values?.levelScript,
+            levelScriptPlain: values?.levelScriptPlain,
             levelName: values?.levelName,
             levelId: open?.data?.row?.levelId,
           })
@@ -105,8 +109,10 @@ const WordPronouncesModal = ({ open, setOpen, tutorialId }) => {
       );
     } else {
       payload = {
-        ...values,
         tutorialId,
+        levelName: values?.levelName,
+        levelScript: values?.levelScript,
+        levelScriptPlain: values?.levelScriptPlain,
         wordAudio: [values.wordAudio],
         wordsName: JSON.stringify([values.wordsName]),
       };

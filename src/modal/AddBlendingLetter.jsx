@@ -73,6 +73,7 @@ const defaultValues = {
   levelName: "",
   wordAudio: "",
   levelScript: "",
+  levelScriptPlain: "",
   question: "",
   blendType: blendTypes[0],
   // blends: [
@@ -113,6 +114,7 @@ const AddBlendingLetter = ({ open, setOpen, tutorialId }) => {
         levelName: open?.data?.levelName ?? "",
         wordAudio: open?.data?.wordsList.map((e) => e.audio) ?? [],
         levelScript: open?.data?.levelScript ?? "",
+        levelScriptPlain: open?.data?.levelScriptPlain ?? "",
         question: open?.data?.question ?? "",
         blendType: open?.data?.blendType || blendTypes[0],
         blends: open?.data?.letterList || defaultValues.blends,
@@ -204,11 +206,13 @@ const AddBlendingLetter = ({ open, setOpen, tutorialId }) => {
       if (
         open?.data?.levelName !== values?.levelName ||
         open?.data?.levelScript !== values?.levelScript ||
+        open?.data?.levelScriptPlain !== values?.levelScriptPlain ||
         (newLetter?.length && newAudio?.length)
       ) {
         const payload = {
           tutorialId,
           levelScript: values?.levelScript,
+          levelScriptPlain: values?.levelScriptPlain,
           levelName: values?.levelName,
           levelId: open?.data?.levelId,
         };
@@ -256,6 +260,7 @@ const AddBlendingLetter = ({ open, setOpen, tutorialId }) => {
         tutorialId,
         levelName: values?.levelName,
         levelScript: values?.levelScript,
+        levelScriptPlain: values?.levelScriptPlain,
         wordsName: JSON.stringify([values.wordsName]),
         wordAudio: [values.wordAudio],
         letter: JSON.stringify(letter),

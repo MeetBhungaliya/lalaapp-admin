@@ -49,6 +49,7 @@ const defaultValues = {
   levelName: "",
   wordAudio: "",
   levelScript: "",
+  levelScriptPlain: "",
   question: "",
 };
 
@@ -69,6 +70,7 @@ const AddPhonemeIsolation = ({ open, setOpen, tutorialId }) => {
         levelName: open?.data?.levelName ?? "",
         wordAudio: open?.data?.wordsList.map((e) => e.audio) ?? [],
         levelScript: open?.data?.levelScript ?? "",
+        levelScriptPlain: open?.data?.levelScriptPlain ?? "",
         question: open?.data?.question ?? "",
       });
     } else {
@@ -99,12 +101,14 @@ const AddPhonemeIsolation = ({ open, setOpen, tutorialId }) => {
 
       if (
         open?.data?.levelName !== values?.levelName ||
-        open?.data?.levelScript !== values?.levelScript
+        open?.data?.levelScript !== values?.levelScript ||
+        open?.data?.levelScriptPlain !== values?.levelScriptPlain
       ) {
         updateLevelMutation.mutateAsync(
           toFormData({
             tutorialId,
             levelScript: values?.levelScript,
+            levelScriptPlain: values?.levelScriptPlain,
             levelName: values?.levelName,
             levelId: open?.data?.levelId,
             question: values?.question,

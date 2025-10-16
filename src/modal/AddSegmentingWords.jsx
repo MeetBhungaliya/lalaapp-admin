@@ -77,6 +77,7 @@ const defaultValues = {
   levelName: "",
   wordAudio: "",
   levelScript: "",
+  levelScriptPlain: "",
   removeLetter: "",
   afterRemoveAudio: "",
   letters: [
@@ -112,6 +113,7 @@ const AddSegmentingWords = ({ open, setOpen, tutorialId }) => {
         levelName: open?.data?.levelName ?? "",
         wordAudio: open?.data?.wordsList.map((e) => e.audio) ?? [],
         levelScript: open?.data?.levelScript ?? "",
+        levelScriptPlain: open?.data?.levelScriptPlain ?? "",
         question: open?.data?.question ?? "",
         afterRemoveAudio:
           open?.data?.wordsList?.map((w) => w?.afterRemoveAudio).join(", ") ??
@@ -203,11 +205,13 @@ const AddSegmentingWords = ({ open, setOpen, tutorialId }) => {
       if (
         open?.data?.levelName !== values?.levelName ||
         open?.data?.levelScript !== values?.levelScript ||
+        open?.data?.levelScriptPlain !== values?.levelScriptPlain ||
         (newLetter?.length && newAudio?.length)
       ) {
         const payload = {
           tutorialId,
           levelScript: values?.levelScript,
+          levelScriptPlain: values?.levelScriptPlain,
           levelName: values?.levelName,
           levelId: open?.data?.levelId,
         };
@@ -256,6 +260,7 @@ const AddSegmentingWords = ({ open, setOpen, tutorialId }) => {
         audio,
         levelName: values?.levelName,
         levelScript: values?.levelScript,
+        levelScriptPlain: values?.levelScriptPlain,
         wordsName: JSON.stringify([values.wordsName]),
         wordAudio: [values.wordAudio],
         // letter: JSON.stringify(letter),

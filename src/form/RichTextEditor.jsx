@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect, useRef } from 'react'
-import { createPortal } from 'react-dom'
+import React, { useState, useEffect, useRef } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { FormControl, FormField, FormItem } from '@/components/ui/form'
 import { cn } from '@/lib/utils'
@@ -135,7 +134,6 @@ const ColorPicker = ({ onColorSelect, currentColor, title, colors }) => {
         }
     }, [isOpen])
 
-
     return (
         <div className="relative" ref={pickerRef}>
             <button
@@ -143,26 +141,18 @@ const ColorPicker = ({ onColorSelect, currentColor, title, colors }) => {
                 type="button"
                 onClick={() => {
                     if (!isOpen) {
-                        // Calculate position immediately when opening
+                        // Simple positioning logic
                         const rect = buttonRef.current?.getBoundingClientRect()
                         if (rect) {
                             const viewportWidth = window.innerWidth
                             const dropdownWidth = 200
                             
-                            let left = rect.left
-                            let top = rect.bottom + 4
-                            
                             // Check if dropdown would overflow on the right
-                            if (left + dropdownWidth > viewportWidth - 20) {
-                                left = rect.right - dropdownWidth
+                            if (rect.right + dropdownWidth > viewportWidth - 20) {
+                                setDropdownPosition({ top: 0, left: 0 }) // Use right positioning
+                            } else {
+                                setDropdownPosition({ top: 0, left: rect.left }) // Use left positioning
                             }
-                            
-                            // Ensure it doesn't go off the left edge
-                            if (left < 20) {
-                                left = 20
-                            }
-                            
-                            setDropdownPosition({ top, left })
                         }
                     }
                     setIsOpen(!isOpen)
@@ -174,13 +164,14 @@ const ColorPicker = ({ onColorSelect, currentColor, title, colors }) => {
                 <ChevronDown size={12} />
             </button>
 
-            {isOpen && createPortal(
+            {isOpen && (
                 <div 
-                    className="fixed bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-[9999] min-w-[200px]"
+                    className="absolute top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-[9999] min-w-[200px]"
                     style={{
-                        top: dropdownPosition.top,
-                        left: dropdownPosition.left,
-                        maxWidth: 'calc(100vw - 40px)'
+                        left: dropdownPosition.left === 0 ? 'auto' : `${dropdownPosition.left}px`,
+                        right: dropdownPosition.left === 0 ? '0' : 'auto',
+                        maxWidth: 'calc(100vw - 40px)',
+                        transform: dropdownPosition.left === 0 ? 'translateX(0)' : 'none'
                     }}
                 >
                     <div className="grid grid-cols-7 gap-2">
@@ -201,8 +192,7 @@ const ColorPicker = ({ onColorSelect, currentColor, title, colors }) => {
                             />
                         ))}
                     </div>
-                </div>,
-                document.body
+                </div>
             )}
         </div>
     )
@@ -257,7 +247,6 @@ const HighlightPicker = ({ onColorSelect, currentColor, title, colors }) => {
         }
     }, [isOpen])
 
-
     return (
         <div className="relative" ref={pickerRef}>
             <button
@@ -265,26 +254,18 @@ const HighlightPicker = ({ onColorSelect, currentColor, title, colors }) => {
                 type="button"
                 onClick={() => {
                     if (!isOpen) {
-                        // Calculate position immediately when opening
+                        // Simple positioning logic
                         const rect = buttonRef.current?.getBoundingClientRect()
                         if (rect) {
                             const viewportWidth = window.innerWidth
                             const dropdownWidth = 200
                             
-                            let left = rect.left
-                            let top = rect.bottom + 4
-                            
                             // Check if dropdown would overflow on the right
-                            if (left + dropdownWidth > viewportWidth - 20) {
-                                left = rect.right - dropdownWidth
+                            if (rect.right + dropdownWidth > viewportWidth - 20) {
+                                setDropdownPosition({ top: 0, left: 0 }) // Use right positioning
+                            } else {
+                                setDropdownPosition({ top: 0, left: rect.left }) // Use left positioning
                             }
-                            
-                            // Ensure it doesn't go off the left edge
-                            if (left < 20) {
-                                left = 20
-                            }
-                            
-                            setDropdownPosition({ top, left })
                         }
                     }
                     setIsOpen(!isOpen)
@@ -296,13 +277,14 @@ const HighlightPicker = ({ onColorSelect, currentColor, title, colors }) => {
                 <ChevronDown size={12} />
             </button>
 
-            {isOpen && createPortal(
+            {isOpen && (
                 <div 
-                    className="fixed bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-[9999] min-w-[200px]"
+                    className="absolute top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-[9999] min-w-[200px]"
                     style={{
-                        top: dropdownPosition.top,
-                        left: dropdownPosition.left,
-                        maxWidth: 'calc(100vw - 40px)'
+                        left: dropdownPosition.left === 0 ? 'auto' : `${dropdownPosition.left}px`,
+                        right: dropdownPosition.left === 0 ? '0' : 'auto',
+                        maxWidth: 'calc(100vw - 40px)',
+                        transform: dropdownPosition.left === 0 ? 'translateX(0)' : 'none'
                     }}
                 >
                     <div className="grid grid-cols-5 gap-2">
@@ -323,8 +305,7 @@ const HighlightPicker = ({ onColorSelect, currentColor, title, colors }) => {
                             />
                         ))}
                     </div>
-                </div>,
-                document.body
+                </div>
             )}
         </div>
     )
@@ -365,54 +346,6 @@ const MenuBar = ({ editor }) => {
     return (
         <div className="border-b border-gray-200 p-3 bg-gray-50 rounded-t-lg">
             <div className="flex flex-wrap gap-2">
-                {/* Headings */}
-                {/* <div className="flex items-center gap-1 border-r border-gray-300 pr-2">
-                    <button
-                        type="button"
-                        onClick={() => editor.chain().focus().setParagraph().run()}
-                        className={cn(
-                            "p-2 rounded hover:bg-gray-200 transition-colors",
-                            editor.isActive('paragraph') ? "bg-gray-200 text-primary" : "text-gray-600"
-                        )}
-                        title="Paragraph"
-                    >
-                        <Type size={16} />
-                    </button>
-                    <button
-                        type="button"
-                        onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-                        className={cn(
-                            "p-2 rounded hover:bg-gray-200 transition-colors",
-                            editor.isActive('heading', { level: 1 }) ? "bg-gray-200 text-primary" : "text-gray-600"
-                        )}
-                        title="Heading 1"
-                    >
-                        <Heading1 size={16} />
-                    </button>
-                    <button
-                        type="button"
-                        onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-                        className={cn(
-                            "p-2 rounded hover:bg-gray-200 transition-colors",
-                            editor.isActive('heading', { level: 2 }) ? "bg-gray-200 text-primary" : "text-gray-600"
-                        )}
-                        title="Heading 2"
-                    >
-                        <Heading2 size={16} />
-                    </button>
-                    <button
-                        type="button"
-                        onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-                        className={cn(
-                            "p-2 rounded hover:bg-gray-200 transition-colors",
-                            editor.isActive('heading', { level: 3 }) ? "bg-gray-200 text-primary" : "text-gray-600"
-                        )}
-                        title="Heading 3"
-                    >
-                        <Heading3 size={16} />
-                    </button>
-                </div> */}
-
                 {/* Text Formatting */}
                 <div className="flex items-center gap-1 border-r border-gray-300 pr-2">
                     <button
@@ -540,24 +473,32 @@ const MenuBar = ({ editor }) => {
                     <ImagePicker onImageSelect={addImage} />
                 </div>
 
-                {/* Text Color */}
+                {/* Text Color - Native Input */}
                 <div className="flex items-center gap-1 border-r border-gray-300 pr-2">
-                    <ColorPicker
-                        onColorSelect={toggleColor}
-                        currentColor={textColor}
-                        title="Text Color"
-                        colors={textColors}
-                    />
+                    <label className="flex items-center gap-1 cursor-pointer">
+                        <Palette size={16} className="text-gray-600" />
+                        <input
+                            type="color"
+                            value={textColor}
+                            onChange={(e) => toggleColor(e.target.value)}
+                            className="w-6 h-6 border border-gray-300 rounded cursor-pointer"
+                            title="Text Color"
+                        />
+                    </label>
                 </div>
 
-                {/* Highlight */}
-                <div className="flex items-center gap-1">
-                    <HighlightPicker
-                        onColorSelect={toggleHighlight}
-                        currentColor={highlightColor}
-                        title="Highlight"
-                        colors={highlightColors}
-                    />
+                {/* Background Color - Native Input */}
+                <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1">
+                        <Highlighter size={14} className="text-gray-600" />
+                        <input
+                            type="color"
+                            value={highlightColor}
+                            onChange={(e) => toggleHighlight(e.target.value)}
+                            className="w-5 h-5 border border-gray-300 rounded cursor-pointer"
+                            title="Background Color"
+                        />
+                    </div>
                 </div>
             </div>
         </div>
@@ -615,6 +556,10 @@ const RichTextEditor = ({
         content: currentValue || '',
         onUpdate: ({ editor }) => {
             setValue(name, editor.getHTML())
+            // Also set the plain text version
+            const plainText = editor.getText()
+            setValue(`${name}Plain`, plainText)
+            console.log(`RichTextEditor ${name}Plain:`, plainText) // Debug log
         },
         editorProps: {
             attributes: {
@@ -676,4 +621,4 @@ const RichTextEditor = ({
     )
 }
 
-export default RichTextEditor 
+export default RichTextEditor
